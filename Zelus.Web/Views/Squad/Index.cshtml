@@ -1,0 +1,97 @@
+﻿@using Z.Core.Extensions
+@model Zelus.Data.Models.Squad
+    
+<style type="text/css">
+    .damage-breakdown {
+        margin-top: 20px;
+    }
+
+    .phase, .percent, .damage {
+        font-size: 18px;
+    }
+
+    .phase, .percent {
+        font-weight: bold;
+    }
+
+    .phase {
+        width: 90px;
+    }
+
+    .percent {
+        width: calc(100% - 90px);
+        text-align: right;
+    }
+
+    .victory-screen {
+        width: 100%;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-3">
+        <h2>
+            @Model.Name<br/>
+            <small>by <a href="@Model.PlayerCharacter.Player.CollectionUrl">@Model.PlayerCharacter.Player.Name</a></small>
+        </h2>
+    </div>
+    <div class="col-md-3">
+        <div class="damage-breakdown">
+            <div class="phase vertical-center">@Model.RaidPhas.Name</div><!--
+            --><div class="percent vertical-center">@((Model.Damage / Model.RaidPhas.Health) * 100)%</div><!--
+            --><div class="damage">@Model.Damage damage</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <img class="victory-screen" src="@Model.VictoryScreen"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="text-center">
+            <img src="~/Content/Images/crown.png" style="height: 30px;" />
+        </div>
+    </div>
+    <div class="col-md-10"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter)
+    </div>
+    <div class="col-md-2">
+        @if (Model.PlayerCharacter1.IsNotNull())
+        {
+            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter1)
+        }
+    </div>
+    <div class="col-md-2">
+        @if (Model.PlayerCharacter2.IsNotNull())
+        {
+            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter2)
+        }
+    </div>
+    <div class="col-md-2">
+        @if (Model.PlayerCharacter3.IsNotNull())
+        {
+            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter3)
+        }
+    </div>
+    <div class="col-md-2">
+        @if (Model.PlayerCharacter4.IsNotNull())
+        {
+            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter4)
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h4>Notes:</h4>    
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        @Html.Raw(Model.Notes)
+    </div>
+</div>

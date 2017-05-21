@@ -25,6 +25,7 @@ namespace Zelus.Data.Models.Mapping
             this.HasRequired(t => t.Character)
                 .WithMany(t => t.CharacterZetas)
                 .HasForeignKey(d => d.CharacterId);
+
         }
     }
 }

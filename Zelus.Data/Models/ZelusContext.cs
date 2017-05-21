@@ -22,6 +22,10 @@ namespace Zelus.Data.Models
         public DbSet<GuildSynchronization> GuildSynchronizations { get; set; }
         public DbSet<PlayerCharacter> PlayerCharacters { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerSynchronization> PlayerSynchronizations { get; set; }
+        public DbSet<RaidPhas> RaidPhases { get; set; }
+        public DbSet<Raid> Raids { get; set; }
+        public DbSet<Squad> Squads { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,6 +35,10 @@ namespace Zelus.Data.Models
             modelBuilder.Configurations.Add(new GuildSynchronizationMap());
             modelBuilder.Configurations.Add(new PlayerCharacterMap());
             modelBuilder.Configurations.Add(new PlayerMap());
+            modelBuilder.Configurations.Add(new PlayerSynchronizationMap());
+            modelBuilder.Configurations.Add(new RaidPhasMap());
+            modelBuilder.Configurations.Add(new RaidMap());
+            modelBuilder.Configurations.Add(new SquadMap());
         }
     }
 }

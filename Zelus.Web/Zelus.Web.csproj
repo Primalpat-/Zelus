@@ -118,6 +118,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -159,15 +163,24 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeaderboardController.cs" />
+    <Compile Include="Controllers\SquadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CreateSquadVM.cs" />
     <Compile Include="Models\Extensions\CharacterExtensions.cs" />
-    <Compile Include="Models\Helpers\GearNumeralConverter.cs" />
+    <Compile Include="Models\Extensions\RaidExtensions.cs" />
+    <Compile Include="Models\Factories\LeaderboardModelFactory.cs" />
+    <Compile Include="Models\Helpers\GearLevelConverter.cs" />
+    <Compile Include="Models\Helpers\StarLevelConverter.cs" />
+    <Compile Include="Models\LeaderboardVM.cs" />
     <Compile Include="Models\Synchronization\CharacterSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Models\ExtendedCharacterStatsModel.cs" />
+    <Compile Include="Models\Synchronization\Models\PlayerSynchronizationResult.cs" />
     <Compile Include="Models\Synchronization\PlayerCharacterSynchronizer.cs" />
     <Compile Include="Models\Synchronization\PlayerSynchronizer.cs" />
     <Compile Include="Models\Rules\SynchronizationRules.cs" />
@@ -178,6 +191,25 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fontawesome\font-awesome.css" />
+    <Content Include="Content\fontawesome\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\crown.png" />
+    <Content Include="Content\Images\gear-icon-g1.svg" />
+    <Content Include="Content\Images\gear-icon-g10.svg" />
+    <Content Include="Content\Images\gear-icon-g11.svg" />
+    <Content Include="Content\Images\gear-icon-g2.svg" />
+    <Content Include="Content\Images\gear-icon-g3.svg" />
+    <Content Include="Content\Images\gear-icon-g4.svg" />
+    <Content Include="Content\Images\gear-icon-g5.svg" />
+    <Content Include="Content\Images\gear-icon-g6.svg" />
+    <Content Include="Content\Images\gear-icon-g7.svg" />
+    <Content Include="Content\Images\gear-icon-g8.svg" />
+    <Content Include="Content\Images\gear-icon-g9.svg" />
+    <Content Include="Content\Images\star-inactive.png" />
+    <Content Include="Content\Images\star.png" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -187,6 +219,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -198,6 +236,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -212,6 +252,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Leaderboard\Index.cshtml" />
+    <Content Include="Views\Squad\Index.cshtml" />
+    <Content Include="Views\Shared\_PlayerCharacter.cshtml" />
+    <Content Include="Views\Squad\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

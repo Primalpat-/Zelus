@@ -8,7 +8,6 @@ namespace Zelus.Data.Models
         public int Id { get; set; }
         public int GuildId { get; set; }
         public System.DateTime Timestamp { get; set; }
-        public string Data { get; set; }
         public virtual Guild Guild { get; set; }
     }
 }

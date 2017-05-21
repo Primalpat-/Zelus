@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using HtmlAgilityPack;
-using Z.Core.Extensions;
-using Zelus.Data.Models;
+﻿using System.Web.Mvc;
 using Zelus.Web.Models.Synchronization;
 
 namespace Zelus.Web.Controllers
@@ -21,7 +14,7 @@ namespace Zelus.Web.Controllers
         [HttpPost]
         public ActionResult Index(string guildUrl)
         {
-            Synchronizer.Execute(guildUrl);
+            Synchronizer.ExecuteForGuild(guildUrl);
 
             return View();
         }

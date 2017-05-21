@@ -33,10 +33,15 @@ namespace Zelus.Web.Models.Synchronization
 
                 guild = guildOutcome.Value;
 
-                var syncOutcome = CreateNewSynchronization(doc, guild);
+                var syncOutcome = CreateNewSynchronization(guild);
                 if (syncOutcome.Failure)
                     return Outcomes.Failure<Guild>()
                                    .WithMessagesFrom(syncOutcome);
+
+                var playerOutcome = PlayerSynchronizer.Execute(guild.Id, doc);
+                if (playerOutcome.Failure)
+                    return Outcomes.Failure<Guild>()
+                                   .WithMessagesFrom(playerOutcome);
 
                 return Outcomes.Success<Guild>()
                                .WithValue(guild);
@@ -48,17 +53,14 @@ namespace Zelus.Web.Models.Synchronization
             }
         }
 
-        private static IOutcome<GuildSynchronization> CreateNewSynchronization(HtmlDocument doc, Guild guild)
+        private static IOutcome<GuildSynchronization> CreateNewSynchronization(Guild guild)
         {
             try
             {
-                var guildData = doc.DocumentNode.OuterHtml.Replace("\n", "");
-
                 var sync = new GuildSynchronization
                 {
                     GuildId = guild.Id,
-                    Timestamp = DateTime.UtcNow,
-                    Data = guildData
+                    Timestamp = DateTime.UtcNow
                 };
 
                 _db.GuildSynchronizations.Add(sync);
@@ -74,23 +76,46 @@ namespace Zelus.Web.Models.Synchronization
             }
         }
 
-        private static IOutcome<Guild> CreateOrUpdateGuild(HtmlDocument doc, Guild guild, string guildUrl)
+        #region "Guild creation and updating"
+
+        public static IOutcome<Guild> CreateOrUpdateGuild(HtmlDocument playerCollection)
         {
             try
             {
-                var nameOutcome = ParseGuildName(doc);
+                _db = new ZelusContext();
+                var nameOutcome = ParseGuildNameFromCollection(playerCollection);
                 if (nameOutcome.Failure)
                     return Outcomes.Failure<Guild>()
                                    .WithMessagesFrom(nameOutcome);
 
+                var urlOutcome = ParseGuildUrl(playerCollection);
+                if (urlOutcome.Failure)
+                    return Outcomes.Failure<Guild>()
+                                   .WithMessagesFrom(urlOutcome);
+
+                var guild = _db.Guilds.FirstOrDefault(g => g.Url.ToLower() == urlOutcome.Value.ToLower());
+
+                return CreateOrUpdateGuild(guild, nameOutcome.Value, urlOutcome.Value);
+            }
+            catch (Exception ex)
+            {
+                return Outcomes.Failure<Guild>()
+                               .WithMessage(ex.Message);
+            }
+        }
+
+        private static IOutcome<Guild> CreateOrUpdateGuild(Guild guild, string guildName, string guildUrl)
+        {
+            try
+            {
                 if (guild.IsNull())
                 {
                     guild = new Guild();
                     guild.Url = guildUrl;
                 }
 
-                guild.Name = nameOutcome.Value;
-                
+                guild.Name = guildName;
+
                 _db.Guilds.AddOrUpdate(guild);
                 _db.SaveChanges();
 
@@ -104,22 +129,40 @@ namespace Zelus.Web.Models.Synchronization
             }
         }
 
-        private static IOutcome<string> ParseGuildName(HtmlDocument doc)
+        private static IOutcome<Guild> CreateOrUpdateGuild(HtmlDocument doc, Guild guild, string guildUrl)
         {
             try
             {
-                var guildHeader = doc.DocumentNode
-                                 .Descendants("h1")
-                                 .FirstOrDefault();
+                var nameOutcome = ParseGuildName(doc);
+                if (nameOutcome.Failure)
+                    return Outcomes.Failure<Guild>()
+                                   .WithMessagesFrom(nameOutcome);
 
-                if (guildHeader.IsNull())
-                    return Outcomes.Failure<string>()
-                                   .WithMessage("Unable to find the guild header. Swgoh.gg may have changed their layout.");
+                return CreateOrUpdateGuild(guild, nameOutcome.Value, guildUrl);
+            }
+            catch (Exception ex)
+            {
+                return Outcomes.Failure<Guild>()
+                               .WithMessage(ex.Message);
+            }
+        }
 
-                var guildName = guildHeader.InnerText.Replace("\n", "");
+        #endregion
+
+        #region "Parsing"
+
+        private static IOutcome<string> ParseGuildName(HtmlDocument guildHomepage)
+        {
+            try
+            {
+                var name = guildHomepage.DocumentNode
+                                        .Descendants("h1")
+                                        .First()
+                                        .InnerText
+                                        .Replace("\n", "");
 
                 return Outcomes.Success<string>()
-                               .WithValue(guildName);
+                               .WithValue(name);
             }
             catch (Exception ex)
             {
@@ -127,5 +170,50 @@ namespace Zelus.Web.Models.Synchronization
                                .WithMessage(ex.Message);
             }
         }
+
+        private static IOutcome<string> ParseGuildNameFromCollection(HtmlDocument playerCollection)
+        {
+            try
+            {
+                var name = playerCollection.DocumentNode
+                              .Descendants("p")
+                              .First(p => p.InnerText.IsNotNullOrEmpty() && 
+                                          p.InnerText.Contains("Guild"))
+                              .LastChild
+                              .FirstChild
+                              .InnerText;
+
+                return Outcomes.Success<string>()
+                               .WithValue(name);
+            }
+            catch (Exception ex)
+            {
+                return Outcomes.Failure<string>()
+                               .WithMessage(ex.Message);
+            }
+        }
+
+        private static IOutcome<string> ParseGuildUrl(HtmlDocument playerCollection)
+        {
+            try
+            {
+                var url = playerCollection.DocumentNode
+                             .Descendants("p")
+                             .First(p => p.InnerText.IsNotNull() && p.InnerText.Contains("Guild"))
+                             .LastChild
+                             .FirstChild
+                             .Attributes["href"].Value;
+
+                return Outcomes.Success<string>()
+                               .WithValue($"https://swgoh.gg{url}");
+            }
+            catch (Exception ex)
+            {
+                return Outcomes.Failure<string>()
+                               .WithMessage(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

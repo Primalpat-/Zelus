@@ -1,0 +1,88 @@
+﻿@model Zelus.Web.Models.CreateSquadVM
+    
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#playerUsernameSubmit').click(function() {
+                $('#playerUsernameForm').submit();
+            });
+
+
+            $('#playerUsernameForm').submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var btn = $('#playerUsernameSubmit');
+                var url = form.attr('action');
+
+                btn.html('<i class="fa fa-refresh fa-spin"></i>');
+
+                var posting = $.post(url, { playerUsername: $('#playerUsername').val() });
+
+                posting.fail(function() {
+                    toastr.error("Error contacting server...");
+                    btn.addClass('btn-error');
+                    btn.html('<i class="fa fa-times"></i>');
+                });
+
+                posting.done(function (data) {
+                    if (data.Success) {
+                        if (data.Messages.length > 0) {
+                            toastr.warning(data.Messages[0]);
+                            btn.addClass('btn-warning');
+                            btn.html('<i class="fa fa-check"></i>');
+                        } else {
+                            toastr.success("Successfully sync'd data with swgoh.gg");
+                            btn.addClass('btn-success');
+                            btn.html('<i class="fa fa-check"></i>');
+                        }
+                        setTimeout(function() {
+                            form.fadeOut(function() {
+                                $('#squadForm').fadeIn();
+                            });
+                        }, 1000);
+                    } else {
+                        toastr.error(data.Messages[0]);
+                        btn.addClass('btn-error');
+                        btn.html('<i class="fa fa-times"></i>');
+                        setTimeout(function() {
+                            btn.removeClass('btn-error');
+                            btn.html('Sync');
+                        }, 3000);
+                    }
+                });
+            });
+        });
+    </script>
+}
+    
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Create New Squad</h2>
+    </div>
+</div>
+<div class="vertical-space-30"></div>
+<form id="playerUsernameForm" role="form" action="@Url.Action("SyncPlayerData", "Squad")" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="playerUsername">Step 1:  Enter your <a href="https://swgoh.gg">swgoh.gg</a> username:</label>
+                <input type="text" id="playerUsername" name="playerUsername" placeholder="Ex: primalpat" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <a id="playerUsernameSubmit" class="btn btn-primary form-control">
+                    Sync
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+<form id="squadForm" role="form" action="@Url.Action("Create", "Squad")" style="display: none;">
+    <div class="row">
+        <div class="col-xs-12">
+            testing testing testing
+        </div>
+    </div>
+</form>

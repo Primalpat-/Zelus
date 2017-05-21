@@ -1,0 +1,35 @@
+﻿@using Zelus.Data.Models
+@using Zelus.Web.Models.Helpers
+@model Zelus.Data.Models.PlayerCharacter
+
+@{
+    var base64 = Convert.ToBase64String(Model.Character.Portrait);
+    var imgSrc = $"data:image/gif;base64,{base64}";
+}
+
+<div class="collection-char">
+    <div class="player-char-portrait char-portrait-full @Model.GearLevel.ToStyle()">
+        <a class="char-portrait-full-link" href="@Model.CharacterUrl">
+            <img class="char-portrait-full-img" src="@imgSrc" alt="@Model.Character.Name"/>
+            <div class="char-portrait-full-gear"></div>
+            <div class="star star1 @Model.StarLevel.IsActive(1)"></div>
+            <div class="star star2 @Model.StarLevel.IsActive(2)"></div>
+            <div class="star star3 @Model.StarLevel.IsActive(3)"></div>
+            <div class="star star4 @Model.StarLevel.IsActive(4)"></div>
+            <div class="star star5 @Model.StarLevel.IsActive(5)"></div>
+            <div class="star star6 @Model.StarLevel.IsActive(6)"></div>
+            <div class="star star7 @Model.StarLevel.IsActive(7)"></div>
+            <div class="char-portrait-full-level">@Model.CharacterLevel</div>
+            <div class="char-portrait-full-gear-level">@Model.GearLevel.ToNumeral()</div>
+            @if (Model.NumberOfZetas > 0)
+            {
+                <div class="char-portrait-full-zetas">@(Model.NumberOfZetas)z</div>
+            }
+        </a>
+    </div>
+    <div class="collection-char-name">
+        <a class="collection-char-name-link" href="@Model.CharacterUrl">
+            @Model.Character.Name
+        </a>
+    </div>
+</div>

@@ -21,5 +21,20 @@ namespace Zelus.Web.Models.Rules
 
             return (DateTime.UtcNow - lastSynchronization.Timestamp).TotalHours >= 24;
         }
+
+        public static bool IsAllowed(Player player)
+        {
+            if (player.IsNull())
+                return true;
+
+            var lastSynchronization = player.PlayerSynchronizations
+                                            .OrderByDescending(s => s.Timestamp)
+                                            .FirstOrDefault();
+
+            if (lastSynchronization.IsNull())
+                return true;
+
+            return (DateTime.UtcNow - lastSynchronization.Timestamp).TotalHours >= 24;
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace Zelus.Data.Models
         public Player()
         {
             this.PlayerCharacters = new List<PlayerCharacter>();
+            this.PlayerSynchronizations = new List<PlayerSynchronization>();
         }
 
         public int Id { get; set; }
@@ -15,11 +16,8 @@ namespace Zelus.Data.Models
         public string Name { get; set; }
         public string CollectionUrl { get; set; }
         public int PlayerLevel { get; set; }
-        public int ArenaRank { get; set; }
-        public int ArenaAverage { get; set; }
-        public decimal CollectionScore { get; set; }
-        public int GuildCurrency { get; set; }
         public virtual Guild Guild { get; set; }
         public virtual ICollection<PlayerCharacter> PlayerCharacters { get; set; }
+        public virtual ICollection<PlayerSynchronization> PlayerSynchronizations { get; set; }
     }
 }

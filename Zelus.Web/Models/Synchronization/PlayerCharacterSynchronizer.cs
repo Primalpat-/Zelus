@@ -48,12 +48,41 @@ namespace Zelus.Web.Models.Synchronization
             }
         }
 
-        private static IOutcome<List<PlayerCharacter>> GetUpdatedPlayerCharacters(Player player)
+        public static IOutcome Execute(int playerId, HtmlDocument doc)
         {
             try
             {
-                var web = new HtmlWeb();
-                var doc = web.Load(player.CollectionUrl);
+                _db = new ZelusContext();
+                _savedCharacters = _db.Characters.ToList();
+                _zetaList = _db.CharacterZetas.ToList();
+
+                var player = _db.Players.Single(p => p.Id == playerId);
+                var characterOutcome = GetUpdatedPlayerCharacters(player, doc);
+                if (characterOutcome.Failure)
+                    return Outcomes.Failure()
+                                   .WithMessagesFrom(characterOutcome);
+
+                _db.BulkInsertOrUpdate(characterOutcome.Value);
+
+                return Outcomes.Success();
+            }
+            catch (Exception ex)
+            {
+                return Outcomes.Failure()
+                               .WithMessage(ex.Message);
+            }
+        }
+
+        private static IOutcome<List<PlayerCharacter>> GetUpdatedPlayerCharacters(Player player, HtmlDocument doc = null)
+        {
+            try
+            {
+                if (doc.IsNull())
+                {
+                    var web = new HtmlWeb();
+                    doc = web.Load(player.CollectionUrl);
+                }
+                
                 var characterContainers = doc.DocumentNode
                                              .Descendants("a")
                                              .Where(d => d.Attributes["class"].IsNotNull() &&

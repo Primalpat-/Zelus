@@ -1,0 +1,91 @@
+﻿@model Zelus.Web.Models.LeaderboardVM
+    
+<style type="text/css">
+    .clickable-row {
+        cursor: pointer;
+    }
+</style>
+    
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.clickable-row').click(function() {
+                window.location = $(this).data("href");
+                return false;
+            });
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-xs-10 vertical-center">
+        <h2>Raid Damage Leaderboard</h2>
+    </div><!--
+    --><div class="col-xs-2 vertical-center">
+        @Html.ActionLink("Submit a Squad", "Index", "Squad", new {}, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h3>
+            @Model.RaidName<br />
+            <small>@Model.RaidSubtext</small>
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Phase 1
+            </div>
+            <div class="panel-body">
+                @foreach (var squad in Model.PhaseOneSquads)
+                {
+                    <div class="row clickable-row" data-href="@Url.Action("Index", "Squad", new {id = squad.Id})">
+                        <div class="col-xs-2 vertical-center">
+                        </div><!--
+                        --><div class="col-xs-7 vertical-center">
+                            <strong>@squad.Name</strong><br />
+                            <small>by @squad.PlayerCharacter.Player.Name</small>
+                        </div><!--
+                        --><div class="col-xs-3 vertical-center">
+                            @((squad.Damage / squad.RaidPhas.Health) * 100)%
+                        </div>
+                    </div>
+                    <hr/>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Phase 2
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Phase 3
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Phase 4
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+</div>
