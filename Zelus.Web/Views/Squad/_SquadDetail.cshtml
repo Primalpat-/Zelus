@@ -1,0 +1,112 @@
+﻿@model Zelus.Web.Models.CreateSquadVM
+    
+<form id="squadForm" role="form" action="@Url.Action("SquadDetail", "Squad")">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label>Step 2:  Fill out your squad's details:</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Ex: Viva la Resistance, Chaze and Friends, etc."})    
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.RaidId)
+                <input id="RaidId" name="RaidId" class="form-control" style="width: 100%;" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhaseId)
+                <input id="PhaseId" name="PhaseId" class="form-control" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Damage)
+                <div class="input-group">
+                    <input type="text" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon" />
+                    <span class="input-group-addon" id="percentage-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </div>    
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#RaidId').kendoDropDownList({
+            optionLabel: 'Select raid...',
+            dataTextField: 'RaidName',
+            dataValueField: 'RaidId',
+            dataSource: {
+                type: 'aspnetmvc-ajax',
+                serverFiltering: true,
+                transport: {
+                    read: '@Url.Action("GetRaids", "DataApi")'
+                }
+            }
+        }).data('kendoDropDownList');
+
+        $('#PhaseId').kendoDropDownList({
+            autoBind: false,
+            cascadeFrom: 'RaidId',
+            optionLabel: 'Select phase...',
+            dataTextField: 'PhaseName',
+            dataValueField: 'PhaseId',
+            dataSource: {
+                type: 'aspnetmvc-ajax',
+                serverFiltering: true,
+                transport: {
+                    read: '@Url.Action("GetRaidPhases", "DataApi")'
+                }
+            }
+        }).data('kendoDropDownList');
+
+        $('#Damage').kendoMaskedTextBox({
+            mask: '0 , 000 , 000'
+        });
+
+        $('#Damage').focusout(function() {
+            recalculateRaidPercentDamage();
+        });
+
+        $('#PhaseId').change(function () {
+            recalculateRaidPercentDamage();
+        });
+    });
+
+    function recalculateRaidPercentDamage() {
+        var phaseHealth = parseFloat(getRaidPhaseHealth());
+        var squadDamage = parseFloat(getSquadDamage());
+
+        if ($.isNumeric(phaseHealth) && $.isNumeric(squadDamage)) {
+            $('#percentage-addon').html('' + Math.round((squadDamage / phaseHealth) * 100) + '%');
+        } else {
+            $('#percentage-addon').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+        }
+    }
+
+    function getRaidPhaseHealth() {
+        var selectedPhaseText = $('#PhaseId').data('kendoDropDownList').text();
+        var start = selectedPhaseText.indexOf('(') + 1;
+        var end = selectedPhaseText.indexOf('h', start);
+        return selectedPhaseText.substring(start, end);
+    }
+
+    function getSquadDamage() {
+        var damageText = $('#Damage').val();
+        var damageNoSpaces = damageText.replace(/[\s\xA0]+/g, '');
+        return damageNoSpaces.replace(/,/g, '');
+    }
+</script>

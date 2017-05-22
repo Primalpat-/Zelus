@@ -60,6 +60,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>..\..\..\Program Files (x86)\Telerik\UI for ASP.NET MVC R2 2017\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -165,6 +168,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DataApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaderboardController.cs" />
     <Compile Include="Controllers\SquadController.cs" />
@@ -176,6 +180,7 @@
     <Compile Include="Models\Extensions\RaidExtensions.cs" />
     <Compile Include="Models\Factories\LeaderboardModelFactory.cs" />
     <Compile Include="Models\Helpers\GearLevelConverter.cs" />
+    <Compile Include="Models\Helpers\HumanReadableNumberConverter.cs" />
     <Compile Include="Models\Helpers\StarLevelConverter.cs" />
     <Compile Include="Models\LeaderboardVM.cs" />
     <Compile Include="Models\Synchronization\CharacterSynchronizer.cs" />
@@ -256,6 +261,7 @@
     <Content Include="Views\Squad\Index.cshtml" />
     <Content Include="Views\Shared\_PlayerCharacter.cshtml" />
     <Content Include="Views\Squad\Create.cshtml" />
+    <Content Include="Views\Squad\_SquadDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
