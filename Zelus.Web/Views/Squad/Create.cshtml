@@ -36,11 +36,12 @@
                         }
                         setTimeout(function() {
                             form.fadeOut(function () {
-                                $('#squadDetailContainer').load('@Url.Action("SquadDetail", "Squad")', user, function() {
-                                    $('#squadDetailContainer').fadeIn();
-                                });
+
                             });
                         }, 1000);
+                        $('#squadDetailContainer').load('@Url.Action("SquadDetail", "Squad")', { playerUsername: user }, function() {
+                            $('#squadDetailContainer').fadeIn();
+                        });
                     } else {
                         toastr.error(data.Messages[0]);
                         btn.addClass('btn-error');

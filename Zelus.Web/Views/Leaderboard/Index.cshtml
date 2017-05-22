@@ -1,8 +1,12 @@
-﻿@model Zelus.Web.Models.LeaderboardVM
+﻿@using Z.Core.Extensions
+@model List<Zelus.Web.Models.LeaderboardVM>
     
 <style type="text/css">
     .clickable-row {
         cursor: pointer;
+    }
+    .squad-rank {
+        font-size: 18px;
     }
 </style>
     
@@ -25,67 +29,117 @@
         @Html.ActionLink("Submit a Squad", "Index", "Squad", new {}, new { @class = "btn btn-primary" })
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        <h3>
-            @Model.RaidName<br />
-            <small>@Model.RaidSubtext</small>
-        </h3>
+
+@foreach (var board in Model)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>
+                @board.RaidName<br />
+                <small>@board.RaidSubtext</small>
+            </h3>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Phase 1
-            </div>
-            <div class="panel-body">
-                @foreach (var squad in Model.PhaseOneSquads)
-                {
-                    <div class="row clickable-row" data-href="@Url.Action("Index", "Squad", new {id = squad.Id})">
-                        <div class="col-xs-2 vertical-center">
-                        </div><!--
-                        --><div class="col-xs-7 vertical-center">
-                            <strong>@squad.Name</strong><br />
-                            <small>by @squad.PlayerCharacter.Player.Name</small>
-                        </div><!--
-                        --><div class="col-xs-3 vertical-center">
-                            @((squad.Damage / squad.RaidPhas.Health) * 100)%
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Phase 1
+                </div>
+                <div class="panel-body">
+                    @foreach (var squad in board.PhaseOneSquads)
+                    {
+                        <div class="row clickable-row" data-href="@Url.Action("Index", "Squad", new {id = squad.Id})">
+                            <div class="col-xs-2 vertical-center squad-rank">
+                                @(board.PhaseOneSquads.IndexOf(squad) + 1)
+                            </div><!--
+                            --><div class="col-xs-7 vertical-center">
+                                <strong>@squad.Name</strong><br />
+                                <small>by @squad.PlayerCharacter.Player.Name</small>
+                            </div><!--
+                            --><div class="col-xs-3 vertical-center">
+                                @(Math.Round((squad.Damage.ToDecimal() / squad.RaidPhas.Health.ToDecimal()) * 100))%
+                            </div>
                         </div>
-                    </div>
-                    <hr/>
-                }
+                        <hr />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Phase 2
+                </div>
+                <div class="panel-body">
+                    @foreach (var squad in board.PhaseTwoSquads)
+                    {
+                        <div class="row clickable-row" data-href="@Url.Action("Index", "Squad", new {id = squad.Id})">
+                            <div class="col-xs-2 vertical-center squad-rank">
+                                @(board.PhaseTwoSquads.IndexOf(squad) + 1)
+                            </div><!--
+                            --><div class="col-xs-7 vertical-center">
+                                <strong>@squad.Name</strong><br />
+                                <small>by @squad.PlayerCharacter.Player.Name</small>
+                            </div><!--
+                            --><div class="col-xs-3 vertical-center">
+                                @(Math.Round((squad.Damage.ToDecimal() / squad.RaidPhas.Health.ToDecimal()) * 100))%
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Phase 3
+                </div>
+                <div class="panel-body">
+                    @foreach (var squad in board.PhaseThreeSquads)
+                    {
+                        <div class="row clickable-row" data-href="@Url.Action("Index", "Squad", new {id = squad.Id})">
+                            <div class="col-xs-2 vertical-center squad-rank">
+                                @(board.PhaseThreeSquads.IndexOf(squad) + 1)
+                            </div><!--
+                            --><div class="col-xs-7 vertical-center">
+                                <strong>@squad.Name</strong><br />
+                                <small>by @squad.PlayerCharacter.Player.Name</small>
+                            </div><!--
+                            --><div class="col-xs-3 vertical-center">
+                                @(Math.Round((squad.Damage.ToDecimal() / squad.RaidPhas.Health.ToDecimal()) * 100))%
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Phase 4
+                </div>
+                <div class="panel-body">
+                    @foreach (var squad in board.PhaseFourSquads)
+                    {
+                        <div class="row clickable-row" data-href="@Url.Action("Index", "Squad", new {id = squad.Id})">
+                            <div class="col-xs-2 vertical-center squad-rank">
+                                @(board.PhaseFourSquads.IndexOf(squad) + 1)
+                            </div><!--
+                            --><div class="col-xs-7 vertical-center">
+                                <strong>@squad.Name</strong><br />
+                                <small>by @squad.PlayerCharacter.Player.Name</small>
+                            </div><!--
+                            --><div class="col-xs-3 vertical-center">
+                                @(Math.Round((squad.Damage.ToDecimal() / squad.RaidPhas.Health.ToDecimal()) * 100))%
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Phase 2
-            </div>
-            <div class="panel-body">
-
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Phase 3
-            </div>
-            <div class="panel-body">
-
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Phase 4
-            </div>
-            <div class="panel-body">
-
-            </div>
-        </div>
-    </div>
-</div>
+}

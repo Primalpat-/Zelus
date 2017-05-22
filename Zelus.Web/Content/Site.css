@@ -19,6 +19,12 @@
    display:block;
 }
 
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 900px;
+    }    
+}
+
 
 /* ------------------------ */
 /* Character Portrait Syles */

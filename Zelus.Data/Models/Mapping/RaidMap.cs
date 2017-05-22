@@ -24,6 +24,7 @@ namespace Zelus.Data.Models.Mapping
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.Subtext).HasColumnName("Subtext");
+            this.Property(t => t.SortOrder).HasColumnName("SortOrder");
         }
     }
 }

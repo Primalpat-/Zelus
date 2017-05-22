@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web;
 using Ether.Outcomes;
 using HtmlAgilityPack;
 using Z.Core.Extensions;
@@ -18,7 +19,7 @@ namespace Zelus.Web.Models.Synchronization
             try
             {
                 var image = container.Descendants("img").First();
-                var characterName = image.Attributes["alt"].Value;
+                var characterName = HttpUtility.HtmlDecode(image.Attributes["alt"].Value);
                 var character = savedCharacters.FirstOrDefault(c => c.Name.ToLower() == characterName.ToLower());
 
                 if (character.IsNull())

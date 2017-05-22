@@ -1,10 +1,25 @@
-﻿@model Zelus.Web.Models.CreateSquadVM
+﻿@using Zelus.Web.Models.Helpers
+@model Zelus.Web.Models.CreateSquadVM
     
-<form id="squadForm" role="form" action="@Url.Action("SquadDetail", "Squad")">
+<style type="text/css">
+    .character-container {
+        height: 160px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        margin-bottom: 5px;
+    }
+    #previewImage {
+        height: 100%;
+        width: 100%;
+    }
+</style>
+    
+<form id="squadForm" role="form" action="@Url.Action("CreateSquad", "Squad")" method="POST">
+    @Html.HiddenFor(m => m.PlayerUsername)
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
-                <label>Step 2:  Fill out your squad's details:</label>
+                <label>Step 2: Fill out your squad's details:</label>
             </div>
         </div>
     </div>
@@ -12,7 +27,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 @Html.LabelFor(m => m.Name)
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Ex: Viva la Resistance, Chaze and Friends, etc."})    
+                @Html.TextBoxFor(m => m.Name, new {@class = "form-control", placeholder = "Ex: Viva la Resistance, Chaze and Friends, etc."})
             </div>
         </div>
     </div>
@@ -20,13 +35,13 @@
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.RaidId)
-                <input id="RaidId" name="RaidId" class="form-control" style="width: 100%;" />
+                <input id="RaidId" name="RaidId" class="form-control" style="width: 100%;"/>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.PhaseId)
-                <input id="PhaseId" name="PhaseId" class="form-control" style="width: 100%;" />
+                <input id="PhaseId" name="PhaseId" class="form-control" style="width: 100%;"/>
             </div>
         </div>
     </div>
@@ -35,13 +50,96 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Damage)
                 <div class="input-group">
-                    <input type="text" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon" />
-                    <span class="input-group-addon" id="percentage-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <input type="text" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon"/>
+                    <span class="input-group-addon" id="percentage-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </div>
             </div>
-        </div>    
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.VictoryScreenUrl)
+                <div class="input-group">
+                    <input type="text" id="VictoryScreenUrl" name="VictoryScreenUrl" class="form-control" aria-describedby="preview-addon"/>
+                    <span class="input-group-addon" id="preview-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="text-center">
+                <img src="~/Content/Images/crown.png" style="height: 30px;"/>
+            </div>
+        </div>
+        <div class="col-md-10"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div id="ContainerForMember1Id" class="character-container"></div>
+                @Html.LabelFor(m => m.Member1Id)
+                <input id="Member1Id" name="Member1Id" class="form-control" style="width: 100%;"/>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div id="ContainerForMember2Id" class="character-container"></div>
+                @Html.LabelFor(m => m.Member2Id)
+                <input id="Member2Id" name="Member2Id" class="form-control" style="width: 100%;"/>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div id="ContainerForMember3Id" class="character-container"></div>
+                @Html.LabelFor(m => m.Member3Id)
+                <input id="Member3Id" name="Member3Id" class="form-control" style="width: 100%;"/>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div id="ContainerForMember4Id" class="character-container"></div>
+                @Html.LabelFor(m => m.Member4Id)
+                <input id="Member4Id" name="Member4Id" class="form-control" style="width: 100%;"/>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div id="ContainerForMember5Id" class="character-container"></div>
+                @Html.LabelFor(m => m.Member5Id)
+                <input id="Member5Id" name="Member5Id" class="form-control" style="width: 100%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Notes)
+                <textarea id="Notes" name="Notes" rows="10" cols="30" style="height: 440px;" aria-label="editor"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <a href="@Url.Action("Index", "Leaderboard")" class="btn btn-default">Cancel</a>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </div>
 </form>
+<div class="modal fade image-preview" tabindex="-1" role="dialog" aria-labelledby="imagePreviewLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="imagePreviewLabel">Image Preview</h4>
+            </div>
+            <div class="modal-body">
+                <img id="previewImage" src="" />
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -73,8 +171,10 @@
             }
         }).data('kendoDropDownList');
 
-        $('#Damage').kendoMaskedTextBox({
-            mask: '0 , 000 , 000'
+        $('#Damage').kendoNumericTextBox({
+            min: 0,
+            max: 99999999,
+            format: '##,###,###'
         });
 
         $('#Damage').focusout(function() {
@@ -84,29 +184,107 @@
         $('#PhaseId').change(function () {
             recalculateRaidPercentDamage();
         });
+
+        $('#VictoryScreenUrl').focusout(function () {
+            var url = $(this).val();
+
+            console.log(isValidUrl(url));
+
+            if (isValidUrl(url)) {
+                $('#preview-addon').html('<a href="#" data-toggle="modal" data-target=".image-preview" data-href="' + url + '"><i class="fa fa-eye"></i></a>');
+            } else {
+                $('#preview-addon').html('&nbsp;&nbsp;&nbsp;&nbsp;');
+            }
+
+        });
+
+        $('.image-preview').on('show.bs.modal', function (event) {
+            var anchor = $(event.relatedTarget);
+            var url = anchor.data('href');
+            var modal = $(this);
+            modal.find('#previewImage').attr('src', url);
+        });
+
+        $('[id^="Member"]').each(function() {
+            $(this).kendoComboBox({
+                placeholder: "Select Character...",
+                dataTextField: "Name",
+                dataValueField: "Id",
+                filter: 'contains',
+                autoBind: false,
+                dataSource: {
+                    type: 'aspnetmvc-ajax',
+                    serverFiltering: 'true',
+                    transport: {
+                        read: '@Url.Action("GetPlayerCharacters", "DataApi", new { Model.PlayerUsername })'
+                    },
+                    schema: {
+                        model: {
+                            fields: {
+                                Id: { type: 'number' },
+                                Name: { type: 'string' }
+                            }
+                        }
+                    }
+                }
+            });
+
+            $(this).change(function () {
+                var id = $(this).data('kendoComboBox').value();
+
+                if (id > 0) {
+                    $('#ContainerFor' + $(this).attr('id')).load('@Url.Action("GetPlayerCharacterPortrait", "Squad")', { playerCharacterId: id }, function() {
+                        console.log('loaded something');
+                    });
+                }
+            });
+        });
+
+        $('#Notes').kendoEditor({
+            resizable: {
+                content: true,
+                toolbar: true
+            }
+        });
     });
 
     function recalculateRaidPercentDamage() {
         var phaseHealth = parseFloat(getRaidPhaseHealth());
-        var squadDamage = parseFloat(getSquadDamage());
+        var squadDamage = parseFloat($('#Damage').val());
 
         if ($.isNumeric(phaseHealth) && $.isNumeric(squadDamage)) {
             $('#percentage-addon').html('' + Math.round((squadDamage / phaseHealth) * 100) + '%');
         } else {
-            $('#percentage-addon').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+            $('#percentage-addon').html('&nbsp;&nbsp;&nbsp;&nbsp;');
         }
     }
 
     function getRaidPhaseHealth() {
         var selectedPhaseText = $('#PhaseId').data('kendoDropDownList').text();
+
         var start = selectedPhaseText.indexOf('(') + 1;
-        var end = selectedPhaseText.indexOf('h', start);
-        return selectedPhaseText.substring(start, end);
+        var end = selectedPhaseText.indexOf(')', start);
+        var healthText = selectedPhaseText.substring(start, end);
+
+        var healthPrefix = healthText.substring(0, healthText.indexOf(' '));
+        var health = healthPrefix;
+
+        if (healthText.includes('thousand')) {
+            health = health * 1000;
+        } else if (healthText.includes('million')) {
+            health = health * 1000000;
+        } else if (healthText.includes('billion')) {
+            health = health * 1000000000;
+        } else if (healthText.includes('trillion')) {
+            health = health * 1000000000000;
+        }
+
+        return health;
     }
 
-    function getSquadDamage() {
-        var damageText = $('#Damage').val();
-        var damageNoSpaces = damageText.replace(/[\s\xA0]+/g, '');
-        return damageNoSpaces.replace(/,/g, '');
+    function isValidUrl(str) {
+        var a = document.createElement('a');
+        a.href = str;
+        return (a.host && a.host != window.location.host);
     }
 </script>

@@ -61,7 +61,7 @@
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
-      <HintPath>..\..\..\Program Files (x86)\Telerik\UI for ASP.NET MVC R2 2017\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\UI for ASP.NET MVC R2 2017\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -179,10 +179,12 @@
     <Compile Include="Models\Extensions\CharacterExtensions.cs" />
     <Compile Include="Models\Extensions\RaidExtensions.cs" />
     <Compile Include="Models\Factories\LeaderboardModelFactory.cs" />
+    <Compile Include="Models\Helpers\CharacterNameEscaper.cs" />
     <Compile Include="Models\Helpers\GearLevelConverter.cs" />
     <Compile Include="Models\Helpers\HumanReadableNumberConverter.cs" />
     <Compile Include="Models\Helpers\StarLevelConverter.cs" />
     <Compile Include="Models\LeaderboardVM.cs" />
+    <Compile Include="Models\PlayerCharacterListItemVM.cs" />
     <Compile Include="Models\Synchronization\CharacterSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Models\ExtendedCharacterStatsModel.cs" />
     <Compile Include="Models\Synchronization\Models\PlayerSynchronizationResult.cs" />
@@ -230,6 +232,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
