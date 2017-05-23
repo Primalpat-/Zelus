@@ -62,12 +62,14 @@
     <Compile Include="Models\Mapping\RaidMap.cs" />
     <Compile Include="Models\Mapping\RaidPhasMap.cs" />
     <Compile Include="Models\Mapping\SquadMap.cs" />
+    <Compile Include="Models\Mapping\VictoryScreenImageMap.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerCharacter.cs" />
     <Compile Include="Models\PlayerSynchronization.cs" />
     <Compile Include="Models\Raid.cs" />
     <Compile Include="Models\RaidPhas.cs" />
     <Compile Include="Models\Squad.cs" />
+    <Compile Include="Models\VictoryScreenImage.cs" />
     <Compile Include="Models\ZelusContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

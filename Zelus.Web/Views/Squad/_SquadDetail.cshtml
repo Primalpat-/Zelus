@@ -2,15 +2,56 @@
 @model Zelus.Web.Models.CreateSquadVM
     
 <style type="text/css">
+    .victory-screen-upload {
+        min-height: 148px;
+    }
+    .victory-screen-container {
+        min-height: 222px;
+        min-width: 455px;
+    }
+    .victory-screen-drop-zone {
+        height: 100%;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .drop-zone-text-wrapper {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        width: 100%;
+        font-size: 24px;
+        line-height: 1.2em;
+        font-family: Arial,Helvetica,sans-serif;
+        color: #000;
+    }
+    .drop-zone-text {
+        color: #c7c7c7;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+    .victory-screen-preview-link {
+        position: absolute;
+        z-index: 2;
+        height: 100%;
+        padding-bottom: 15px;
+    }
+    #victoryScreenPreviewImage {
+        height: 100%;
+    }
+    #victoryScreenModalPreviewImage {
+        width: 100%;
+    }
+
     .character-container {
         height: 160px;
         border: 1px solid #cccccc;
         border-radius: 4px;
         margin-bottom: 5px;
-    }
-    #previewImage {
-        height: 100%;
-        width: 100%;
     }
 </style>
     
@@ -27,7 +68,8 @@
         <div class="col-md-8">
             <div class="form-group">
                 @Html.LabelFor(m => m.Name)
-                @Html.TextBoxFor(m => m.Name, new {@class = "form-control", placeholder = "Ex: Viva la Resistance, Chaze and Friends, etc."})
+                <input id="Name" name="Name" type="text" class="form-control" style="width: 100%;" placeholder="Ex: Viva la Resistance, Chaze and Friends, etc." 
+                       minlength="3" required />
             </div>
         </div>
     </div>
@@ -35,32 +77,39 @@
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.RaidId)
-                <input id="RaidId" name="RaidId" class="form-control" style="width: 100%;"/>
+                <input id="RaidId" name="RaidId" type="number" class="form-control" style="width: 100%;" required />
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.PhaseId)
-                <input id="PhaseId" name="PhaseId" class="form-control" style="width: 100%;"/>
+                <input id="PhaseId" name="PhaseId" type="number" class="form-control" style="width: 100%;" required />
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row equal-column-heights">
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.Damage)
-                <div class="input-group">
-                    <input type="text" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon"/>
+                <input type="number" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon" required />
+                @*<div class="input-group">
                     <span class="input-group-addon" id="percentage-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                </div>
+                    
+                </div>*@
+            </div>
+            <div class="form-group victory-screen-upload">
+                @Html.LabelFor(m => m.VictoryScreenFile)
+                <input id="VictoryScreenFile" name="VictoryScreenFile" type="file" />
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                @Html.LabelFor(m => m.VictoryScreenUrl)
-                <div class="input-group">
-                    <input type="text" id="VictoryScreenUrl" name="VictoryScreenUrl" class="form-control" aria-describedby="preview-addon"/>
-                    <span class="input-group-addon" id="preview-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <div class="col-md-6 victory-screen-container">
+            <a href="#" class="victory-screen-preview-link" data-toggle="modal" data-target=".image-preview">
+                <img id="victoryScreenPreviewImage" />
+            </a>
+            <div class="well victory-screen-drop-zone">
+                <div class="drop-zone-text-wrapper">
+                    <p><i class="fa fa-plus"></i> Add Image</p>
+                    <p class="drop-zone-text">Drop victory screen here to upload</p>
                 </div>
             </div>
         </div>
@@ -78,7 +127,7 @@
             <div class="form-group">
                 <div id="ContainerForMember1Id" class="character-container"></div>
                 @Html.LabelFor(m => m.Member1Id)
-                <input id="Member1Id" name="Member1Id" class="form-control" style="width: 100%;"/>
+                <input id="Member1Id" name="Member1Id" class="form-control" style="width: 100%;" required />
             </div>
         </div>
         <div class="col-md-2">
@@ -111,7 +160,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="form-group">
                 @Html.LabelFor(m => m.Notes)
                 <textarea id="Notes" name="Notes" rows="10" cols="30" style="height: 440px;" aria-label="editor"></textarea>
@@ -127,6 +176,8 @@
         </div>
     </div>
 </form>
+
+
 <div class="modal fade image-preview" tabindex="-1" role="dialog" aria-labelledby="imagePreviewLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -135,14 +186,35 @@
                 <h4 class="modal-title" id="imagePreviewLabel">Image Preview</h4>
             </div>
             <div class="modal-body">
-                <img id="previewImage" src="" />
+                <img id="victoryScreenModalPreviewImage" src="" />
             </div>
         </div>
     </div>
 </div>
 
+
+<script type="text/x-kendo-template" id="insertVideo-template">
+    <div>
+        <label for="videoUrl">Enter a URL from YouTube or Vimeo:</label>
+        <input type="text" id="videoUrl" name="videoUrl" />
+
+        <div class="insertVideo-actions">
+            <button class="k-button insertVideo-insert">Insert</button>
+            <button class="k-button insertVideo-cancel">Cancel</button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/x-kendo-template" id="youTube-template">
+    <iframe class="youtube-player" type="text/html" width="560" height="315" src="http://www.youtube.com/embed/#= source #?fs=1&feature=oembed&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+</script>
+
+
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#squadForm').validate();
+
         $('#RaidId').kendoDropDownList({
             optionLabel: 'Select raid...',
             dataTextField: 'RaidName',
@@ -185,25 +257,32 @@
             recalculateRaidPercentDamage();
         });
 
-        $('#VictoryScreenUrl').focusout(function () {
-            var url = $(this).val();
-
-            console.log(isValidUrl(url));
-
-            if (isValidUrl(url)) {
-                $('#preview-addon').html('<a href="#" data-toggle="modal" data-target=".image-preview" data-href="' + url + '"><i class="fa fa-eye"></i></a>');
-            } else {
-                $('#preview-addon').html('&nbsp;&nbsp;&nbsp;&nbsp;');
+        $("#VictoryScreenFile").kendoUpload({
+            async: {
+                saveUrl: '@Url.Action("UploadImage", "Squad")',
+                removeUrl: 'remove',
+                autoUpload: true
+            },
+            multiple: false,
+            dropZone: ".victory-screen-drop-zone",
+            select: function(e) {
+                var fileReader = new FileReader();
+                fileReader.onload = function(event) {
+                    var mapImage = event.target.result;
+                    $('#victoryScreenPreviewImage').attr('src', mapImage);
+                    $('#victoryScreenModalPreviewImage').attr('src', mapImage);
+                }
+                fileReader.readAsDataURL(e.files[0].rawFile);
+            },
+            remove: function(e) {
+                $('#victoryScreenPreviewImage').attr('src', '');
+                $('#victoryScreenModalPreviewImage').attr('src', '');
+            },
+            validation: {
+                allowedExtension: [".jpg", ".jpeg", ".png", ".bmp", ".gif"]
             }
-
         });
-
-        $('.image-preview').on('show.bs.modal', function (event) {
-            var anchor = $(event.relatedTarget);
-            var url = anchor.data('href');
-            var modal = $(this);
-            modal.find('#previewImage').attr('src', url);
-        });
+        $("#VictoryScreenFile").closest(".k-upload-button").find("span").text("Select image...");
 
         $('[id^="Member"]').each(function() {
             $(this).kendoComboBox({
@@ -241,9 +320,24 @@
         });
 
         $('#Notes').kendoEditor({
+            tools: [
+                { name: "bold" },
+                { name: "italic" },
+                { name: "underline" },
+                { name: "insertUnorderedList" },
+                "insertOrderedList", "subscript",
+                "superscript",
+                "fontName",
+                "fontSize",
+                "foreColor",
+                "backColor",
+                { name: "createLink" },
+                { name: "unlink" },
+                { name: "insertImage" },
+                { name: "custom", tooltip: "Insert Video", exec: insertVideo }
+            ],
             resizable: {
-                content: true,
-                toolbar: true
+                content: true
             }
         });
     });
@@ -286,5 +380,67 @@
         var a = document.createElement('a');
         a.href = str;
         return (a.host && a.host != window.location.host);
+    }
+
+    function insertVideo(e) {
+        var editor = $(this).data("kendoEditor");
+
+        var dialog = $($("#insertVideo-template").html())
+            .find(".insertVideo-insert")
+            .click(function () {
+
+                var media = testUrlForMedia(dialog.element.find("input").val());
+                if (media) {
+                    var template = kendo.template($("#youTube-template").html());
+
+                    editor.exec("insertHTML", { value: template({ source: media.id }) });
+                }
+
+                dialog.close();
+            })
+            .end()
+            .find(".insertVideo-cancel")
+            .click(function () {
+                dialog.close();
+            })
+            .end()
+            .kendoWindow({
+                modal: true,
+                title: "Insert Video",
+                deactivate: function () {
+                    dialog.destroy();
+                }
+            }).data("kendoWindow");
+
+        dialog.center().open();
+
+    }
+
+    function testUrlForMedia(pastedData) {
+        var success = false;
+        var media = {};
+        if (pastedData.match('http://(www.)?youtube|youtu\.be')) {
+            if (pastedData.match('embed')) { youtube_id = pastedData.split(/embed\//)[1].split('"')[0]; }
+            else { youtube_id = pastedData.split(/v\/|v=|youtu\.be\//)[1].split(/[?&]/)[0]; }
+            media.type = "youtube";
+            media.id = youtube_id;
+            success = true;
+        }
+        else if (pastedData.match('http://(player.)?vimeo\.com')) {
+            vimeo_id = pastedData.split(/video\/|http:\/\/vimeo\.com\//)[1].split(/[?&]/)[0];
+            media.type = "vimeo";
+            media.id = vimeo_id;
+            success = true;
+        }
+        else if (pastedData.match('http://player\.soundcloud\.com')) {
+            soundcloud_url = unescape(pastedData.split(/value="/)[1].split(/["]/)[0]);
+            soundcloud_id = soundcloud_url.split(/tracks\//)[1].split(/[&"]/)[0];
+            media.type = "soundcloud";
+            media.id = soundcloud_id;
+            success = true;
+        }
+        if (success) { return media; }
+        else { alert("No valid media id detected"); }
+        return false;
     }
 </script>

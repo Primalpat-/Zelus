@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -39,14 +41,17 @@ namespace Zelus.Web.Controllers
         [HttpPost]
         public ActionResult CreateSquad(CreateSquadVM model)
         {
+            if (!ModelState.IsValid)
+                return View("Index");
+
             var db = new ZelusContext();
             var squad = new Squad();
             squad.Name = model.Name;
             squad.TargetPhaseId = model.PhaseId;
             squad.Damage = model.Damage;
-            squad.VictoryScreen = model.VictoryScreenUrl;
             squad.Notes = model.Notes;
             squad.Member1Id = model.Member1Id;
+            squad.Timestamp = DateTime.UtcNow;
 
             if (!model.Member2Id.IsDefault())
                 squad.Member2Id = model.Member2Id;
@@ -79,5 +84,32 @@ namespace Zelus.Web.Controllers
             var model = db.PlayerCharacters.Find(playerCharacterId);
             return PartialView("_PlayerCharacter", model);
         }
+
+        #region "Victory Screen Upload"
+
+        public ActionResult UploadImage(HttpPostedFileBase file)
+        {
+            if (file.IsNull())
+                return Content("");
+
+            var db = new ZelusContext();
+            var victoryScreen = new VictoryScreenImage();
+
+            var target = new MemoryStream();
+            file.InputStream.CopyTo(target);
+            victoryScreen.Data = target.ToArray();
+
+            db.VictoryScreenImages.Add(victoryScreen);
+            db.SaveChanges();
+            
+            return Content("");
+        }
     }
+
+        //public ActionResult DeleteImage()
+        //{
+            
+        //}
+
+        #endregion
 }

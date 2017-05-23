@@ -6,11 +6,11 @@
         margin-top: 20px;
     }
 
-    .phase, .percent, .damage {
+    .raid, .phase, .percent, .damage {
         font-size: 18px;
     }
 
-    .phase, .percent {
+    .raid, .phase, .percent {
         font-weight: bold;
     }
 
@@ -29,6 +29,11 @@
     }
 </style>
 
+@{
+    var base64 = Convert.ToBase64String(Model.VictoryScreen);
+    var imgSrc = $"data:image/gif;base64,{base64}";
+}
+
 <div class="row">
     <div class="col-md-3">
         <h2>
@@ -38,13 +43,16 @@
     </div>
     <div class="col-md-3">
         <div class="damage-breakdown">
-            <div class="phase vertical-center">@Model.RaidPhas.Name</div><!--
-            --><div class="percent vertical-center">@((Model.Damage / Model.RaidPhas.Health) * 100)%</div><!--
-            --><div class="damage">@Model.Damage damage</div>
+            <div class="raid vertical-center">@Model.RaidPhas.Raid.Name</div><!--
+            --><div class="phase vertical-center">@Model.RaidPhas.Name</div><!--
+            --><div class="percent vertical-center">@(Math.Round((Model.Damage.ToDecimal() / Model.RaidPhas.Health.ToDecimal()) * 100))%</div><!--
+            --><div class="damage">@($"{Model.Damage:n0}") damage</div>
         </div>
     </div>
     <div class="col-md-4">
-        <img class="victory-screen" src="@Model.VictoryScreen"/>
+        <a href="#" class="victory-screen-preview-link" data-toggle="modal" data-target=".image-preview">
+            <img class="victory-screen" src="@imgSrc" />
+        </a>
     </div>
 </div>
 
@@ -92,6 +100,19 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        @Html.Raw(Model.Notes)
+        @Html.Raw(@System.Web.HttpUtility.HtmlDecode(Model.Notes))
+    </div>
+</div>
+<div class="modal fade image-preview" tabindex="-1" role="dialog" aria-labelledby="imagePreviewLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="imagePreviewLabel">Image Preview</h4>
+            </div>
+            <div class="modal-body">
+                <img id="victoryScreenModalPreviewImage" class="victory-screen" src="@imgSrc" />
+            </div>
+        </div>
     </div>
 </div>

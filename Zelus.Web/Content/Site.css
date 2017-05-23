@@ -19,11 +19,32 @@
    display:block;
 }
 
+.has-error .form-control .k-dropdown-wrap {
+    border-color: #a94442;
+}
+
+.has-error .form-control .k-numeric-wrap {
+    border-color: #a94442;
+}
+
 @media (min-width: 992px) {
     .modal-lg {
         width: 900px;
     }    
 }
+
+.equal-column-heights {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .equal-column-heights > [class*='col-'] {
+        display: flex;
+        flex-direction: column;
+    }
 
 
 /* ------------------------ */

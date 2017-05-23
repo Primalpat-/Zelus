@@ -26,6 +26,7 @@ namespace Zelus.Data.Models
         public DbSet<RaidPhas> RaidPhases { get; set; }
         public DbSet<Raid> Raids { get; set; }
         public DbSet<Squad> Squads { get; set; }
+        public DbSet<VictoryScreenImage> VictoryScreenImages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -39,6 +40,7 @@ namespace Zelus.Data.Models
             modelBuilder.Configurations.Add(new RaidPhasMap());
             modelBuilder.Configurations.Add(new RaidMap());
             modelBuilder.Configurations.Add(new SquadMap());
+            modelBuilder.Configurations.Add(new VictoryScreenImageMap());
         }
     }
 }

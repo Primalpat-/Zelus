@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using Zelus.Data.Models;
 
 namespace Zelus.Web.Models
@@ -16,9 +17,8 @@ namespace Zelus.Web.Models
         public int PhaseId { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        [DisplayName("Victory screen url")]
-        public string VictoryScreenUrl { get; set; }
+        [DisplayName("Victory screen")]
+        public HttpPostedFileBase VictoryScreenFile { get; set; }
         [Required]
         [DisplayName("Leader")]
         public int Member1Id { get; set; }

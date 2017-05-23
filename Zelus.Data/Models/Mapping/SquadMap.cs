@@ -15,10 +15,6 @@ namespace Zelus.Data.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.VictoryScreen)
-                .IsRequired()
-                .HasMaxLength(500);
-
             this.Property(t => t.Notes)
                 .IsRequired();
 
@@ -26,17 +22,18 @@ namespace Zelus.Data.Models.Mapping
             this.ToTable("Squads", "db_owner");
             this.Property(t => t.Id).HasColumnName("Id");
             this.Property(t => t.Name).HasColumnName("Name");
-            this.Property(t => t.VictoryScreen).HasColumnName("VictoryScreen");
-            this.Property(t => t.Notes).HasColumnName("Notes");
+            this.Property(t => t.TargetPhaseId).HasColumnName("TargetPhaseId");
+            this.Property(t => t.Damage).HasColumnName("Damage");
+            this.Property(t => t.VictoryScreenImageId).HasColumnName("VictoryScreenImageId");
             this.Property(t => t.Member1Id).HasColumnName("Member1Id");
             this.Property(t => t.Member2Id).HasColumnName("Member2Id");
             this.Property(t => t.Member3Id).HasColumnName("Member3Id");
             this.Property(t => t.Member4Id).HasColumnName("Member4Id");
             this.Property(t => t.Member5Id).HasColumnName("Member5Id");
-            this.Property(t => t.Damage).HasColumnName("Damage");
-            this.Property(t => t.TargetPhaseId).HasColumnName("TargetPhaseId");
+            this.Property(t => t.Notes).HasColumnName("Notes");
             this.Property(t => t.Upvotes).HasColumnName("Upvotes");
             this.Property(t => t.Downvotes).HasColumnName("Downvotes");
+            this.Property(t => t.Timestamp).HasColumnName("Timestamp");
 
             // Relationships
             this.HasRequired(t => t.PlayerCharacter)
@@ -57,6 +54,9 @@ namespace Zelus.Data.Models.Mapping
             this.HasRequired(t => t.RaidPhas)
                 .WithMany(t => t.Squads)
                 .HasForeignKey(d => d.TargetPhaseId);
+            this.HasOptional(t => t.VictoryScreenImage)
+                .WithMany(t => t.Squads)
+                .HasForeignKey(d => d.VictoryScreenImageId);
 
         }
     }

@@ -2,8 +2,12 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#playerUsernameSubmit').click(function() {
-                $('#playerUsernameForm').submit();
+            $('#playerUsernameForm').validate();
+
+            $('#playerUsernameSubmit').click(function () {
+                if ($("#playerUsernameForm").valid()) {
+                    $('#playerUsernameForm').submit();
+                }
             });
 
             $('#playerUsernameForm').submit(function (e) {
@@ -68,7 +72,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="playerUsername">Step 1:  Enter your <a href="https://swgoh.gg">swgoh.gg</a> username:</label>
-                <input type="text" id="playerUsername" name="playerUsername" placeholder="Ex: primalpat" class="form-control" />
+                <input type="text" id="playerUsername" name="playerUsername" placeholder="Ex: primalpat" class="form-control" required />
             </div>
         </div>
         <div class="col-md-1">
