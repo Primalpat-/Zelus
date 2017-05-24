@@ -56,7 +56,9 @@ $.validator.setDefaults({
         $(element).closest('.form-group').removeClass('has-error');
     },
     errorPlacement: function (error, element) {
-        if (element.parents('.k-widget').length) {
+        if (element.parents('.input-group').length) {
+            error.insertAfter(element.parents('.input-group')[0]);
+        } else if (element.parents('.k-widget').length) {
             error.insertAfter(element.parents('.k-widget')[0]);
         } else {
             error.insertAfter(element);

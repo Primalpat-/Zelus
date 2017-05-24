@@ -11,18 +11,14 @@ namespace Zelus.Data.Models.Mapping
             this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.Data)
-                .IsRequired();
+            this.Property(t => t.Path)
+                .IsRequired()
+                .HasMaxLength(500);
 
             // Table & Column Mappings
             this.ToTable("VictoryScreenImages", "db_owner");
             this.Property(t => t.Id).HasColumnName("Id");
-            this.Property(t => t.Data).HasColumnName("Data");
-
-            // Relationships
-            this.HasRequired(t => t.VictoryScreenImage1)
-                .WithOptional(t => t.VictoryScreenImages1);
-
+            this.Property(t => t.Path).HasColumnName("Path");
         }
     }
 }

@@ -176,6 +176,7 @@
     <Compile Include="Models\Helpers\CharacterNameEscaper.cs" />
     <Compile Include="Models\Helpers\GearLevelConverter.cs" />
     <Compile Include="Models\Helpers\HumanReadableNumberConverter.cs" />
+    <Compile Include="Models\Helpers\PhysicalToVirtualPathConverter.cs" />
     <Compile Include="Models\Helpers\StarLevelConverter.cs" />
     <Compile Include="Models\LeaderboardVM.cs" />
     <Compile Include="Models\PlayerCharacterListItemVM.cs" />
@@ -272,6 +273,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\VictoryScreens\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

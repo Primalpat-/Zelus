@@ -27,14 +27,18 @@ namespace Zelus.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult SyncPlayerData(string playerUsername)
+        {
+            var syncOutcome = Synchronizer.ExecuteForPlayer(playerUsername);
+            return Json(syncOutcome, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public ActionResult SquadDetail(string playerUsername)
         {
-            var db = new ZelusContext();
             var model = new CreateSquadVM();
             model.PlayerUsername = playerUsername;
-            //model.PlayerCharacters = db.PlayerCharacters
-            //                           .Where(pc => pc.Player.Name.ToLower() == playerUsername.ToLower())
-            //                           .ToList();
+
             return PartialView("_SquadDetail", model);
         }
 
@@ -46,36 +50,23 @@ namespace Zelus.Web.Controllers
 
             var db = new ZelusContext();
             var squad = new Squad();
+
             squad.Name = model.Name;
             squad.TargetPhaseId = model.PhaseId;
             squad.Damage = model.Damage;
-            squad.Notes = model.Notes;
+            squad.VictoryScreenImageId = model.VictoryScreenImageId;
             squad.Member1Id = model.Member1Id;
+            squad.Member2Id = model.Member2Id;
+            squad.Member3Id = model.Member3Id;
+            squad.Member4Id = model.Member4Id;
+            squad.Member5Id = model.Member5Id;
+            squad.Notes = model.Notes;
             squad.Timestamp = DateTime.UtcNow;
-
-            if (!model.Member2Id.IsDefault())
-                squad.Member2Id = model.Member2Id;
-
-            if (!model.Member3Id.IsDefault())
-                squad.Member3Id = model.Member3Id;
-
-            if (!model.Member4Id.IsDefault())
-                squad.Member4Id = model.Member4Id;
-
-            if (!model.Member5Id.IsDefault())
-                squad.Member5Id = model.Member5Id;
 
             db.Squads.Add(squad);
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Leaderboard");
-        }
-
-        [HttpPost]
-        public ActionResult SyncPlayerData(string playerUsername)
-        {
-            var syncOutcome = Synchronizer.ExecuteForPlayer(playerUsername);
-            return Json(syncOutcome, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index", "Squad", new { id = squad.Id });
         }
 
         public ActionResult GetPlayerCharacterPortrait(int playerCharacterId)
@@ -87,29 +78,47 @@ namespace Zelus.Web.Controllers
 
         #region "Victory Screen Upload"
 
-        public ActionResult UploadImage(HttpPostedFileBase file)
+        public ActionResult UploadImage(HttpPostedFileBase VictoryScreenFile)
         {
-            if (file.IsNull())
+            if (VictoryScreenFile.IsNull())
                 return Content("");
+            
+            var fileName = Path.GetFileName(VictoryScreenFile.FileName);
+            var guid = Guid.NewGuid();
+            var physicalPath = Path.Combine(Server.MapPath("~/Content/VictoryScreens"), $"{guid:N}-{fileName}");
+            VictoryScreenFile.SaveAs(physicalPath);
 
             var db = new ZelusContext();
-            var victoryScreen = new VictoryScreenImage();
+            var victoryScreen = new VictoryScreenImage{ Path = physicalPath };
 
-            var target = new MemoryStream();
-            file.InputStream.CopyTo(target);
-            victoryScreen.Data = target.ToArray();
+            //var target = new MemoryStream();
+            //VictoryScreenFile.InputStream.CopyTo(target);
+            //victoryScreen.Data = target.ToArray();
 
             db.VictoryScreenImages.Add(victoryScreen);
             db.SaveChanges();
+
+            return Content(victoryScreen.Id.ToString());
+        }
+        public ActionResult DeleteImage(string fileNames, int victoryScreenImageId)
+        {
+            if (victoryScreenImageId.IsDefault())
+                return Content("");
+
+            var db = new ZelusContext();
+            var image = db.VictoryScreenImages.Find(victoryScreenImageId);
+
+            if (image.IsNull() || !System.IO.File.Exists(image.Path))
+                return Content("");
             
+            System.IO.File.Delete(image.Path);
+            db.VictoryScreenImages.Remove(image);
+            db.SaveChanges();
+
             return Content("");
         }
-    }
-
-        //public ActionResult DeleteImage()
-        //{
-            
-        //}
 
         #endregion
+
+    }
 }

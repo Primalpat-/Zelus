@@ -15,9 +15,6 @@ namespace Zelus.Data.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.Notes)
-                .IsRequired();
-
             // Table & Column Mappings
             this.ToTable("Squads", "db_owner");
             this.Property(t => t.Id).HasColumnName("Id");

@@ -57,6 +57,7 @@
     
 <form id="squadForm" role="form" action="@Url.Action("CreateSquad", "Squad")" method="POST">
     @Html.HiddenFor(m => m.PlayerUsername)
+    @Html.HiddenFor(m => m.VictoryScreenImageId)
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group">
@@ -91,14 +92,13 @@
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.Damage)
-                <input type="number" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon" required />
-                @*<div class="input-group">
+                <div class="input-group">
                     <span class="input-group-addon" id="percentage-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    
-                </div>*@
+                    <input type="number" id="Damage" name="Damage" class="form-control" aria-describedby="percentage-addon" required />    
+                </div>
             </div>
             <div class="form-group victory-screen-upload">
-                @Html.LabelFor(m => m.VictoryScreenFile)
+                @Html.LabelFor(m => m.VictoryScreenImageId)
                 <input id="VictoryScreenFile" name="VictoryScreenFile" type="file" />
             </div>
         </div>
@@ -168,10 +168,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-6 col-md-5">
             <a href="@Url.Action("Index", "Leaderboard")" class="btn btn-default">Cancel</a>
         </div>
-        <div class="col-xs-6 text-right">
+        <div class="col-xs-6 col-md-5 text-right">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
@@ -260,7 +260,7 @@
         $("#VictoryScreenFile").kendoUpload({
             async: {
                 saveUrl: '@Url.Action("UploadImage", "Squad")',
-                removeUrl: 'remove',
+                removeUrl: '@Url.Action("DeleteImage", "Squad")',
                 autoUpload: true
             },
             multiple: false,
@@ -271,15 +271,21 @@
                     var mapImage = event.target.result;
                     $('#victoryScreenPreviewImage').attr('src', mapImage);
                     $('#victoryScreenModalPreviewImage').attr('src', mapImage);
+                    console.log(event);
                 }
+                console.log(e);
                 fileReader.readAsDataURL(e.files[0].rawFile);
             },
-            remove: function(e) {
+            remove: function (e) {
+                e.data = { victoryScreenImageId: $('#VictoryScreenImageId').val() };
                 $('#victoryScreenPreviewImage').attr('src', '');
                 $('#victoryScreenModalPreviewImage').attr('src', '');
             },
             validation: {
                 allowedExtension: [".jpg", ".jpeg", ".png", ".bmp", ".gif"]
+            },
+            success: function(e) {
+                $('#VictoryScreenImageId').val(e.response);
             }
         });
         $("#VictoryScreenFile").closest(".k-upload-button").find("span").text("Select image...");

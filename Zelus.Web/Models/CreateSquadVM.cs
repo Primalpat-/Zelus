@@ -9,30 +9,40 @@ namespace Zelus.Web.Models
     public class CreateSquadVM
     {
         public string PlayerUsername { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
         [Required]
         [DisplayName("Raid")]
         public int RaidId { get; set; }
+
         [Required]
         [DisplayName("Phase")]
         public int PhaseId { get; set; }
+
         [Required]
-        public string Name { get; set; }
+        public int Damage { get; set; }
+
         [DisplayName("Victory screen")]
-        public HttpPostedFileBase VictoryScreenFile { get; set; }
+        public int VictoryScreenImageId { get; set; }
+
         [Required]
         [DisplayName("Leader")]
         public int Member1Id { get; set; }
+
         [DisplayName("Member")]
-        public int Member2Id { get; set; }
+        public int? Member2Id { get; set; }
+
         [DisplayName("Member")]
-        public int Member3Id { get; set; }
+        public int? Member3Id { get; set; }
+
         [DisplayName("Member")]
-        public int Member4Id { get; set; }
+        public int? Member4Id { get; set; }
+
         [DisplayName("Member")]
-        public int Member5Id { get; set; }
-        [Required]
-        public int Damage { get; set; }
+        public int? Member5Id { get; set; }
+
         public string Notes { get; set; }
-        public List<PlayerCharacter> PlayerCharacters { get; set; }
     }
 }

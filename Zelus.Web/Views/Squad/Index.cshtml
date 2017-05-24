@@ -1,4 +1,5 @@
 ﻿@using Z.Core.Extensions
+@using Zelus.Web.Models.Helpers
 @model Zelus.Data.Models.Squad
     
 <style type="text/css">
@@ -29,11 +30,6 @@
     }
 </style>
 
-@{
-    var base64 = Convert.ToBase64String(Model.VictoryScreen);
-    var imgSrc = $"data:image/gif;base64,{base64}";
-}
-
 <div class="row">
     <div class="col-md-3">
         <h2>
@@ -51,7 +47,7 @@
     </div>
     <div class="col-md-4">
         <a href="#" class="victory-screen-preview-link" data-toggle="modal" data-target=".image-preview">
-            <img class="victory-screen" src="@imgSrc" />
+            <img class="victory-screen" src="@Url.Content(Model.VictoryScreenImage.Path.ToVirtual())" />
         </a>
     </div>
 </div>
@@ -111,7 +107,7 @@
                 <h4 class="modal-title" id="imagePreviewLabel">Image Preview</h4>
             </div>
             <div class="modal-body">
-                <img id="victoryScreenModalPreviewImage" class="victory-screen" src="@imgSrc" />
+                <img id="victoryScreenModalPreviewImage" class="victory-screen" src="@Url.Content(Model.VictoryScreenImage.Path.ToVirtual())" />
             </div>
         </div>
     </div>
