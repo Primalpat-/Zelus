@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Zelus.Data.Models;
+﻿using System.Collections.Generic;
 
 namespace Zelus.Web.Models
 {
@@ -10,9 +6,9 @@ namespace Zelus.Web.Models
     {
         public string RaidName { get; set; }
         public string RaidSubtext { get; set; }
-        public List<Squad> PhaseOneSquads { get; set; }
-        public List<Squad> PhaseTwoSquads { get; set; }
-        public List<Squad> PhaseThreeSquads { get; set; }
-        public List<Squad> PhaseFourSquads { get; set; }
+        public List<SquadVM> PhaseOneSquads { get; set; }
+        public List<SquadVM> PhaseTwoSquads { get; set; }
+        public List<SquadVM> PhaseThreeSquads { get; set; }
+        public List<SquadVM> PhaseFourSquads { get; set; }
     }
 }

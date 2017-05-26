@@ -180,6 +180,7 @@
     <Compile Include="Models\Helpers\StarLevelConverter.cs" />
     <Compile Include="Models\LeaderboardVM.cs" />
     <Compile Include="Models\PlayerCharacterListItemVM.cs" />
+    <Compile Include="Models\SquadVM.cs" />
     <Compile Include="Models\Synchronization\CharacterSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Models\ExtendedCharacterStatsModel.cs" />
     <Compile Include="Models\Synchronization\Models\PlayerSynchronizationResult.cs" />
@@ -270,6 +271,8 @@
     <Content Include="Views\Shared\_PlayerCharacter.cshtml" />
     <Content Include="Views\Squad\Create.cshtml" />
     <Content Include="Views\Squad\_SquadDetail.cshtml" />
+    <Content Include="Views\Leaderboard\_Leaderboard.cshtml" />
+    <Content Include="Views\Leaderboard\_Squad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
