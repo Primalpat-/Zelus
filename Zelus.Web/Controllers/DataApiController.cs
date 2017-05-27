@@ -53,7 +53,8 @@ namespace Zelus.Web.Controllers
                                      .Select(pc => new
                                      {
                                          Id = pc.Id,
-                                         Name = pc.Character.Name
+                                         Name = pc.Character.Name,
+                                         SortOrder = (pc.GearLevel + pc.StarLevel + pc.NumberOfZetas)
                                      });
             var result = playerCharacters.ToDataSourceResult(request).Data;
             return Json(result, JsonRequestBehavior.AllowGet);

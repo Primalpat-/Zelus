@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Z.Core.Extensions;
 using Zelus.Data.Models;
 using Zelus.Web.Models;
+using Zelus.Web.Models.Extensions;
 using Zelus.Web.Models.Synchronization;
 
 namespace Zelus.Web.Controllers
@@ -51,15 +52,18 @@ namespace Zelus.Web.Controllers
             var db = new ZelusContext();
             var squad = new Squad();
 
+            squad.PlayerId = db.PlayerCharacters.Single(pc => pc.Id == model.Member1Id).PlayerId;
             squad.Name = model.Name;
             squad.TargetPhaseId = model.PhaseId;
             squad.Damage = model.Damage;
             squad.VictoryScreenImageId = model.VictoryScreenImageId;
-            squad.Member1Id = model.Member1Id;
-            squad.Member2Id = model.Member2Id;
-            squad.Member3Id = model.Member3Id;
-            squad.Member4Id = model.Member4Id;
-            squad.Member5Id = model.Member5Id;
+            
+            squad.Member1Id = CreateSquadCharacter(db, model.Member1Id).ToInt32();
+            squad.Member2Id = CreateSquadCharacter(db, model.Member2Id);
+            squad.Member3Id = CreateSquadCharacter(db, model.Member3Id);
+            squad.Member4Id = CreateSquadCharacter(db, model.Member4Id);
+            squad.Member5Id = CreateSquadCharacter(db, model.Member5Id);
+
             squad.Notes = model.Notes;
             squad.Timestamp = DateTime.UtcNow;
 
@@ -72,9 +76,29 @@ namespace Zelus.Web.Controllers
         public ActionResult GetPlayerCharacterPortrait(int playerCharacterId)
         {
             var db = new ZelusContext();
-            var model = db.PlayerCharacters.Find(playerCharacterId);
+            var model = db.PlayerCharacters
+                          .Find(playerCharacterId)
+                          .ToCharacterVM();
             return PartialView("_PlayerCharacter", model);
         }
+
+        #region "Helpers"
+
+        private int? CreateSquadCharacter(ZelusContext db, int? playerCharacterId)
+        {
+            if (!playerCharacterId.HasValue)
+                return null;
+
+            var squadCharacter = db.PlayerCharacters
+                                   .Find(playerCharacterId)
+                                   .ToSquadCharacter();
+            db.SquadCharacters.Add(squadCharacter);
+            db.SaveChanges();
+
+            return squadCharacter.Id;
+        }
+
+        #endregion
 
         #region "Victory Screen Upload"
 
@@ -119,6 +143,5 @@ namespace Zelus.Web.Controllers
         }
 
         #endregion
-
     }
 }

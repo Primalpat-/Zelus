@@ -56,7 +56,7 @@ namespace Zelus.Web.Models.Factories
 
             model.Id = squad.Id;
             model.SquadName = squad.Name;
-            model.PlayerName = squad.PlayerCharacter.Player.Name;
+            model.PlayerName = squad.Player.Name;
             model.Rank = index + 1;
             model.Damage = squad.Damage;
             model.PhaseHealth = squad.RaidPhas.Health;

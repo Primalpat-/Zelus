@@ -25,6 +25,7 @@ namespace Zelus.Data.Models
         public DbSet<PlayerSynchronization> PlayerSynchronizations { get; set; }
         public DbSet<RaidPhas> RaidPhases { get; set; }
         public DbSet<Raid> Raids { get; set; }
+        public DbSet<SquadCharacter> SquadCharacters { get; set; }
         public DbSet<Squad> Squads { get; set; }
         public DbSet<VictoryScreenImage> VictoryScreenImages { get; set; }
 
@@ -39,6 +40,7 @@ namespace Zelus.Data.Models
             modelBuilder.Configurations.Add(new PlayerSynchronizationMap());
             modelBuilder.Configurations.Add(new RaidPhasMap());
             modelBuilder.Configurations.Add(new RaidMap());
+            modelBuilder.Configurations.Add(new SquadCharacterMap());
             modelBuilder.Configurations.Add(new SquadMap());
             modelBuilder.Configurations.Add(new VictoryScreenImageMap());
         }

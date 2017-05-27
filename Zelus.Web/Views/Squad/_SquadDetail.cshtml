@@ -297,6 +297,7 @@
                 dataValueField: "Id",
                 filter: 'contains',
                 autoBind: false,
+                
                 dataSource: {
                     type: 'aspnetmvc-ajax',
                     serverFiltering: 'true',
@@ -307,10 +308,13 @@
                         model: {
                             fields: {
                                 Id: { type: 'number' },
-                                Name: { type: 'string' }
+                                Name: { type: 'string' },
+                                SortOrder: { type: 'number' },
+                                GroupBy: { type: 'number' }
                             }
                         }
-                    }
+                    },
+                    sort: { field: 'SortOrder', dir: 'desc' }
                 }
             });
 

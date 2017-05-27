@@ -61,6 +61,7 @@
     <Compile Include="Models\Mapping\PlayerSynchronizationMap.cs" />
     <Compile Include="Models\Mapping\RaidMap.cs" />
     <Compile Include="Models\Mapping\RaidPhasMap.cs" />
+    <Compile Include="Models\Mapping\SquadCharacterMap.cs" />
     <Compile Include="Models\Mapping\SquadMap.cs" />
     <Compile Include="Models\Mapping\VictoryScreenImageMap.cs" />
     <Compile Include="Models\Player.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Models\Raid.cs" />
     <Compile Include="Models\RaidPhas.cs" />
     <Compile Include="Models\Squad.cs" />
+    <Compile Include="Models\SquadCharacter.cs" />
     <Compile Include="Models\VictoryScreenImage.cs" />
     <Compile Include="Models\ZelusContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

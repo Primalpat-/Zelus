@@ -1,16 +1,16 @@
 ﻿@using Zelus.Data.Models
 @using Zelus.Web.Models.Helpers
-@model Zelus.Data.Models.PlayerCharacter
+@model Zelus.Web.Models.CharacterVM
 
 @{
-    var base64 = Convert.ToBase64String(Model.Character.Portrait);
+    var base64 = Convert.ToBase64String(Model.Portrait);
     var imgSrc = $"data:image/gif;base64,{base64}";
 }
 
 <div class="collection-char">
     <div class="player-char-portrait char-portrait-full @Model.GearLevel.ToStyle()">
-        <a class="char-portrait-full-link" href="@Model.CharacterUrl">
-            <img class="char-portrait-full-img" src="@imgSrc" alt="@Model.Character.Name"/>
+        <a class="char-portrait-full-link" href="@Model.Url">
+            <img class="char-portrait-full-img" src="@imgSrc" alt="@Model.Name"/>
             <div class="char-portrait-full-gear"></div>
             <div class="star star1 @Model.StarLevel.IsActive(1)"></div>
             <div class="star star2 @Model.StarLevel.IsActive(2)"></div>
@@ -28,8 +28,8 @@
         </a>
     </div>
     <div class="collection-char-name">
-        <a class="collection-char-name-link" href="@Model.CharacterUrl">
-            @Model.Character.Name
+        <a class="collection-char-name-link" href="@Model.Url">
+            @Model.Name
         </a>
     </div>
 </div>

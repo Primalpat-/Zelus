@@ -1,4 +1,5 @@
 ﻿@using Z.Core.Extensions
+@using Zelus.Web.Models.Extensions
 @using Zelus.Web.Models.Helpers
 @model Zelus.Data.Models.Squad
     
@@ -34,7 +35,7 @@
     <div class="col-md-3">
         <h2>
             @Model.Name<br/>
-            <small>by <a href="@Model.PlayerCharacter.Player.CollectionUrl">@Model.PlayerCharacter.Player.Name</a></small>
+            <small>by <a href="@Model.Player.CollectionUrl">@Model.Player.Name</a></small>
         </h2>
     </div>
     <div class="col-md-3">
@@ -62,30 +63,30 @@
 </div>
 <div class="row">
     <div class="col-md-2">
-        @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter)
+        @Html.Partial("_PlayerCharacter", @Model.SquadCharacter.ToCharacterVM())
     </div>
     <div class="col-md-2">
-        @if (Model.PlayerCharacter1.IsNotNull())
+        @if (Model.SquadCharacter1.IsNotNull())
         {
-            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter1)
+            @Html.Partial("_PlayerCharacter", @Model.SquadCharacter1.ToCharacterVM())
         }
     </div>
     <div class="col-md-2">
-        @if (Model.PlayerCharacter2.IsNotNull())
+        @if (Model.SquadCharacter2.IsNotNull())
         {
-            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter2)
+            @Html.Partial("_PlayerCharacter", @Model.SquadCharacter2.ToCharacterVM())
         }
     </div>
     <div class="col-md-2">
-        @if (Model.PlayerCharacter3.IsNotNull())
+        @if (Model.SquadCharacter3.IsNotNull())
         {
-            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter3)
+            @Html.Partial("_PlayerCharacter", @Model.SquadCharacter3.ToCharacterVM())
         }
     </div>
     <div class="col-md-2">
-        @if (Model.PlayerCharacter4.IsNotNull())
+        @if (Model.SquadCharacter4.IsNotNull())
         {
-            @Html.Partial("_PlayerCharacter", @Model.PlayerCharacter4)
+            @Html.Partial("_PlayerCharacter", @Model.SquadCharacter4.ToCharacterVM())
         }
     </div>
 </div>

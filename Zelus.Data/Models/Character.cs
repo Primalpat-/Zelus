@@ -9,6 +9,7 @@ namespace Zelus.Data.Models
         {
             this.CharacterZetas = new List<CharacterZeta>();
             this.PlayerCharacters = new List<PlayerCharacter>();
+            this.SquadCharacters = new List<SquadCharacter>();
         }
 
         public int Id { get; set; }
@@ -16,5 +17,6 @@ namespace Zelus.Data.Models
         public byte[] Portrait { get; set; }
         public virtual ICollection<CharacterZeta> CharacterZetas { get; set; }
         public virtual ICollection<PlayerCharacter> PlayerCharacters { get; set; }
+        public virtual ICollection<SquadCharacter> SquadCharacters { get; set; }
     }
 }
