@@ -78,13 +78,13 @@
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.RaidId)
-                <input id="RaidId" name="RaidId" type="number" class="form-control" style="width: 100%;" required />
+                @Html.EditorFor(m => m.RaidId)
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.PhaseId)
-                <input id="PhaseId" name="PhaseId" type="number" class="form-control" style="width: 100%;" required />
+                @Html.EditorFor(m => m.PhaseId)
             </div>
         </div>
     </div>
@@ -215,34 +215,6 @@
     $(document).ready(function () {
         $('#squadForm').validate();
 
-        $('#RaidId').kendoDropDownList({
-            optionLabel: 'Select raid...',
-            dataTextField: 'RaidName',
-            dataValueField: 'RaidId',
-            dataSource: {
-                type: 'aspnetmvc-ajax',
-                serverFiltering: true,
-                transport: {
-                    read: '@Url.Action("GetRaids", "DataApi")'
-                }
-            }
-        }).data('kendoDropDownList');
-
-        $('#PhaseId').kendoDropDownList({
-            autoBind: false,
-            cascadeFrom: 'RaidId',
-            optionLabel: 'Select phase...',
-            dataTextField: 'PhaseName',
-            dataValueField: 'PhaseId',
-            dataSource: {
-                type: 'aspnetmvc-ajax',
-                serverFiltering: true,
-                transport: {
-                    read: '@Url.Action("GetRaidPhases", "DataApi")'
-                }
-            }
-        }).data('kendoDropDownList');
-
         $('#Damage').kendoNumericTextBox({
             min: 0,
             max: 99999999,
@@ -271,9 +243,7 @@
                     var mapImage = event.target.result;
                     $('#victoryScreenPreviewImage').attr('src', mapImage);
                     $('#victoryScreenModalPreviewImage').attr('src', mapImage);
-                    console.log(event);
                 }
-                console.log(e);
                 fileReader.readAsDataURL(e.files[0].rawFile);
             },
             remove: function (e) {

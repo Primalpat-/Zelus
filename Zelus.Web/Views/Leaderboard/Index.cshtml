@@ -8,6 +8,9 @@
     .squad-rank {
         font-size: 18px;
     }
+    .btn-submit {
+        margin: 20px 0 10px;
+    }
 </style>
     
 @section scripts{
@@ -22,11 +25,11 @@
 }
 
 <div class="row">
-    <div class="col-xs-10 vertical-center">
+    <div class="col-sm-9">
         <h2>Raid Damage Leaderboard</h2>
-    </div><!--
-    --><div class="col-xs-2 vertical-center">
-        <a href="@Url.Action("Index", "Squad")" class="btn btn-primary"><i class="fa fa-users"></i> Submit a Squad</a>
+    </div>
+    <div class="col-sm-3 text-right-not-xs">
+        <a href="@Url.Action("Index", "Squad")" class="btn btn-primary btn-submit"><i class="fa fa-users"></i> Submit a Squad</a>
     </div>
 </div>
 

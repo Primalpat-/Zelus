@@ -28,21 +28,26 @@ namespace Zelus.Web.Models.Factories
         {
             var model = new LeaderboardVM();
 
+            model.RaidId = raid.Id;
             model.RaidName = raid.Name;
             model.RaidSubtext = raid.Subtext;
 
+            model.Phase1Id = raid.RaidPhases.First(p => p.Name.Contains("1")).Id;
             model.PhaseOneSquads = raid.PhaseOneSquads(10)
                                        .Select(GetSquadModel)
                                        .ToList();
 
+            model.Phase2Id = raid.RaidPhases.First(p => p.Name.Contains("2")).Id;
             model.PhaseTwoSquads = raid.PhaseTwoSquads(10)
                                        .Select(GetSquadModel)
                                        .ToList();
 
+            model.Phase3Id = raid.RaidPhases.First(p => p.Name.Contains("3")).Id;
             model.PhaseThreeSquads = raid.PhaseThreeSquads(10)
                                          .Select(GetSquadModel)
                                          .ToList();
 
+            model.Phase4Id = raid.RaidPhases.First(p => p.Name.Contains("4")).Id;
             model.PhaseFourSquads = raid.PhaseFourSquads(10)
                                         .Select(GetSquadModel)
                                         .ToList();

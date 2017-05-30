@@ -1,0 +1,230 @@
+﻿@using Zelus.Web.Models
+@model Zelus.Web.Models.SquadViewerVM
+
+<div class="row">
+    <div class="col-sm-9">
+        <h2>Squad Viewer</h2>
+    </div>
+</div>
+@*<div class="row">
+    <div class="col-xs-12">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.RaidId)
+                        @Html.EditorFor(m => m.RaidId)
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhaseId)
+                        @Html.EditorFor(m => m.PhaseId)
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    
+                </div>
+                <div class="col-md-3">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <a href="#" class="btn btn-primary"><i class="fa fa-filter"></i> Filter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div class="row">
+    <div class="col-xs-12">
+        <div id="squadGrid"></div>
+    </div>
+</div>
+
+<script id="rowTemplate" type="text/x-kendo-tmpl">
+    <tr data-uid="#: Id #">
+        <td class="raidPhase" colspan="2">
+            #: Raid.Name #<br/>
+            #: Phase.Name #
+        </td>
+        <td class="guildPlayer" colspan="2">
+            <a href="#: Player.CollectionUrl #">#: Player.Name #</a><br/>
+            of <a href="#: Guild.Url #">#: Guild.Name #</a>
+        </td>
+        <td class="squad">
+            &nbsp;&nbsp;<a href="@Url.Action("Index", "Squad")/#: Id #" style="font-weight: bold; font-size: 18px;">#: Name #</a><br/>
+            <div class="member1" style="float: left; width: 100px; height: 140px;"></div>
+            <div class="member2" style="float: left; width: 100px; height: 140px;"></div>
+            <div class="member3" style="float: left; width: 100px; height: 140px;"></div>
+            <div class="member4" style="float: left; width: 100px; height: 140px;"></div>
+            <div class="member5" style="float: left; width: 100px; height: 140px;"></div>
+        </td>
+        <td class="damage">
+            <span></span>
+        </td>
+        <td class="posted">
+            <span data-toggle="tooltip" data-placement="top" data-container="body" title=""></span>
+        </td>
+    </tr>
+</script>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#squadGrid').kendoGrid({
+                dataSource: {
+                    type: 'aspnetmvc-ajax',
+                    transport: {
+                        read: '@Url.Action("GetSquads", "SquadViewer")',
+                        dataType: 'jsonp'
+                    },
+                    schema: {
+                        data: 'Data',
+                        total: 'Total',
+                        aggregates: 'AggregateResults',
+                        errors: 'Errors',
+                        model: {
+                            fields: {
+                                Id: { type: 'number' },
+                                Name: { type: 'string' },
+                                Damage: { type: 'number' },
+                                Timestamp: { type: 'date' },
+                                Member1: { type: 'number' },
+                                Member2: { type: 'number' },
+                                Member3: { type: 'number' },
+                                Member4: { type: 'number' },
+                                Member5: { type: 'number' },
+                                Raid: {
+                                    Name: { type: 'string' }
+                                },
+                                Phase: {
+                                    Name: { type: 'string' },
+                                    Health: { type: 'number' }
+                                },
+                                Guild: {
+                                    Name: { type: 'string' },
+                                    Url: { type: 'string' }
+                                },
+                                Player: {
+                                    Name: { type: 'string' },
+                                    CollectionUrl: { type: 'string' }
+                                }
+                            }
+                        }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true,
+                    sort: { field: 'Damage', dir: 'desc' }
+                    @if (Model.RaidId > 0 || Model.PhaseId > 0)
+                    {
+                        <text>, filter: [</text>
+                        if (Model.RaidId > 0)
+                        {
+                            <text>
+                            {
+                                field: "Raid.Name",
+                                operator: "eq",
+                                value: "@Model.RaidName"
+                            },
+                            </text>
+                        }
+                        if (Model.PhaseId > 0)
+                        {
+                            <text>
+                            {
+                                field: "Phase.Name",
+                                operator: "eq",
+                                value: "@Model.PhaseName"
+                            }
+                            </text>
+                        }
+                        <text>]</text>
+                    }
+                },
+                rowTemplate: kendo.template($('#rowTemplate').html()),
+                filterable: true,
+                sortable: true,
+                pageable: true,
+                dataBound: function (e) {
+                    var data = this._data;
+                    for (var i = 0; i < data.length; i++) {
+                        var dataItem = data[i];
+                        calculateDamage(dataItem);
+                        loadMembers(dataItem);
+                        calculateTimestamp(dataItem);
+                    }
+                },
+                columns: [
+                    {
+                        field: 'Raid.Name',
+                        title: 'Raid',
+                        width: '90px'
+                    },
+                    {
+                        field: 'Phase.Name',
+                        title: 'Phase',
+                        width: '90px'
+                    },
+                    {
+                        field: 'Guild.Name',
+                        title: 'Guild',
+                        width: '85px'
+                    },
+                    {
+                        field: 'Player.Name',
+                        title: 'Player',
+                        width: '85px'
+                    },
+                    {
+                        field: 'Name',
+                        title: 'Squad',
+                        width: '520px'
+                    },
+                    {
+                        field: 'Damage',
+                        width: '100px'
+                    },
+                    {
+                        field: 'Timestamp',
+                        title: 'Submitted',
+                        width: '120px'
+                    }
+                ]
+            });
+            //setGridOptions();
+        });
+
+        function calculateDamage(dataItem) {
+            var squadDamage = parseFloat(dataItem.Damage);
+            var phaseHealth = parseFloat(dataItem.Phase.Health);
+            var span = $('#squadGrid').find('[data-uid="' + dataItem.Id + '"]').find('.damage').children('span');
+            span.html(Number(squadDamage).toLocaleString() + ' (' + Math.round((squadDamage / phaseHealth) * 100) + '%)');
+        }
+
+        function loadMembers(dataItem) {
+            var row = $('#squadGrid').find('[data-uid="' + dataItem.Id + '"]');
+            if (dataItem.Member1Id)
+                row.find('.member1').load('@Url.Action("GetSquadCharacter", "SquadViewer")' + '?squadCharacterId=' + dataItem.Member1Id);
+            if (dataItem.Member2Id)
+                row.find('.member2').load('@Url.Action("GetSquadCharacter", "SquadViewer")' + '?squadCharacterId=' + dataItem.Member2Id);
+            if (dataItem.Member3Id)
+                row.find('.member3').load('@Url.Action("GetSquadCharacter", "SquadViewer")' + '?squadCharacterId=' + dataItem.Member3Id);
+            if (dataItem.Member4Id)
+                row.find('.member4').load('@Url.Action("GetSquadCharacter", "SquadViewer")' + '?squadCharacterId=' + dataItem.Member4Id);
+            if (dataItem.Member5Id)
+                row.find('.member5').load('@Url.Action("GetSquadCharacter", "SquadViewer")' + '?squadCharacterId=' + dataItem.Member5Id);
+        }
+
+        function calculateTimestamp(dataItem) {
+            var localDate = moment(new Date(dataItem.Timestamp + ' UTC'));
+            var span = $('#squadGrid').find('[data-uid="' + dataItem.Id + '"]').find('.posted').children('span');
+            span.html(moment.duration(localDate - moment()).humanize() + ' ago');
+            span.attr('title', 'Submitted on ' + localDate.format('ddd, MMM D Y h:mm a'));
+            span.tooltip();
+        }
+    </script>
+}

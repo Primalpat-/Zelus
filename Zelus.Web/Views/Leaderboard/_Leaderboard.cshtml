@@ -12,7 +12,14 @@
     <div class="col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Phase 1
+                <div class="row">
+                    <div class="col-xs-8">
+                        Top 10 - Phase 1        
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <small><a style="color: white;" href="@Url.Action("Index", "SquadViewer", new { raidId = Model.RaidId, phaseId = Model.Phase1Id })">see all</a></small>
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
                 @foreach (var squad in Model.PhaseOneSquads)
@@ -25,7 +32,14 @@
     <div class="col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Phase 2
+                <div class="row">
+                    <div class="col-xs-8">
+                        Top 10 - Phase 2
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <small><a style="color: white;" href="@Url.Action("Index", "SquadViewer", new { raidId = Model.RaidId, phaseId = Model.Phase2Id })">see all</a></small>
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
                 @foreach (var squad in Model.PhaseTwoSquads)
@@ -38,7 +52,14 @@
     <div class="col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Phase 3
+                <div class="row">
+                    <div class="col-xs-8">
+                        Top 10 - Phase 3
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <small><a style="color: white;" href="@Url.Action("Index", "SquadViewer", new { raidId = Model.RaidId, phaseId = Model.Phase3Id })">see all</a></small>
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
                 @foreach (var squad in Model.PhaseThreeSquads)
@@ -51,7 +72,14 @@
     <div class="col-md-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Phase 4
+                <div class="row">
+                    <div class="col-xs-8">
+                        Top 10 - Phase 4
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <small><a style="color: white;" href="@Url.Action("Index", "SquadViewer", new { raidId = Model.RaidId, phaseId = Model.Phase4Id })">see all</a></small>
+                    </div>
+                </div>
             </div>
             <div class="panel-body">
                 @foreach (var squad in Model.PhaseFourSquads)

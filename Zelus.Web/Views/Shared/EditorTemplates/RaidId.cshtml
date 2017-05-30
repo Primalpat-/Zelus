@@ -1,0 +1,8 @@
+﻿@model int?
+    
+<input id="RaidId" name="RaidId" type="number" class="form-control" style="width: 100%;" required />
+
+<script type="text/javascript" defer>
+    var getRaidsUrl = '@Url.Action("GetRaids", "DataApi")';
+</script>
+<script src="~/Scripts/Custom/raid-dropdown.js" defer></script>

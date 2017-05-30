@@ -15,17 +15,19 @@ namespace Zelus.Web.Models
 
         [Required]
         [DisplayName("Raid")]
+        [UIHint("RaidId")]
         public int RaidId { get; set; }
 
         [Required]
         [DisplayName("Phase")]
+        [UIHint("PhaseId")]
         public int PhaseId { get; set; }
 
         [Required]
         public int Damage { get; set; }
 
         [DisplayName("Victory screen")]
-        public int VictoryScreenImageId { get; set; }
+        public int? VictoryScreenImageId { get; set; }
 
         [Required]
         [DisplayName("Leader")]
