@@ -54,7 +54,7 @@
             of <a href="#: Guild.Url #">#: Guild.Name #</a>
         </td>
         <td class="squad">
-            &nbsp;&nbsp;<a href="@Url.Action("Index", "Squad")/#: Id #" style="font-weight: bold; font-size: 18px;">#: Name #</a><br/>
+            &nbsp;&nbsp;<a href="@Url.Action("Index", "Squad")/Index/#: Id #" style="font-weight: bold; font-size: 18px;">#: Name #</a><br/>
             <div class="member1" style="float: left; width: 100px; height: 140px;"></div>
             <div class="member2" style="float: left; width: 100px; height: 140px;"></div>
             <div class="member3" style="float: left; width: 100px; height: 140px;"></div>
@@ -195,7 +195,6 @@
                     }
                 ]
             });
-            //setGridOptions();
         });
 
         function calculateDamage(dataItem) {

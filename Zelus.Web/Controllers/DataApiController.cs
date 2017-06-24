@@ -6,6 +6,7 @@ using Kendo.Mvc.UI;
 using Z.Core.Extensions;
 using Z.Reflection.Extensions;
 using Zelus.Data.Models;
+using Zelus.Web.Models.Extensions;
 using Zelus.Web.Models.Helpers;
 
 namespace Zelus.Web.Controllers
@@ -45,11 +46,10 @@ namespace Zelus.Web.Controllers
 
         public ActionResult GetPlayerCharacters([DataSourceRequest] DataSourceRequest request, string playerUsername)
         {
-            //var name = request.Filters[0].GetPropertyValue("Value").ToString();
-
             var db = new ZelusContext();
+            var collectionUrl = playerUsername.ToCollectionUrl();
             var playerCharacters = db.PlayerCharacters
-                                     .Where(pc => pc.Player.Name.ToLower() == playerUsername.ToLower())
+                                     .Where(pc => pc.Player.CollectionUrl.ToLower() == collectionUrl.ToLower())
                                      .Select(pc => new
                                      {
                                          Id = pc.Id,

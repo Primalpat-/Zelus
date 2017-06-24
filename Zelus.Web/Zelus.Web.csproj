@@ -196,6 +196,7 @@
     <Compile Include="Models\Extensions\CharacterExtensions.cs" />
     <Compile Include="Models\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Extensions\PlayerCharacterExtensions.cs" />
+    <Compile Include="Models\Extensions\PlayerExtensions.cs" />
     <Compile Include="Models\Extensions\RaidExtensions.cs" />
     <Compile Include="Models\Extensions\SquadCharacterExtensions.cs" />
     <Compile Include="Models\Factories\LeaderboardModelFactory.cs" />

@@ -2,6 +2,7 @@
 using Ether.Outcomes;
 using Z.Core.Extensions;
 using Zelus.Data.Models;
+using Zelus.Web.Models.Extensions;
 using Zelus.Web.Models.Rules;
 
 namespace Zelus.Web.Models.Synchronization
@@ -33,7 +34,8 @@ namespace Zelus.Web.Models.Synchronization
         public static IOutcome ExecuteForPlayer(string playerUsername)
         {
             var db = new ZelusContext();
-            var player = db.Players.FirstOrDefault(p => p.Name.ToLower() == playerUsername.ToLower());
+            var collectionUrl = playerUsername.ToCollectionUrl();
+            var player = db.Players.FirstOrDefault(p => p.CollectionUrl.ToLower() == collectionUrl.ToLower());
 
             if (player.IsNotNull() && !SynchronizationRules.IsAllowed(player))
                 return Outcomes.Success<int>()

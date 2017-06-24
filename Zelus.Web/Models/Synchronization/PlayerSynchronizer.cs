@@ -9,6 +9,7 @@ using Ether.Outcomes;
 using HtmlAgilityPack;
 using Z.Core.Extensions;
 using Zelus.Data.Models;
+using Zelus.Web.Models.Extensions;
 using Zelus.Web.Models.Synchronization.Models;
 
 namespace Zelus.Web.Models.Synchronization
@@ -57,7 +58,7 @@ namespace Zelus.Web.Models.Synchronization
                 _db = new ZelusContext();
 
                 var model = new PlayerSynchronizationResult();
-                var collectionUrl = $"https://swgoh.gg/u/{playerUsername}/collection/";
+                var collectionUrl = playerUsername.ToCollectionUrl();
 
                 var web = new HtmlWeb();
                 model.Document = web.Load(collectionUrl);
@@ -198,7 +199,7 @@ namespace Zelus.Web.Models.Synchronization
             {
                 var userLink = node.FirstChild.Attributes["href"].Value;
                 var userName = userLink.Split("/")[2];
-                var collectionUrl = "https://swgoh.gg/u/" + userName + "/collection/";
+                var collectionUrl = "https://swgoh.gg/u/" + userName.Trim() + "/collection/";
 
                 return Outcomes.Success<string>()
                                .WithValue(collectionUrl);
@@ -216,8 +217,8 @@ namespace Zelus.Web.Models.Synchronization
             {
                 var name = doc.DocumentNode
                               .Descendants("a")
-                              .First(a => a.Attributes["class"].IsNotNull() &&
-                                          a.Attributes["class"].Value == "no-decoration char-name")
+                              .Last(a => a.Attributes["class"].IsNotNull() &&
+                                         a.Attributes["class"].Value == "no-decoration char-name")
                               .InnerText;
 
                 return Outcomes.Success<string>()
