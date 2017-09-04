@@ -12,7 +12,7 @@ namespace Zelus.Web.Models.Synchronization
         public static IOutcome ExecuteForGuild(string guildUrl)
         {
             var db = new ZelusContext();
-            var guild = db.Guilds.FirstOrDefault(g => g.Url.ToLower() == guildUrl.ToLower());
+            var guild = db.Guilds.ToList().FirstOrDefault(g => g.Url.IsSimilarTo(guildUrl));
 
             if (guild.IsNotNull() && !SynchronizationRules.IsAllowed(guild))
                 return Outcomes.Success<int>()

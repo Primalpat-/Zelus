@@ -4,12 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 using EntityFramework.BulkExtensions;
 using Ether.Outcomes;
 using HtmlAgilityPack;
 using Z.Core.Extensions;
 using Zelus.Data.Models;
 using Zelus.Web.Models.Extensions;
+using Zelus.Web.Models.Helpers;
 using Zelus.Web.Models.Synchronization.Models;
 
 namespace Zelus.Web.Models.Synchronization
@@ -29,7 +31,7 @@ namespace Zelus.Web.Models.Synchronization
                                  .Descendants("tr")
                                  .ToList();
 
-                var players = new List<Player>();
+                var upToDatePlayers = new List<Player>();
                 foreach (var playerRow in playerRows)
                 {
                     var playerOutcome = GetUpdatedPlayer(guild, playerRow);
@@ -37,10 +39,22 @@ namespace Zelus.Web.Models.Synchronization
                         return Outcomes.Failure()
                                        .WithMessagesFrom(playerOutcome);
 
-                    players.Add(playerOutcome.Value);
+                    upToDatePlayers.Add(playerOutcome.Value);
                 }
 
-                _db.BulkInsertOrUpdate(players);
+                var playersToRemove = new List<Player>();
+                foreach (var player in guild.Players)
+                {
+                    var playerStillInGuild = upToDatePlayers.Any(p => p.CollectionUrl.IsSimilarTo(player.CollectionUrl));
+                    if (!playerStillInGuild)
+                    {
+                        player.GuildId = PlaceholderGuild.Get();
+                        playersToRemove.Add(player);
+                    }
+                }
+
+                _db.BulkUpdate(playersToRemove);
+                _db.BulkInsertOrUpdate(upToDatePlayers);
 
                 return Outcomes.Success();
             }
@@ -134,7 +148,7 @@ namespace Zelus.Web.Models.Synchronization
                                         guildId,
                                         collectionUrl,
                                         nameOutcome.Value,
-                                        levelOutcome.Value);
+                                        level: levelOutcome.Value);
             }
             catch (Exception ex)
             {
@@ -143,7 +157,7 @@ namespace Zelus.Web.Models.Synchronization
             }
         }
 
-        private static IOutcome<Player> GetUpdatedPlayer(Player player, int guildId, string collectionUrl, string name, int level)
+        private static IOutcome<Player> GetUpdatedPlayer(Player player, int guildId, string collectionUrl, string name, int level = 0, int gp = 0)
         {
             try
             {
@@ -154,8 +168,13 @@ namespace Zelus.Web.Models.Synchronization
                     player.CollectionUrl = collectionUrl;
                 }
 
-                player.Name = name;
-                player.PlayerLevel = level;
+                player.Name = HttpUtility.HtmlDecode(name);
+
+                if (level > 0)
+                    player.Level = level;
+
+                if (gp > 0)
+                    player.GalacticPower = gp;
 
                 return Outcomes.Success<Player>()
                                .WithValue(player);
@@ -180,11 +199,14 @@ namespace Zelus.Web.Models.Synchronization
                 var player = guild.Players
                                   .FirstOrDefault(p => p.CollectionUrl.ToLower() == urlOutcome.Value.ToLower());
 
+                var playerName = HttpUtility.HtmlDecode(data.ElementAt(0).InnerText.Replace("\n", ""));
+                var playerGp = data.ElementAt(1).InnerText.ToInt32();
+
                 return GetUpdatedPlayer(player, 
                                         guild.Id, 
                                         urlOutcome.Value,
-                                        data.ElementAt(0).InnerText,
-                                        data.ElementAt(1).InnerText.ToInt32());
+                                        playerName,
+                                        gp: playerGp);
             }
             catch (Exception ex)
             {
@@ -197,12 +219,11 @@ namespace Zelus.Web.Models.Synchronization
         {
             try
             {
-                var userLink = node.FirstChild.Attributes["href"].Value;
+                var userLink = node.ChildNodes[1].Attributes["href"].Value;
                 var userName = userLink.Split("/")[2];
-                var collectionUrl = "https://swgoh.gg/u/" + userName.Trim() + "/collection/";
 
                 return Outcomes.Success<string>()
-                               .WithValue(collectionUrl);
+                               .WithValue(userName.ToCollectionUrl());
             }
             catch (Exception ex)
             {
@@ -222,7 +243,7 @@ namespace Zelus.Web.Models.Synchronization
                               .InnerText;
 
                 return Outcomes.Success<string>()
-                               .WithValue(name);
+                               .WithValue(HttpUtility.HtmlDecode(name));
             }
             catch (Exception ex)
             {

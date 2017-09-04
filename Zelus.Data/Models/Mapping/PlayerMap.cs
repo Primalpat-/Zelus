@@ -25,7 +25,8 @@ namespace Zelus.Data.Models.Mapping
             this.Property(t => t.GuildId).HasColumnName("GuildId");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.CollectionUrl).HasColumnName("CollectionUrl");
-            this.Property(t => t.PlayerLevel).HasColumnName("PlayerLevel");
+            this.Property(t => t.Level).HasColumnName("Level");
+            this.Property(t => t.GalacticPower).HasColumnName("GalacticPower");
 
             // Relationships
             this.HasRequired(t => t.Guild)

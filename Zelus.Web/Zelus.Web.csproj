@@ -199,11 +199,13 @@
     <Compile Include="Models\Extensions\PlayerExtensions.cs" />
     <Compile Include="Models\Extensions\RaidExtensions.cs" />
     <Compile Include="Models\Extensions\SquadCharacterExtensions.cs" />
+    <Compile Include="Models\Extensions\UrlExtensions.cs" />
     <Compile Include="Models\Factories\LeaderboardModelFactory.cs" />
     <Compile Include="Models\Helpers\CharacterNameEscaper.cs" />
     <Compile Include="Models\Helpers\GearLevelConverter.cs" />
     <Compile Include="Models\Helpers\HumanReadableNumberConverter.cs" />
     <Compile Include="Models\Helpers\PhysicalToVirtualPathConverter.cs" />
+    <Compile Include="Models\Helpers\PlaceholderGuild.cs" />
     <Compile Include="Models\Helpers\StarLevelConverter.cs" />
     <Compile Include="Models\LeaderboardVM.cs" />
     <Compile Include="Models\PlayerCharacterListItemVM.cs" />

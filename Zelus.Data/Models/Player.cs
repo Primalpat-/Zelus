@@ -16,7 +16,8 @@ namespace Zelus.Data.Models
         public int GuildId { get; set; }
         public string Name { get; set; }
         public string CollectionUrl { get; set; }
-        public int PlayerLevel { get; set; }
+        public int Level { get; set; }
+        public int GalacticPower { get; set; }
         public virtual Guild Guild { get; set; }
         public virtual ICollection<PlayerCharacter> PlayerCharacters { get; set; }
         public virtual ICollection<PlayerSynchronization> PlayerSynchronizations { get; set; }

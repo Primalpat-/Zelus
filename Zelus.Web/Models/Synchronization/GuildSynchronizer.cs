@@ -158,6 +158,7 @@ namespace Zelus.Web.Models.Synchronization
                 var name = guildHomepage.DocumentNode
                                         .Descendants("h1")
                                         .First()
+                                        .ChildNodes[3]
                                         .InnerText
                                         .Replace("\n", "");
 
