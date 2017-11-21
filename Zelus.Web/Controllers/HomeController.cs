@@ -10,23 +10,6 @@ namespace Zelus.Web.Controllers
             return View();
         }
 
-        public ActionResult SyncStuff()
-        {
-            var unitSync = new UnitSynchronizer();
-            unitSync.Execute();
-
-            var playerSync = new PlayerSynchronizer();
-            playerSync.Execute();
-
-            return View("Index");
-        }
-
-
-
-
-
-
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

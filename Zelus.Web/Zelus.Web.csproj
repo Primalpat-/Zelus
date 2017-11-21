@@ -132,6 +132,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Z.ExtensionMethods.WithNamespace, Version=2.0.13.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.ExtensionMethods.WithNamespace.2.0.13\lib\net45\Z.ExtensionMethods.WithNamespace.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -165,12 +168,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\GuildHome\PlayerRowExtensions.cs" />
+    <Compile Include="Helpers\RomanNumeralExtensions.cs" />
+    <Compile Include="Helpers\PlayerCollection\CharacterContainerExtensions.cs" />
+    <Compile Include="Helpers\ReduceToDigitsExtension.cs" />
     <Compile Include="Models\API\SwgohGgApi.cs" />
+    <Compile Include="Models\Scrapers\CollectionScraper.cs" />
     <Compile Include="Models\Scrapers\PlayerScraper.cs" />
+    <Compile Include="Models\Synchronizers\CollectionSynchronizer.cs" />
     <Compile Include="Models\Synchronizers\PlayerSynchronizer.cs" />
     <Compile Include="Models\Synchronizers\UnitSynchronizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -216,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

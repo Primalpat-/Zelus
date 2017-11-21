@@ -22,6 +22,8 @@ namespace Zelus.Data
     {
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
         public System.Data.Entity.DbSet<Player> Players { get; set; } // Players
+        public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
+        public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
         public System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 
         static ZelusDbContext()
@@ -74,6 +76,8 @@ namespace Zelus.Data
 
             modelBuilder.Configurations.Add(new GuildConfiguration());
             modelBuilder.Configurations.Add(new PlayerConfiguration());
+            modelBuilder.Configurations.Add(new PlayerCharacterConfiguration());
+            modelBuilder.Configurations.Add(new PlayerShipConfiguration());
             modelBuilder.Configurations.Add(new UnitConfiguration());
         }
 
@@ -81,6 +85,8 @@ namespace Zelus.Data
         {
             modelBuilder.Configurations.Add(new GuildConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerConfiguration(schema));
+            modelBuilder.Configurations.Add(new PlayerCharacterConfiguration(schema));
+            modelBuilder.Configurations.Add(new PlayerShipConfiguration(schema));
             modelBuilder.Configurations.Add(new UnitConfiguration(schema));
             return modelBuilder;
         }

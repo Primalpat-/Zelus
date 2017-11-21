@@ -22,12 +22,16 @@ namespace Zelus.Data
     {
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; }
         public System.Data.Entity.DbSet<Player> Players { get; set; }
+        public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; }
+        public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; }
         public System.Data.Entity.DbSet<Unit> Units { get; set; }
 
         public FakeZelusDbContext()
         {
             Guilds = new FakeDbSet<Guild>("Id");
             Players = new FakeDbSet<Player>("Id");
+            PlayerCharacters = new FakeDbSet<PlayerCharacter>("Id");
+            PlayerShips = new FakeDbSet<PlayerShip>("Id");
             Units = new FakeDbSet<Unit>("Id");
         }
 

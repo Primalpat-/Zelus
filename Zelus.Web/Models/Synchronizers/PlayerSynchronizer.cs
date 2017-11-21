@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using EntityFramework.BulkExtensions.Operations;
 using Ether.Outcomes;
-using HtmlAgilityPack;
 using Zelus.Data;
-using Zelus.Web.Helpers.GuildHome;
+using Zelus.Web.Models.Scrapers;
 
 namespace Zelus.Web.Models.Synchronizers
 {
@@ -46,46 +45,34 @@ namespace Zelus.Web.Models.Synchronizers
 
         private void CategorizePlayers()
         {
-            var web = new HtmlWeb();
-            var guilds = _db.Guilds.ToList();
+            var scraper = new PlayerScraper();
+            var remotePlayers = scraper.Execute(_db);
 
-            foreach (var guild in guilds)
+            foreach (var remotePlayer in remotePlayers)
             {
-                
-                var guildHome = web.Load(guild.SwgohGgUrl);
-                var playerRows = guildHome.DocumentNode
-                                          .Descendants("tbody")
-                                          .First()
-                                          .Descendants("tr")
-                                          .ToList();
-
-                foreach (var row in playerRows)
+                var savedPlayer = _players.FirstOrDefault(p => string.Compare(p.SwgohGgUrl,
+                                                                              remotePlayer.SwgohGgUrl,
+                                                                              StringComparison.OrdinalIgnoreCase) == 0);
+                if (savedPlayer == null)
+                    _newPlayers.Add(remotePlayer);
+                else
                 {
-                    var player = row.Descendants("td").ParsePlayer(guild.Id);
-                    var savedPlayer = _players.FirstOrDefault(p => string.Compare(p.SwgohGgUrl, 
-                                                                                  player.SwgohGgUrl,
-                                                                                  StringComparison.OrdinalIgnoreCase) == 0);
-                    if (savedPlayer == null)
-                        _newPlayers.Add(player);
-                    else
-                    {
-                        savedPlayer.GuildId = guild.Id;
-                        savedPlayer.InGameName = player.InGameName;
-                        savedPlayer.SwgohGgName = player.SwgohGgName;
-                        savedPlayer.SwgohGgUrl = player.SwgohGgUrl;
+                    savedPlayer.GuildId = remotePlayer.GuildId;
+                    savedPlayer.InGameName = remotePlayer.InGameName;
+                    savedPlayer.SwgohGgName = remotePlayer.SwgohGgName;
+                    savedPlayer.SwgohGgUrl = remotePlayer.SwgohGgUrl;
 
-                        _playersToUpdate.Add(savedPlayer);
-                    }
+                    _playersToUpdate.Add(savedPlayer);
                 }
+            }
 
-                foreach (var savedPlayer in _players)
-                {
-                    var updatedPlayer = _playersToUpdate.FirstOrDefault(p => string.Compare(p.SwgohGgUrl,
-                                                                                            savedPlayer.SwgohGgUrl,
-                                                                                            StringComparison.OrdinalIgnoreCase) == 0);
-                    if (updatedPlayer == null)
-                        _playersToRemove.Add(savedPlayer);
-                }
+            foreach (var savedPlayer in _players)
+            {
+                var updatedPlayer = _playersToUpdate.FirstOrDefault(p => string.Compare(p.SwgohGgUrl,
+                                                                                        savedPlayer.SwgohGgUrl,
+                                                                                        StringComparison.OrdinalIgnoreCase) == 0);
+                if (updatedPlayer == null)
+                    _playersToRemove.Add(savedPlayer);
             }
         }
 
