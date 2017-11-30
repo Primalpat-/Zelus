@@ -21,9 +21,11 @@ namespace Zelus.Web.Models.Scrapers
             {
                 var playerCollection = web.Load($"{player.SwgohGgUrl}collection/");
                 var characterContainers = playerCollection.DocumentNode
-                                                          .Descendants("div")
-                                                          .Where(d => d.Attributes["class"].IsNotNull() &&
-                                                                      d.Attributes["class"].Value.Contains("collection-char"))
+                                                          .SelectSingleNode("//*[contains(concat(\" \", normalize-space(@class), \" \"), \" collection-char-list \")]")
+                                                          .Element("div")                                                //Get the child row
+                                                          .Elements("div")                                               //Get the col children
+                                                          .Select(e => e.Element("div"))                                 //Select the collection-char
+                                                          .Where(d => !d.Attributes["class"].Value.Contains("missing"))  //Filter out the locked characters
                                                           .ToList();
 
                 foreach (var container in characterContainers)

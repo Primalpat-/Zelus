@@ -26,14 +26,7 @@ namespace Zelus.Web.Helpers.PlayerCollection
         private static int ParseUnitId(this HtmlNode container, ZelusDbContext db)
         {
             var unitImage = container.Descendants("img")
-                                     .First(d => d.Attributes["class"].IsNotNull() &&
-                                                 (d.Attributes["class"].Value.Contains("char-portrait-img") ||
-                                                  d.Attributes["class"].Value.Contains("char-portrait-full-img")));
-
-            if (unitImage == null)
-            {
-                var test = "";
-            }
+                                     .First();
 
             var unitName = HttpUtility.HtmlDecode(unitImage.Attributes["alt"].Value);
             var unit = db.Units.Single(u => string.Compare(u.Name, unitName, StringComparison.OrdinalIgnoreCase) == 0);
