@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Zelus.Web.Models.Synchronizers;
 
 namespace Zelus.Web.Controllers
 {
@@ -7,21 +6,7 @@ namespace Zelus.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return Content("Home.");
         }
     }
 }

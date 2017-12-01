@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
-using Zelus.Web.Models.Synchronizers;
+using Zelus.Web.Models;
+using Zelus.Web.Models.Synchronization;
 
 namespace Zelus.Web.Controllers
 {
@@ -7,16 +8,10 @@ namespace Zelus.Web.Controllers
     {
         public ActionResult SwgohGgSync()
         {
-            var unitSync = new UnitSynchronizer();
-            unitSync.Execute();
+            var synchronizer = new Synchronizer();
+            var syncOutcome = synchronizer.Execute();
 
-            var playerSync = new PlayerSynchronizer();
-            playerSync.Execute();
-
-            var collectionSync = new CollectionSynchronizer();
-            collectionSync.Execute();
-
-            return Content("Sync Complete.");
+            return Content(string.Join("\n", syncOutcome.Messages));
         }
     }
 }

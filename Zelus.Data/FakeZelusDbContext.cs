@@ -20,6 +20,7 @@ namespace Zelus.Data
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
     public class FakeZelusDbContext : IZelusDbContext
     {
+        public System.Data.Entity.DbSet<Alliance> Alliances { get; set; }
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; }
         public System.Data.Entity.DbSet<Player> Players { get; set; }
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; }
@@ -28,6 +29,7 @@ namespace Zelus.Data
 
         public FakeZelusDbContext()
         {
+            Alliances = new FakeDbSet<Alliance>("Id");
             Guilds = new FakeDbSet<Guild>("Id");
             Players = new FakeDbSet<Player>("Id");
             PlayerCharacters = new FakeDbSet<PlayerCharacter>("Id");

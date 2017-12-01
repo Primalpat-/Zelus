@@ -4,9 +4,9 @@ using System.Linq;
 using EntityFramework.BulkExtensions.Operations;
 using Ether.Outcomes;
 using Zelus.Data;
-using Zelus.Web.Models.Scrapers;
+using Zelus.Web.Models.Synchronization.Scrapers;
 
-namespace Zelus.Web.Models.Synchronizers
+namespace Zelus.Web.Models.Synchronization.Synchronizers
 {
     public class PlayerSynchronizer
     {

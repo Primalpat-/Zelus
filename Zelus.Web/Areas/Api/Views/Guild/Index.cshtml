@@ -1,0 +1,53 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h2>Guild Service</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p>
+            Pulling data from the guild level will always include the guild data at the highest level of the returned data.
+            It will not allow you to specify which player you want to focus on.
+            To do that, please use the <a href="@Url.Action("Index", "Player", new { Area = "Api" })">player service</a>.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="well col-md-12">
+        <h4>Base URL</h4>
+        <p>
+            The base URL for all guild related queries is:
+            <blockquote>
+                <a href="@Url.Action("Index", "Guild", new { Area = "Api", id = 31506 })">http://www.swgohboards.com/api/guild/{GuildId}</a>
+            </blockquote>
+            ...which will also return the basic information of that guild.<br/>
+            <ul>
+                <li>
+                    GuildIds are the same Id you would find at <a href="http://swgoh.gg">swgoh.gg</a>.
+                </li>
+                <li>
+                    Alternatively, you can find a list of GuildIds in the alliance <a href="@Url.Action("Guilds", "Alliance", new { Area = "Api", id = 1 })">here</a>.        
+                </li>
+            </ul>
+        </p>
+        <br />
+        <h4>Players</h4>
+        <p>
+            If you want to view data for <strong>all players</strong> in the guild, use the following URL:
+            <blockquote>
+                <a href="@Url.Action("Players", "Guild", new { Area = "Api", id = 31506 })">http://www.swgohboards.com/api/guild/{GuildId}/players</a>
+            </blockquote>
+            The "PlayerId"s returned from this query can be used in the <a href="@Url.Action("Index", "Player", new { Area = "Api" })">player service</a>
+            to get data specifc to one specific player.
+        </p>
+        <br />
+        <h4>Collections</h4>
+        <p>
+            If you want to view data for <strong>all characters</strong> in the guild, use the following URL:
+            <blockquote>
+                <a href="@Url.Action("Collections", "Guild", new { Area = "Api", id = 31506 })">http://www.swgohboards.com/api/guild/{GuildId}/collections</a>
+            </blockquote>
+            Note: This query may take some time to run due to the amount of data being returned.
+        </p>
+    </div>
+</div>

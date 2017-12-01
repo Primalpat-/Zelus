@@ -36,6 +36,10 @@ namespace Zelus.Data
             Property(x => x.Stars).HasColumnName(@"Stars").HasColumnType("int").IsRequired();
             Property(x => x.Gear).HasColumnName(@"Gear").HasColumnType("int").IsRequired();
             Property(x => x.Power).HasColumnName(@"Power").HasColumnType("bigint").IsRequired();
+
+            // Foreign keys
+            HasRequired(a => a.Player).WithMany(b => b.PlayerCharacters).HasForeignKey(c => c.PlayerId).WillCascadeOnDelete(false); // FK_PlayerCharacters_Players
+            HasRequired(a => a.Unit).WithMany(b => b.PlayerCharacters).HasForeignKey(c => c.UnitId).WillCascadeOnDelete(false); // FK_PlayerCharacters_Units
         }
     }
 

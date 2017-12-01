@@ -27,6 +27,18 @@ namespace Zelus.Data
         public long? Power { get; set; } // Power
         public string Description { get; set; } // Description
         public int? CombatType { get; set; } // CombatType
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child PlayerCharacters where [PlayerCharacters].[UnitId] point to this entity (FK_PlayerCharacters_Units)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters.FK_PlayerCharacters_Units
+
+        public Unit()
+        {
+            PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
+        }
     }
 
 }

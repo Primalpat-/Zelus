@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using HtmlAgilityPack;
-using Z.Core.Extensions;
 using Zelus.Data;
 using Zelus.Web.Helpers.PlayerCollection;
 
-namespace Zelus.Web.Models.Scrapers
+namespace Zelus.Web.Models.Synchronization.Scrapers
 {
     public class CollectionScraper
     {
         public List<PlayerCharacter> Execute(ZelusDbContext db)
         {
             var results = new List<PlayerCharacter>();
-            var players = db.Players.ToList();
+            var timeFilter = DateTime.UtcNow.AddHours(-18);
+            var players = db.Players
+                            .Where(p => p.LastSync < timeFilter)
+                            .OrderBy(p => p.LastSync)
+                            .ToList();
 
             foreach (var player in players)
             {
                 var characterContainers = GetCharacterNodes(player);
+
+                if (characterContainers == null)
+                    return results;
 
                 foreach (var container in characterContainers)
                 {
@@ -34,12 +39,15 @@ namespace Zelus.Web.Models.Scrapers
         {
             try
             {
-                var web = new HtmlWeb();
                 var characterContainers = new List<HtmlNode>();
                 var sleepTimer = 1000;
                 while (characterContainers.Count == 0)
                 {
                     var playerCollection = GetPlayerCollection(player);
+
+                    if (playerCollection == null)
+                        return null;
+
                     characterContainers = playerCollection.DocumentNode?
                                                           .SelectSingleNode("//*[contains(concat(\" \", normalize-space(@class), \" \"), \" collection-char-list \")]")?
                                                           .Element("div")?                                                //Get the child row
@@ -49,8 +57,10 @@ namespace Zelus.Web.Models.Scrapers
                                                           .ToList();
 
                     System.Threading.Thread.Sleep(sleepTimer);
-                    if (sleepTimer <= 30000)
-                        sleepTimer += 1000;
+                    sleepTimer += 1000;
+
+                    if (sleepTimer >= 10000)
+                        return null;
                 }
 
                 return characterContainers;
@@ -70,9 +80,10 @@ namespace Zelus.Web.Models.Scrapers
             while (playerCollection == null || playerCollection.DocumentNode.ChildNodes.Count == 0)
             {
                 System.Threading.Thread.Sleep(sleepTimer);
+                sleepTimer += 1000;
                 playerCollection = web.Load($"{player.SwgohGgUrl}collection/");
-                if (sleepTimer <= 30000)
-                    sleepTimer += 1000;
+                if (sleepTimer >= 10000)
+                    return null;
             }
             return playerCollection;
         }

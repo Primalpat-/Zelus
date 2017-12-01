@@ -24,6 +24,14 @@ namespace Zelus.Data
         public string InGameName { get; set; } // InGameName (length: 50)
         public string SwgohGgName { get; set; } // SwgohGgName (length: 50)
         public string SwgohGgUrl { get; set; } // SwgohGgUrl (length: 100)
+        public System.DateTime? LastSync { get; set; } // LastSync
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child PlayerCharacters where [PlayerCharacters].[PlayerId] point to this entity (FK_PlayerCharacters_Players)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters.FK_PlayerCharacters_Players
 
         // Foreign keys
 
@@ -31,6 +39,11 @@ namespace Zelus.Data
         /// Parent Guild pointed by [Players].([GuildId]) (FK_Players_Guilds)
         /// </summary>
         public virtual Guild Guild { get; set; } // FK_Players_Guilds
+
+        public Player()
+        {
+            PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
+        }
     }
 
 }

@@ -20,6 +20,7 @@ namespace Zelus.Data
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
     public class ZelusDbContext : System.Data.Entity.DbContext, IZelusDbContext
     {
+        public System.Data.Entity.DbSet<Alliance> Alliances { get; set; } // Alliances
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
         public System.Data.Entity.DbSet<Player> Players { get; set; } // Players
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
@@ -74,6 +75,7 @@ namespace Zelus.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Configurations.Add(new AllianceConfiguration());
             modelBuilder.Configurations.Add(new GuildConfiguration());
             modelBuilder.Configurations.Add(new PlayerConfiguration());
             modelBuilder.Configurations.Add(new PlayerCharacterConfiguration());
@@ -83,6 +85,7 @@ namespace Zelus.Data
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
         {
+            modelBuilder.Configurations.Add(new AllianceConfiguration(schema));
             modelBuilder.Configurations.Add(new GuildConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerCharacterConfiguration(schema));

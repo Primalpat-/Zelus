@@ -26,6 +26,18 @@ namespace Zelus.Data
         public int Stars { get; set; } // Stars
         public int Gear { get; set; } // Gear
         public long Power { get; set; } // Power
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent Player pointed by [PlayerCharacters].([PlayerId]) (FK_PlayerCharacters_Players)
+        /// </summary>
+        public virtual Player Player { get; set; } // FK_PlayerCharacters_Players
+
+        /// <summary>
+        /// Parent Unit pointed by [PlayerCharacters].([UnitId]) (FK_PlayerCharacters_Units)
+        /// </summary>
+        public virtual Unit Unit { get; set; } // FK_PlayerCharacters_Units
     }
 
 }

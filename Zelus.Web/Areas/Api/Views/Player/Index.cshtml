@@ -1,0 +1,40 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h2>Player Service</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p>
+            Pulling data from the player level will always include the player data at the highest level of the returned data.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="well col-md-12">
+        <h4>Base URL</h4>
+        <p>
+            The base URL for all player related queries is:
+            <blockquote>
+                <a href="@Url.Action("Index", "Player", new { Area = "Api", id = 7 })">http://www.swgohboards.com/api/player/{PlayerId}</a>
+            </blockquote>
+            ...which will also return the basic information of that player.<br />
+            <ul>
+                <li>
+                    You can find a list of PlayerIds in the alliance <a href="@Url.Action("Players", "Alliance", new { Area = "Api", id = 1 })">here</a>.
+                </li>
+                <li>
+                    Alternatively, if you know the GuildId, you can find a list of PlayerIds in that guild <a href="@Url.Action("Index", "Guild", new { Area = "Api" })">here</a>.
+                </li>
+            </ul>
+        </p>
+        <br />
+        <h4>Collections</h4>
+        <p>
+            If you want to view data for <strong>all characters</strong> for a player, use the following URL:
+            <blockquote>
+                <a href="@Url.Action("Collection", "Player", new { Area = "Api", id = 7 })">http://www.swgohboards.com/api/player/{PlayerId}/collection</a>
+            </blockquote>
+        </p>
+    </div>
+</div>

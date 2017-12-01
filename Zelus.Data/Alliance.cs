@@ -15,33 +15,23 @@
 namespace Zelus.Data
 {
 
-    // Guilds
+    // Alliances
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class Guild
+    public class Alliance
     {
         public int Id { get; set; } // Id (Primary key)
-        public int AllianceId { get; set; } // AllianceId
-        public long SwgohGgId { get; set; } // SwgohGgId
-        public string SwgohGgUrl { get; set; } // SwgohGgUrl (length: 50)
         public string Name { get; set; } // Name (length: 50)
 
         // Reverse navigation
 
         /// <summary>
-        /// Child Players where [Players].[GuildId] point to this entity (FK_Players_Guilds)
+        /// Child Guilds where [Guilds].[AllianceId] point to this entity (FK_Guilds_Alliances)
         /// </summary>
-        public virtual System.Collections.Generic.ICollection<Player> Players { get; set; } // Players.FK_Players_Guilds
+        public virtual System.Collections.Generic.ICollection<Guild> Guilds { get; set; } // Guilds.FK_Guilds_Alliances
 
-        // Foreign keys
-
-        /// <summary>
-        /// Parent Alliance pointed by [Guilds].([AllianceId]) (FK_Guilds_Alliances)
-        /// </summary>
-        public virtual Alliance Alliance { get; set; } // FK_Guilds_Alliances
-
-        public Guild()
+        public Alliance()
         {
-            Players = new System.Collections.Generic.List<Player>();
+            Guilds = new System.Collections.Generic.List<Guild>();
         }
     }
 

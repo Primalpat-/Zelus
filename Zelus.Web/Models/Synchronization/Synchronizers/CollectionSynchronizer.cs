@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using EntityFramework.BulkExtensions.Operations;
 using Ether.Outcomes;
+using Z.Core.Extensions;
 using Zelus.Data;
-using Zelus.Web.Models.Scrapers;
+using Zelus.Web.Models.Synchronization.Scrapers;
 
-namespace Zelus.Web.Models.Synchronizers
+namespace Zelus.Web.Models.Synchronization.Synchronizers
 {
     public class CollectionSynchronizer
     {
         private readonly ZelusDbContext _db;
+        private readonly List<Player> _players;
         private readonly List<PlayerCharacter> _characters;
 
+        private List<Player> _playersToSync = new List<Player>();
         private List<PlayerCharacter> _newPlayerCharacters = new List<PlayerCharacter>();
         private List<PlayerCharacter> _playerCharactersToUpdate = new List<PlayerCharacter>();
 
@@ -27,6 +30,9 @@ namespace Zelus.Web.Models.Synchronizers
 
                 if (_playerCharactersToUpdate.Count > 0)
                     _db.BulkUpdate(_playerCharactersToUpdate);
+
+                if (_playersToSync.Count > 0)
+                    _db.BulkUpdate(_playersToSync);
 
                 _db.SaveChanges();
 
@@ -43,6 +49,8 @@ namespace Zelus.Web.Models.Synchronizers
         {
             var scraper = new CollectionScraper();
             var remotePlayerCharacters = scraper.Execute(_db);
+
+            BuildPlayersToSync(remotePlayerCharacters);
 
             foreach (var remotePlayerCharacter in remotePlayerCharacters)
             {
@@ -63,9 +71,26 @@ namespace Zelus.Web.Models.Synchronizers
             }
         }
 
+        private void BuildPlayersToSync(List<PlayerCharacter> remotePlayerCharacters)
+        {
+            var playerIds = remotePlayerCharacters.Select(pc => pc.PlayerId).ToList();
+            foreach (var playerId in playerIds)
+            {
+                var player = _playersToSync.FirstOrDefault(p => p.Id == playerId);
+
+                if (player.IsNotNull())
+                    continue;
+
+                player = _players.Single(p => p.Id == playerId);
+                player.LastSync = DateTime.UtcNow;
+                _playersToSync.Add(player);
+            }
+        }
+
         public CollectionSynchronizer()
         {
             _db = new ZelusDbContext();
+            _players = _db.Players.ToList();
             _characters = _db.PlayerCharacters.ToList();
         }
     }

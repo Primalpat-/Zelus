@@ -15,28 +15,22 @@
 namespace Zelus.Data
 {
 
-    // Guilds
+    // Alliances
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class GuildConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Guild>
+    public class AllianceConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Alliance>
     {
-        public GuildConfiguration()
+        public AllianceConfiguration()
             : this("dbo")
         {
         }
 
-        public GuildConfiguration(string schema)
+        public AllianceConfiguration(string schema)
         {
-            ToTable("Guilds", schema);
+            ToTable("Alliances", schema);
             HasKey(x => x.Id);
 
             Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
-            Property(x => x.AllianceId).HasColumnName(@"AllianceId").HasColumnType("int").IsRequired();
-            Property(x => x.SwgohGgId).HasColumnName(@"SwgohGgId").HasColumnType("bigint").IsRequired();
-            Property(x => x.SwgohGgUrl).HasColumnName(@"SwgohGgUrl").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
             Property(x => x.Name).HasColumnName(@"Name").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
-
-            // Foreign keys
-            HasRequired(a => a.Alliance).WithMany(b => b.Guilds).HasForeignKey(c => c.AllianceId).WillCascadeOnDelete(false); // FK_Guilds_Alliances
         }
     }
 

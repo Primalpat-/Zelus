@@ -5,9 +5,9 @@ using EntityFramework.BulkExtensions.Operations;
 using Ether.Outcomes;
 using RestSharp;
 using Zelus.Data;
-using Zelus.Web.Models.API;
+using Zelus.Web.Models.Synchronization.API;
 
-namespace Zelus.Web.Models.Synchronizers
+namespace Zelus.Web.Models.Synchronization.Synchronizers
 {
     public class UnitSynchronizer
     {

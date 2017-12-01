@@ -9,11 +9,17 @@ namespace Zelus.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Guilds",
-                url: "{controller}/guilds/{swgohGgGuildId}/{action}/{id}",
-                defaults: new { controller = "Api", action = "Guilds", swgohGgGuildId = UrlParameter.Optional, id = UrlParameter.Optional }
-            );
+            //routes.MapRoute(
+            //    name: "Players",
+            //    url: "api/guilds/{swgohGgGuildId}/players/{playerId}/{action}",
+            //    defaults: new { action = "Collection" }
+            //);
+
+            //routes.MapRoute(
+            //    name: "Guilds",
+            //    url: "api/guilds/{swgohGgGuildId}/{action}/{id}",
+            //    defaults: new { action = "Players", id = UrlParameter.Optional }
+            //);
 
             routes.MapRoute(
                 name: "Default",

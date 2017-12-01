@@ -1,7 +1,7 @@
 ﻿using System;
 using RestSharp;
 
-namespace Zelus.Web.Models.API
+namespace Zelus.Web.Models.Synchronization.API
 {
     public class SwgohGgApi
     {

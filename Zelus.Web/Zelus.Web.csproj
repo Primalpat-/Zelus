@@ -166,6 +166,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\AllianceController.cs" />
+    <Compile Include="Areas\Api\Controllers\ApiControllerBase.cs" />
+    <Compile Include="Areas\Api\Controllers\DefaultController.cs" />
+    <Compile Include="Areas\Api\Controllers\GuildController.cs" />
+    <Compile Include="Areas\Api\Controllers\PlayerController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
@@ -176,12 +182,17 @@
     <Compile Include="Helpers\RomanNumeralExtensions.cs" />
     <Compile Include="Helpers\PlayerCollection\CharacterContainerExtensions.cs" />
     <Compile Include="Helpers\ReduceToDigitsExtension.cs" />
-    <Compile Include="Models\API\SwgohGgApi.cs" />
-    <Compile Include="Models\Scrapers\CollectionScraper.cs" />
-    <Compile Include="Models\Scrapers\PlayerScraper.cs" />
-    <Compile Include="Models\Synchronizers\CollectionSynchronizer.cs" />
-    <Compile Include="Models\Synchronizers\PlayerSynchronizer.cs" />
-    <Compile Include="Models\Synchronizers\UnitSynchronizer.cs" />
+    <Compile Include="Models\DataSimplification\AllianceSimplifier.cs" />
+    <Compile Include="Models\DataSimplification\GuildSimplifier.cs" />
+    <Compile Include="Models\DataSimplification\PlayerCharacterSimplifier.cs" />
+    <Compile Include="Models\DataSimplification\PlayerSimplifier.cs" />
+    <Compile Include="Models\Synchronization\API\SwgohGgApi.cs" />
+    <Compile Include="Models\Synchronization\Scrapers\CollectionScraper.cs" />
+    <Compile Include="Models\Synchronization\Scrapers\PlayerScraper.cs" />
+    <Compile Include="Models\Synchronization\Synchronizer.cs" />
+    <Compile Include="Models\Synchronization\Synchronizers\CollectionSynchronizer.cs" />
+    <Compile Include="Models\Synchronization\Synchronizers\PlayerSynchronizer.cs" />
+    <Compile Include="Models\Synchronization\Synchronizers\UnitSynchronizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +207,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Areas\Api\Views\web.config" />
+    <Content Include="Areas\Api\Views\Default\Index.cshtml" />
+    <Content Include="Areas\Api\Views\Guild\Index.cshtml" />
+    <Content Include="Areas\Api\Views\Player\Index.cshtml" />
+    <Content Include="Areas\Api\Views\Alliance\Index.cshtml" />
+    <Content Include="Areas\Api\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -225,6 +242,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Api\Models\" />
+    <Folder Include="Areas\Api\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

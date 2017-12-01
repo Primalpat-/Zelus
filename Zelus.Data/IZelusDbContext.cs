@@ -17,6 +17,7 @@ namespace Zelus.Data
 
     public interface IZelusDbContext : System.IDisposable
     {
+        System.Data.Entity.DbSet<Alliance> Alliances { get; set; } // Alliances
         System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
         System.Data.Entity.DbSet<Player> Players { get; set; } // Players
         System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
