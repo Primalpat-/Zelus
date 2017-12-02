@@ -22,8 +22,13 @@ namespace Zelus.Data
     {
         public System.Data.Entity.DbSet<Alliance> Alliances { get; set; }
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; }
+        public System.Data.Entity.DbSet<ModSet> ModSets { get; set; }
+        public System.Data.Entity.DbSet<ModSlot> ModSlots { get; set; }
+        public System.Data.Entity.DbSet<ModStatType> ModStatTypes { get; set; }
+        public System.Data.Entity.DbSet<ModStatUnit> ModStatUnits { get; set; }
         public System.Data.Entity.DbSet<Player> Players { get; set; }
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; }
+        public System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; }
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; }
         public System.Data.Entity.DbSet<Unit> Units { get; set; }
 
@@ -31,8 +36,13 @@ namespace Zelus.Data
         {
             Alliances = new FakeDbSet<Alliance>("Id");
             Guilds = new FakeDbSet<Guild>("Id");
+            ModSets = new FakeDbSet<ModSet>("Id");
+            ModSlots = new FakeDbSet<ModSlot>("Id");
+            ModStatTypes = new FakeDbSet<ModStatType>("Id");
+            ModStatUnits = new FakeDbSet<ModStatUnit>("Id");
             Players = new FakeDbSet<Player>("Id");
             PlayerCharacters = new FakeDbSet<PlayerCharacter>("Id");
+            PlayerMods = new FakeDbSet<PlayerMod>("Id");
             PlayerShips = new FakeDbSet<PlayerShip>("Id");
             Units = new FakeDbSet<Unit>("Id");
         }

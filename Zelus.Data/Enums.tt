@@ -1,0 +1,33 @@
+﻿<#@include file="Enums.ttinclude" #>
+<#
+  var configFilePath = "app.config";
+ 
+  var enums = new []
+  {
+	/*
+	new EnumEntry
+		("Description", "Connection String Name", "Database Schema", "Table Name", "ID Column Name", "Member Column Name", "Description Column Name")
+		{ GenerateUndefinedMember = true }, //will create a member id of 0
+	*/
+
+    new EnumEntry
+      ("Shapes and slots of a mod", "ZelusContext", "dbo", "ModSlots", "Id", "Name", "Name")
+      { GenerateUndefinedMember = true },
+
+	  new EnumEntry
+      ("Set bonus type of a mod", "ZelusContext", "dbo", "ModSets", "Id", "Name", "Name")
+      { GenerateUndefinedMember = true },
+
+	  new EnumEntry
+      ("Stat bonus type of a mod", "ZelusContext", "dbo", "ModStatTypes", "Id", "Name", "Name")
+      { GenerateUndefinedMember = true },
+
+	  new EnumEntry
+      ("Stat bonus units of a mod", "ZelusContext", "dbo", "ModStatUnits", "Id", "Name", "Name")
+      { GenerateUndefinedMember = true },
+  };
+ 
+  var code = this.GenerateEnums(configFilePath, enums);
+ 
+  return code;
+#>

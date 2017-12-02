@@ -25,6 +25,7 @@ namespace Zelus.Data
         public string SwgohGgName { get; set; } // SwgohGgName (length: 50)
         public string SwgohGgUrl { get; set; } // SwgohGgUrl (length: 100)
         public System.DateTime? LastSync { get; set; } // LastSync
+        public bool ModSyncEnabled { get; set; } // ModSyncEnabled
 
         // Reverse navigation
 
@@ -32,6 +33,10 @@ namespace Zelus.Data
         /// Child PlayerCharacters where [PlayerCharacters].[PlayerId] point to this entity (FK_PlayerCharacters_Players)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters.FK_PlayerCharacters_Players
+        /// <summary>
+        /// Child PlayerMods where [PlayerMods].[PlayerId] point to this entity (FK_PlayerMods_Players)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerMod> PlayerMods { get; set; } // PlayerMods.FK_PlayerMods_Players
 
         // Foreign keys
 
@@ -42,7 +47,9 @@ namespace Zelus.Data
 
         public Player()
         {
+            ModSyncEnabled = false;
             PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
+            PlayerMods = new System.Collections.Generic.List<PlayerMod>();
         }
     }
 

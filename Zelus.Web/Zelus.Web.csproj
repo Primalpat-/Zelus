@@ -179,6 +179,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\GuildHome\PlayerRowExtensions.cs" />
+    <Compile Include="Helpers\PlayerMods\ModContainerExtensions.cs" />
     <Compile Include="Helpers\RomanNumeralExtensions.cs" />
     <Compile Include="Helpers\PlayerCollection\CharacterContainerExtensions.cs" />
     <Compile Include="Helpers\ReduceToDigitsExtension.cs" />
@@ -188,9 +189,11 @@
     <Compile Include="Models\DataSimplification\PlayerSimplifier.cs" />
     <Compile Include="Models\Synchronization\API\SwgohGgApi.cs" />
     <Compile Include="Models\Synchronization\Scrapers\CollectionScraper.cs" />
+    <Compile Include="Models\Synchronization\Scrapers\ModScraper.cs" />
     <Compile Include="Models\Synchronization\Scrapers\PlayerScraper.cs" />
     <Compile Include="Models\Synchronization\Synchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\CollectionSynchronizer.cs" />
+    <Compile Include="Models\Synchronization\Synchronizers\ModSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\PlayerSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\UnitSynchronizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

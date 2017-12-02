@@ -19,8 +19,13 @@ namespace Zelus.Data
     {
         System.Data.Entity.DbSet<Alliance> Alliances { get; set; } // Alliances
         System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
+        System.Data.Entity.DbSet<ModSet> ModSets { get; set; } // ModSets
+        System.Data.Entity.DbSet<ModSlot> ModSlots { get; set; } // ModSlots
+        System.Data.Entity.DbSet<ModStatType> ModStatTypes { get; set; } // ModStatTypes
+        System.Data.Entity.DbSet<ModStatUnit> ModStatUnits { get; set; } // ModStatUnits
         System.Data.Entity.DbSet<Player> Players { get; set; } // Players
         System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
+        System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; } // PlayerMods
         System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
         System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 

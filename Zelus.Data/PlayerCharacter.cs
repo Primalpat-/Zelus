@@ -27,6 +27,13 @@ namespace Zelus.Data
         public int Gear { get; set; } // Gear
         public long Power { get; set; } // Power
 
+        // Reverse navigation
+
+        /// <summary>
+        /// Child PlayerMods where [PlayerMods].[PlayerCharacterId] point to this entity (FK_PlayerMods_PlayerCharacters)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerMod> PlayerMods { get; set; } // PlayerMods.FK_PlayerMods_PlayerCharacters
+
         // Foreign keys
 
         /// <summary>
@@ -38,6 +45,11 @@ namespace Zelus.Data
         /// Parent Unit pointed by [PlayerCharacters].([UnitId]) (FK_PlayerCharacters_Units)
         /// </summary>
         public virtual Unit Unit { get; set; } // FK_PlayerCharacters_Units
+
+        public PlayerCharacter()
+        {
+            PlayerMods = new System.Collections.Generic.List<PlayerMod>();
+        }
     }
 
 }
