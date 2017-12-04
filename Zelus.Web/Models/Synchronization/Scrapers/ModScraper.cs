@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Net;
 using HtmlAgilityPack;
 using Z.Core.Extensions;
 using Zelus.Data;
@@ -15,9 +16,11 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
         {
             var results = new List<PlayerMod>();
             var timeFilter = DateTime.UtcNow.AddHours(-18);
+            var units = db.Units.ToList();
             var players = db.Players
                             .Where(p => p.ModSyncEnabled &&
                                         p.LastSync < timeFilter)
+                            .Include(p => p.PlayerCharacters)
                             .OrderBy(p => p.LastSync)
                             .ToList();
 
@@ -30,10 +33,12 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
 
                 foreach (var container in modContainers)
                 {
-                    var mod = container.ParseMod(db, player.Id);
+                    var mod = container.ParseMod(player, units);
                     results.Add(mod);
                 }
             }
+
+            return results;
         }
 
         private List<HtmlNode> GetModContainers(Player player)
@@ -42,11 +47,13 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
             {
                 var results = new List<HtmlNode>();
                 var web = new HtmlWeb();
-                for (var i = 0; i < 100; i++)
+                for (var i = 1; i < 100; i++)
                 {
                     var currentModPage = web.Load($"{player.SwgohGgUrl}mods/?page={i}");
 
-                    if (currentModPage == null || currentModPage.DocumentNode.ChildNodes.Count == 0)
+                    if (web.StatusCode != HttpStatusCode.OK ||
+                        currentModPage == null || 
+                        currentModPage.DocumentNode.ChildNodes.Count == 0)
                         return results;
 
                     var containers = currentModPage.DocumentNode?

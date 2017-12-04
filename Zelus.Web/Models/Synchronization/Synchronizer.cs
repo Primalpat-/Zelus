@@ -56,8 +56,15 @@ namespace Zelus.Web.Models.Synchronization
                                .WithMessage("The swgoh.gg synchronizer failed while trying to retrieve collections.")
                                .WithMessagesFrom(collectionOutcome);
 
+            var modSync = new ModSynchronizer();
+            var modOutcome = modSync.Execute();
+            if (modOutcome.Failure)
+                return Outcomes.Failure<string>()
+                               .WithMessage("The swgoh.gg synchronizer failed while trying to retrieve mods.")
+                               .WithMessagesFrom(modOutcome);
+
             return Outcomes.Success<string>()
-                .WithMessage("Successfully ran the swgoh.gg synchronizer.");
+                           .WithMessage("Successfully ran the swgoh.gg synchronizer.");
         }
     }
 }

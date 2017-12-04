@@ -70,11 +70,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Enums.tt</DependentUpon>
     </Compile>
-    <Compile Include="Enums1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Enums.ttinclude</DependentUpon>
-    </Compile>
     <Compile Include="FakeDbSet.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>

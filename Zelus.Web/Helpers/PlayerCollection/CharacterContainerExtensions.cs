@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HtmlAgilityPack;
@@ -9,12 +10,12 @@ namespace Zelus.Web.Helpers.PlayerCollection
 {
     public static class CharacterContainerExtensions
     {
-        public static PlayerCharacter ParseCharacter(this HtmlNode container, ZelusDbContext db, int playerId)
+        public static PlayerCharacter ParseCharacter(this HtmlNode container, List<Unit> units, int playerId)
         {
             var character = new PlayerCharacter();
 
             character.PlayerId = playerId;
-            character.UnitId = container.ParseUnitId(db);
+            character.UnitId = container.ParseUnitId(units);
             character.Gear = container.ParseGear();
             character.Level = container.ParseLevel();
             character.Power = container.ParsePower();
@@ -23,13 +24,13 @@ namespace Zelus.Web.Helpers.PlayerCollection
             return character;
         }
 
-        private static int ParseUnitId(this HtmlNode container, ZelusDbContext db)
+        private static int ParseUnitId(this HtmlNode container, List<Unit> units)
         {
             var unitImage = container.Descendants("img")
                                      .First();
 
             var unitName = HttpUtility.HtmlDecode(unitImage.Attributes["alt"].Value);
-            var unit = db.Units.Single(u => string.Compare(u.Name, unitName, StringComparison.OrdinalIgnoreCase) == 0);
+            var unit = units.Single(u => string.Compare(u.Name, unitName, StringComparison.OrdinalIgnoreCase) == 0);
 
             return unit.Id;
         }

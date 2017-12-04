@@ -13,6 +13,7 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
         {
             var results = new List<PlayerCharacter>();
             var timeFilter = DateTime.UtcNow.AddHours(-18);
+            var units = db.Units.ToList();
             var players = db.Players
                             .Where(p => p.LastSync < timeFilter)
                             .OrderBy(p => p.LastSync)
@@ -27,7 +28,7 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
 
                 foreach (var container in characterContainers)
                 {
-                    var character = container.ParseCharacter(db, player.Id);
+                    var character = container.ParseCharacter(units, player.Id);
                     results.Add(character);
                 }
             }
