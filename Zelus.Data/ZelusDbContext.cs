@@ -18,7 +18,7 @@ namespace Zelus.Data
     using System.Linq;
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class ZelusDbContext : System.Data.Entity.DbContext, IZelusDbContext
+    public partial class ZelusDbContext : System.Data.Entity.DbContext, IZelusDbContext
     {
         public System.Data.Entity.DbSet<Alliance> Alliances { get; set; } // Alliances
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
@@ -29,6 +29,7 @@ namespace Zelus.Data
         public System.Data.Entity.DbSet<Player> Players { get; set; } // Players
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
         public System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; } // PlayerMods
+        public System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; } // PlayerModSets
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
         public System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 
@@ -40,26 +41,31 @@ namespace Zelus.Data
         public ZelusDbContext()
             : base("Name=ZelusContext")
         {
+            InitializePartial();
         }
 
         public ZelusDbContext(string connectionString)
             : base(connectionString)
         {
+            InitializePartial();
         }
 
         public ZelusDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
+            InitializePartial();
         }
 
         public ZelusDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         public ZelusDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         protected override void Dispose(bool disposing)
@@ -89,8 +95,11 @@ namespace Zelus.Data
             modelBuilder.Configurations.Add(new PlayerConfiguration());
             modelBuilder.Configurations.Add(new PlayerCharacterConfiguration());
             modelBuilder.Configurations.Add(new PlayerModConfiguration());
+            modelBuilder.Configurations.Add(new PlayerModSetConfiguration());
             modelBuilder.Configurations.Add(new PlayerShipConfiguration());
             modelBuilder.Configurations.Add(new UnitConfiguration());
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -104,10 +113,14 @@ namespace Zelus.Data
             modelBuilder.Configurations.Add(new PlayerConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerCharacterConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerModConfiguration(schema));
+            modelBuilder.Configurations.Add(new PlayerModSetConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerShipConfiguration(schema));
             modelBuilder.Configurations.Add(new UnitConfiguration(schema));
             return modelBuilder;
         }
+
+        partial void InitializePartial();
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
     }
 }
 // </auto-generated>

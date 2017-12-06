@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // PlayerCharacters
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerCharacter
+    public partial class PlayerCharacter
     {
         public int Id { get; set; } // Id (Primary key)
         public int PlayerId { get; set; } // PlayerId
@@ -49,7 +49,10 @@ namespace Zelus.Data
         public PlayerCharacter()
         {
             PlayerMods = new System.Collections.Generic.List<PlayerMod>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

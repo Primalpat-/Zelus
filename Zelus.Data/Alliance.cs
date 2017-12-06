@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Alliances
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class Alliance
+    public partial class Alliance
     {
         public int Id { get; set; } // Id (Primary key)
         public string Name { get; set; } // Name (length: 50)
@@ -32,7 +32,10 @@ namespace Zelus.Data
         public Alliance()
         {
             Guilds = new System.Collections.Generic.List<Guild>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

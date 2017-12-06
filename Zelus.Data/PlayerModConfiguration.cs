@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // PlayerMods
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerModConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PlayerMod>
+    public partial class PlayerModConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PlayerMod>
     {
         public PlayerModConfiguration()
             : this("dbo")
@@ -66,7 +66,9 @@ namespace Zelus.Data
             HasRequired(a => a.Secondary3Units).WithMany(b => b.Secondary3Units).HasForeignKey(c => c.Secondary3UnitsId).WillCascadeOnDelete(false); // FK_PlayerMods_ModStatUnits3
             HasRequired(a => a.Secondary4Type).WithMany(b => b.Secondary4Type).HasForeignKey(c => c.Secondary4TypeId).WillCascadeOnDelete(false); // FK_PlayerMods_ModStatTypes4
             HasRequired(a => a.Secondary4Units).WithMany(b => b.Secondary4Units).HasForeignKey(c => c.Secondary4UnitsId).WillCascadeOnDelete(false); // FK_PlayerMods_ModStatUnits4
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

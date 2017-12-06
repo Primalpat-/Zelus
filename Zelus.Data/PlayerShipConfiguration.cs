@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // PlayerShips
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerShipConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PlayerShip>
+    public partial class PlayerShipConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PlayerShip>
     {
         public PlayerShipConfiguration()
             : this("dbo")
@@ -35,7 +35,9 @@ namespace Zelus.Data
             Property(x => x.Level).HasColumnName(@"Level").HasColumnType("int").IsRequired();
             Property(x => x.Stars).HasColumnName(@"Stars").HasColumnType("int").IsRequired();
             Property(x => x.Power).HasColumnName(@"Power").HasColumnType("bigint").IsRequired();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

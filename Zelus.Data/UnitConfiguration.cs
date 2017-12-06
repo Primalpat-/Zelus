@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Units
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class UnitConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Unit>
+    public partial class UnitConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Unit>
     {
         public UnitConfiguration()
             : this("dbo")
@@ -37,7 +37,9 @@ namespace Zelus.Data
             Property(x => x.Power).HasColumnName(@"Power").HasColumnType("bigint").IsOptional();
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar(max)").IsOptional().IsUnicode(false);
             Property(x => x.CombatType).HasColumnName(@"CombatType").HasColumnType("int").IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

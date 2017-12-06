@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // ModStatTypes
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class ModStatTypeConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<ModStatType>
+    public partial class ModStatTypeConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<ModStatType>
     {
         public ModStatTypeConfiguration()
             : this("dbo")
@@ -31,7 +31,9 @@ namespace Zelus.Data
 
             Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.Name).HasColumnName(@"Name").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

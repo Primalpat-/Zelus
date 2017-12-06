@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // PlayerCharacters
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerCharacterConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PlayerCharacter>
+    public partial class PlayerCharacterConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PlayerCharacter>
     {
         public PlayerCharacterConfiguration()
             : this("dbo")
@@ -38,9 +38,11 @@ namespace Zelus.Data
             Property(x => x.Power).HasColumnName(@"Power").HasColumnType("bigint").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.Player).WithMany(b => b.PlayerCharacters).HasForeignKey(c => c.PlayerId).WillCascadeOnDelete(false); // FK_PlayerCharacters_Players
+            HasRequired(a => a.Player).WithMany(b => b.PlayerCharacters).HasForeignKey(c => c.PlayerId); // FK_PlayerCharacters_Players
             HasRequired(a => a.Unit).WithMany(b => b.PlayerCharacters).HasForeignKey(c => c.UnitId).WillCascadeOnDelete(false); // FK_PlayerCharacters_Units
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

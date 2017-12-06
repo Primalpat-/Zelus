@@ -1,0 +1,299 @@
+﻿
+@model int
+
+<style type="text/css">
+    .set-filter {}
+    .set-img {
+        height: 35px;
+        margin: 0 10px;
+    }
+    .primary-filter {
+        width: 100%;
+    }
+    .square-container {
+        align-content: center;
+    }
+    .selected-mod {
+        background-color: lightskyblue;
+    }
+</style>
+
+<link href="~/Content/mods.css" rel="stylesheet" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h2>Unplanned Mods</h2>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h4>Filters:</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            Sets:
+        </div>
+        <div class="col">
+            <div id="set-filters" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                    <input id="Health" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/health.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Speed" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/speed.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Crit_Damage" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/critical_damage.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Crit_Chance" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/crit_chance.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Tenacity" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/tenacity.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Potency" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/potency.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Offense" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/offense.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Defense" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/defense.png" />
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            Sort:
+        </div>
+        <div class="col">
+            ...Sort by control...
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" type="button" onclick="playerModSets_OnClick()">Save As Modset</button>
+        </div>
+    </div>
+
+    <div style="height: 15px;"></div>
+
+    <div class="row">
+        <div class="col-md">
+            <select id="Square-filter" class="primary-filter">
+                <option value="1">Offense</option>
+                <option value="0">Any</option>
+            </select>
+        </div>
+        <div class="col-md">
+            <select id="Arrow-filter" class="primary-filter">
+                <option value="3">Speed</option>
+                <option value="0">Any</option>
+                <option value="10">Accuracy</option>
+                <option value="11">Crit Avoidance</option>
+                <option value="7">Protection</option>
+                <option value="6">Health</option>
+                <option value="1">Offense</option>
+                <option value="2">Defense</option>
+            </select>
+        </div>
+        <div class="col-md">
+            <select id="Diamond-filter" class="primary-filter">
+                <option value="2">Defense</option>
+                <option value="0">Any</option>
+            </select>
+        </div>
+        <div class="col-md">
+            <select id="Triangle-filter" class="primary-filter">
+                <option value="0">Any</option>
+                <option value="9">Crit Damage</option>
+                <option value="5">Crit Chance</option>
+                <option value="7">Protection</option>
+                <option value="6">Health</option>
+                <option value="1">Offense</option>
+                <option value="2">Defense</option>
+            </select>
+        </div>
+        <div class="col-md">
+            <select id="Circle-filter" class="primary-filter">
+                <option value="0">Any</option>
+                <option value="7">Protection</option>
+                <option value="6">Health</option>
+            </select>
+        </div>
+        <div class="col-md">
+            <select id="Cross-filter" class="primary-filter">
+                <option value="0">Any</option>
+                <option value="8">Potency</option>
+                <option value="4">Tenacity</option>
+                <option value="7">Protection</option>
+                <option value="6">Health</option>
+                <option value="1">Offense</option>
+                <option value="2">Defense</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="square-container" class="col-md">
+
+        </div>
+        <div id="arrow-container" class="col-md">
+
+        </div>
+        <div id="diamond-container" class="col-md">
+
+        </div>
+        <div id="triangle-container" class="col-md">
+
+        </div>
+        <div id="circle-container" class="col-md">
+
+        </div>
+        <div id="cross-container" class="col-md">
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        var playerId = @Model;
+
+        $(function() {
+            loadAll();
+
+            $("#set-filters input[type=checkbox]").change(loadAll);
+
+            $('#Square-filter').change(loadSquares);
+            $('#Arrow-filter').change(loadArrows);
+            $('#Diamond-filter').change(loadDiamonds);
+            $('#Triangle-filter').change(loadTriangles);
+            $('#Circle-filter').change(loadCircles);
+            $('#Cross-filter').change(loadCrosses);
+        });
+
+        function loadAll() {
+            setTimeout(function() {
+                    loadSquares();
+                    loadArrows();
+                    loadDiamonds();
+                    loadTriangles();
+                    loadCircles();
+                    loadCrosses();
+                },
+                200);
+        }
+
+        function getFilters(modSlot) {
+            //get set filter
+            var sets = [];
+            $("#set-filters .active").each(function() {
+                var set = $(this).find(".set-filter").attr("id");
+                sets.push(set);
+            });
+
+            //get primary filter for modSlot
+            var primary = $("#" + modSlot + "-filter").val();
+
+            return {
+                "playerId": playerId,
+                "sets": sets,
+                "modSlot": modSlot,
+                "primary": primary
+            };
+        }
+
+        function loadSquares() {
+            $("#square-container").html("");
+            $("#square-container").load("@Url.Action("UnplannedMods", "Mods")",
+                getFilters("Square"),
+                function() {
+
+                });
+        }
+
+        function loadArrows() {
+            $("#arrow-container").html("");
+            $("#arrow-container").load("@Url.Action("UnplannedMods", "Mods")",
+                getFilters("Arrow"),
+                function() {
+
+                });
+        }
+
+        function loadDiamonds() {
+            $("#diamond-container").html("");
+            $("#diamond-container").load("@Url.Action("UnplannedMods", "Mods")",
+                getFilters("Diamond"),
+                function() {
+
+                });
+        }
+
+        function loadTriangles() {
+            $("#triangle-container").html("");
+            $("#triangle-container").load("@Url.Action("UnplannedMods", "Mods")",
+                getFilters("Triangle"),
+                function() {
+
+                });
+        }
+
+        function loadCircles() {
+            $("#circle-container").html("");
+            $("#circle-container").load("@Url.Action("UnplannedMods", "Mods")",
+                getFilters("Circle"),
+                function() {
+
+                });
+        }
+
+        function loadCrosses() {
+            $("#cross-container").html("");
+            $("#cross-container").load("@Url.Action("UnplannedMods", "Mods")",
+                getFilters("Cross"),
+                function() {
+
+                });
+        }
+
+        function mods_OnChange(element) {
+            if ($(element).closest(".mod-container").hasClass("selected-mod")) {
+                $(element).closest(".mod-container").removeClass("selected-mod");
+            } else {
+                $(element).closest(".mod-container").addClass("selected-mod");
+            }
+        }
+
+        function playerModSets_OnClick() {
+            var modIds = [];
+            $(".selected-mod").each(function() {
+                modIds.push($(this).data("id"));
+            });
+
+            $.post("@Url.Action("SaveModSet", "Mods")", { "playerId": playerId, "modIds": modIds }, function(result) {
+                console.log(result);
+                if (!result.Success)
+                    toastr.error(result.Messages[0], "Error saving modset:");
+                else {
+                    toastr.success("Modset successfully saved.");
+                    loadAll();
+                }
+            });
+        }
+    </script>
+}

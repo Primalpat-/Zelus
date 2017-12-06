@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Players
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class Player
+    public partial class Player
     {
         public int Id { get; set; } // Id (Primary key)
         public int GuildId { get; set; } // GuildId
@@ -37,6 +37,10 @@ namespace Zelus.Data
         /// Child PlayerMods where [PlayerMods].[PlayerId] point to this entity (FK_PlayerMods_Players)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<PlayerMod> PlayerMods { get; set; } // PlayerMods.FK_PlayerMods_Players
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[PlayerId] point to this entity (FK_PlayerModSets_Players)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> PlayerModSets { get; set; } // PlayerModSets.FK_PlayerModSets_Players
 
         // Foreign keys
 
@@ -50,7 +54,11 @@ namespace Zelus.Data
             ModSyncEnabled = false;
             PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
             PlayerMods = new System.Collections.Generic.List<PlayerMod>();
+            PlayerModSets = new System.Collections.Generic.List<PlayerModSet>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

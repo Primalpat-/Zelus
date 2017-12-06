@@ -1,36 +1,37 @@
 ﻿
+<div class="container">
+    <div class="jumbotron">
+        <h1>Welcome!</h1>
+        <p class="lead">
+            The GSF Alliance API is designed to aid alliance developers in creating applications using data from <a href="http://swgoh.gg">swgoh.gg</a>.
+            All records are synchronized with swgoh.gg automatically with care so that we dont overwhelm the site.
+        </p>
+    </div>
 
-<div class="jumbotron">
-    <h1>Welcome!</h1>
-    <p class="lead">
-        The GSF Alliance API is designed to aid alliance developers in creating applications using data from <a href="http://swgoh.gg">swgoh.gg</a>. 
-        All records are synchronized with swgoh.gg automatically with care so that we dont overwhelm the site.
-    </p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Data at the Alliance level</h2>
-        <p>
-            If you want to pull data for the whole alliance, use this service. 
-            This can be useful for determining performance across all member guilds. 
-        </p>
-        <p><a class="btn btn-default" href="@Url.Action("Index", "Alliance", new { Area = "Api" })">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Data at the Guild level</h2>
-        <p>
-            If you want to pull data for a single guild in the alliance, use this service.
-            This will probably be more commonly used, and can be helpful for determining platoons, squads, etc.
-        </p>
-        <p><a class="btn btn-default" href="@Url.Action("Index", "Guild", new { Area = "Api" })">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Data at the player level</h2>
-        <p>
-            If you want to pull data for only a single player, use this service.
-            This will be expanded on more in the future, but can be useful to hone in on a single player's squads or collection.
-        </p>
-        <p><a class="btn btn-default" href="@Url.Action("Index", "Player", new { Area = "Api" })">Learn more &raquo;</a></p>
-    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Data at the Alliance level</h2>
+            <p>
+                If you want to pull data for the whole alliance, use this service.
+                This can be useful for determining performance across all member guilds.
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Alliance", new { Area = "Api" })">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Data at the Guild level</h2>
+            <p>
+                If you want to pull data for a single guild in the alliance, use this service.
+                This will probably be more commonly used, and can be helpful for determining platoons, squads, etc.
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Guild", new { Area = "Api" })">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Data at the player level</h2>
+            <p>
+                If you want to pull data for only a single player, use this service.
+                This will be expanded on more in the future, but can be useful to hone in on a single player's squads or collection.
+            </p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Player", new { Area = "Api" })">Learn more &raquo;</a></p>
+        </div>
+    </div>    
 </div>

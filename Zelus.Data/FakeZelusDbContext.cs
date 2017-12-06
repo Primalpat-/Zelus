@@ -18,7 +18,7 @@ namespace Zelus.Data
     using System.Linq;
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class FakeZelusDbContext : IZelusDbContext
+    public partial class FakeZelusDbContext : IZelusDbContext
     {
         public System.Data.Entity.DbSet<Alliance> Alliances { get; set; }
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; }
@@ -29,6 +29,7 @@ namespace Zelus.Data
         public System.Data.Entity.DbSet<Player> Players { get; set; }
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; }
         public System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; }
+        public System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; }
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; }
         public System.Data.Entity.DbSet<Unit> Units { get; set; }
 
@@ -43,8 +44,11 @@ namespace Zelus.Data
             Players = new FakeDbSet<Player>("Id");
             PlayerCharacters = new FakeDbSet<PlayerCharacter>("Id");
             PlayerMods = new FakeDbSet<PlayerMod>("Id");
+            PlayerModSets = new FakeDbSet<PlayerModSet>("Id");
             PlayerShips = new FakeDbSet<PlayerShip>("Id");
             Units = new FakeDbSet<Unit>("Id");
+
+            InitializePartial();
         }
 
         public int SaveChangesCount { get; private set; }
@@ -65,6 +69,8 @@ namespace Zelus.Data
             ++SaveChangesCount;
             return System.Threading.Tasks.Task<int>.Factory.StartNew(() => 1, cancellationToken);
         }
+
+        partial void InitializePartial();
 
         protected virtual void Dispose(bool disposing)
         {

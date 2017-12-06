@@ -66,6 +66,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.6.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.6.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="LinqKit, Version=1.1.9.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.9.0\lib\net45\LinqKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -174,13 +177,15 @@
     <Compile Include="Areas\Api\Controllers\DefaultController.cs" />
     <Compile Include="Areas\Api\Controllers\GuildController.cs" />
     <Compile Include="Areas\Api\Controllers\PlayerController.cs" />
-    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModsController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Extensions\PlayerModExtensions.cs" />
+    <Compile Include="Helpers\Extensions\PlayerModQueryableExtensions.cs" />
+    <Compile Include="Helpers\Extensions\PlayerModSetExtensions.cs" />
     <Compile Include="Helpers\GuildHome\PlayerRowExtensions.cs" />
     <Compile Include="Helpers\PlayerMods\ModContainerExtensions.cs" />
     <Compile Include="Helpers\RomanNumeralExtensions.cs" />
@@ -199,6 +204,9 @@
     <Compile Include="Models\Synchronization\Synchronizers\ModSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\PlayerSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\UnitSynchronizer.cs" />
+    <Compile Include="Models\Views\Mods\ModSetVM.cs" />
+    <Compile Include="Models\Views\Mods\ModVM.cs" />
+    <Compile Include="Models\Views\Mods\ModVMFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,16 +214,69 @@
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\critical_damage.png" />
     <Content Include="Content\Images\crit_chance.png" />
     <Content Include="Content\Images\defense.png" />
     <Content Include="Content\Images\health.png" />
+    <Content Include="Content\Images\Mods\cc-arrow.png" />
+    <Content Include="Content\Images\Mods\cc-circle.png" />
+    <Content Include="Content\Images\Mods\cc-cross.png" />
+    <Content Include="Content\Images\Mods\cc-diamond.png" />
+    <Content Include="Content\Images\Mods\cc-square.png" />
+    <Content Include="Content\Images\Mods\cc-triangle.png" />
+    <Content Include="Content\Images\Mods\cd-arrow.png" />
+    <Content Include="Content\Images\Mods\cd-circle.png" />
+    <Content Include="Content\Images\Mods\cd-cross.png" />
+    <Content Include="Content\Images\Mods\cd-diamond.png" />
+    <Content Include="Content\Images\Mods\cd-square.png" />
+    <Content Include="Content\Images\Mods\cd-triangle.png" />
+    <Content Include="Content\Images\Mods\defense-arrow.png" />
+    <Content Include="Content\Images\Mods\defense-circle.png" />
+    <Content Include="Content\Images\Mods\defense-cross.png" />
+    <Content Include="Content\Images\Mods\defense-diamond.png" />
+    <Content Include="Content\Images\Mods\defense-square.png" />
+    <Content Include="Content\Images\Mods\defense-triangle.png" />
+    <Content Include="Content\Images\Mods\health-arrow.png" />
+    <Content Include="Content\Images\Mods\health-circle.png" />
+    <Content Include="Content\Images\Mods\health-cross.png" />
+    <Content Include="Content\Images\Mods\health-diamond.png" />
+    <Content Include="Content\Images\Mods\health-square.png" />
+    <Content Include="Content\Images\Mods\health-triangle.png" />
+    <Content Include="Content\Images\Mods\offense-arrow.png" />
+    <Content Include="Content\Images\Mods\offense-circle.png" />
+    <Content Include="Content\Images\Mods\offense-cross.png" />
+    <Content Include="Content\Images\Mods\offense-diamond.png" />
+    <Content Include="Content\Images\Mods\offense-square.png" />
+    <Content Include="Content\Images\Mods\offense-triangle.png" />
+    <Content Include="Content\Images\Mods\potency-arrow.png" />
+    <Content Include="Content\Images\Mods\potency-circle.png" />
+    <Content Include="Content\Images\Mods\potency-cross.png" />
+    <Content Include="Content\Images\Mods\potency-diamond.png" />
+    <Content Include="Content\Images\Mods\potency-square.png" />
+    <Content Include="Content\Images\Mods\potency-triangle.png" />
+    <Content Include="Content\Images\Mods\speed-arrow.png" />
+    <Content Include="Content\Images\Mods\speed-circle.png" />
+    <Content Include="Content\Images\Mods\speed-cross.png" />
+    <Content Include="Content\Images\Mods\speed-diamond.png" />
+    <Content Include="Content\Images\Mods\speed-square.png" />
+    <Content Include="Content\Images\Mods\speed-triangle.png" />
+    <Content Include="Content\Images\Mods\tenacity-arrow.png" />
+    <Content Include="Content\Images\Mods\tenacity-circle.png" />
+    <Content Include="Content\Images\Mods\tenacity-cross.png" />
+    <Content Include="Content\Images\Mods\tenacity-diamond.png" />
+    <Content Include="Content\Images\Mods\tenacity-square.png" />
+    <Content Include="Content\Images\Mods\tenacity-triangle.png" />
     <Content Include="Content\Images\offense.png" />
     <Content Include="Content\Images\potency.png" />
     <Content Include="Content\Images\speed.png" />
     <Content Include="Content\Images\tenacity.png" />
+    <Content Include="Content\mods.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -234,7 +295,12 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-select.css.map" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
+    <Content Include="Scripts\bootstrap-select.js" />
+    <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -247,7 +313,80 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap-select.js.map" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\i18n\defaults-ar_AR.js" />
+    <Content Include="Scripts\i18n\defaults-ar_AR.min.js" />
+    <Content Include="Scripts\i18n\defaults-bg_BG.js" />
+    <Content Include="Scripts\i18n\defaults-bg_BG.min.js" />
+    <Content Include="Scripts\i18n\defaults-cs_CZ.js" />
+    <Content Include="Scripts\i18n\defaults-cs_CZ.min.js" />
+    <Content Include="Scripts\i18n\defaults-da_DK.js" />
+    <Content Include="Scripts\i18n\defaults-da_DK.min.js" />
+    <Content Include="Scripts\i18n\defaults-de_DE.js" />
+    <Content Include="Scripts\i18n\defaults-de_DE.min.js" />
+    <Content Include="Scripts\i18n\defaults-en_US.js" />
+    <Content Include="Scripts\i18n\defaults-en_US.min.js" />
+    <Content Include="Scripts\i18n\defaults-es_CL.js" />
+    <Content Include="Scripts\i18n\defaults-es_CL.min.js" />
+    <Content Include="Scripts\i18n\defaults-es_ES.js" />
+    <Content Include="Scripts\i18n\defaults-es_ES.min.js" />
+    <Content Include="Scripts\i18n\defaults-et_EE.js" />
+    <Content Include="Scripts\i18n\defaults-et_EE.min.js" />
+    <Content Include="Scripts\i18n\defaults-eu.js" />
+    <Content Include="Scripts\i18n\defaults-eu.min.js" />
+    <Content Include="Scripts\i18n\defaults-fa_IR.js" />
+    <Content Include="Scripts\i18n\defaults-fa_IR.min.js" />
+    <Content Include="Scripts\i18n\defaults-fi_FI.js" />
+    <Content Include="Scripts\i18n\defaults-fi_FI.min.js" />
+    <Content Include="Scripts\i18n\defaults-fr_FR.js" />
+    <Content Include="Scripts\i18n\defaults-fr_FR.min.js" />
+    <Content Include="Scripts\i18n\defaults-hr_HR.js" />
+    <Content Include="Scripts\i18n\defaults-hr_HR.min.js" />
+    <Content Include="Scripts\i18n\defaults-hu_HU.js" />
+    <Content Include="Scripts\i18n\defaults-hu_HU.min.js" />
+    <Content Include="Scripts\i18n\defaults-id_ID.js" />
+    <Content Include="Scripts\i18n\defaults-id_ID.min.js" />
+    <Content Include="Scripts\i18n\defaults-it_IT.js" />
+    <Content Include="Scripts\i18n\defaults-it_IT.min.js" />
+    <Content Include="Scripts\i18n\defaults-ja_JP.js" />
+    <Content Include="Scripts\i18n\defaults-ja_JP.min.js" />
+    <Content Include="Scripts\i18n\defaults-kh_KM.js" />
+    <Content Include="Scripts\i18n\defaults-kh_KM.min.js" />
+    <Content Include="Scripts\i18n\defaults-ko_KR.js" />
+    <Content Include="Scripts\i18n\defaults-ko_KR.min.js" />
+    <Content Include="Scripts\i18n\defaults-lt_LT.js" />
+    <Content Include="Scripts\i18n\defaults-lt_LT.min.js" />
+    <Content Include="Scripts\i18n\defaults-nb_NO.js" />
+    <Content Include="Scripts\i18n\defaults-nb_NO.min.js" />
+    <Content Include="Scripts\i18n\defaults-nl_NL.js" />
+    <Content Include="Scripts\i18n\defaults-nl_NL.min.js" />
+    <Content Include="Scripts\i18n\defaults-pl_PL.js" />
+    <Content Include="Scripts\i18n\defaults-pl_PL.min.js" />
+    <Content Include="Scripts\i18n\defaults-pt_BR.js" />
+    <Content Include="Scripts\i18n\defaults-pt_BR.min.js" />
+    <Content Include="Scripts\i18n\defaults-pt_PT.js" />
+    <Content Include="Scripts\i18n\defaults-pt_PT.min.js" />
+    <Content Include="Scripts\i18n\defaults-ro_RO.js" />
+    <Content Include="Scripts\i18n\defaults-ro_RO.min.js" />
+    <Content Include="Scripts\i18n\defaults-ru_RU.js" />
+    <Content Include="Scripts\i18n\defaults-ru_RU.min.js" />
+    <Content Include="Scripts\i18n\defaults-sk_SK.js" />
+    <Content Include="Scripts\i18n\defaults-sk_SK.min.js" />
+    <Content Include="Scripts\i18n\defaults-sl_SI.js" />
+    <Content Include="Scripts\i18n\defaults-sl_SI.min.js" />
+    <Content Include="Scripts\i18n\defaults-sv_SE.js" />
+    <Content Include="Scripts\i18n\defaults-sv_SE.min.js" />
+    <Content Include="Scripts\i18n\defaults-tr_TR.js" />
+    <Content Include="Scripts\i18n\defaults-tr_TR.min.js" />
+    <Content Include="Scripts\i18n\defaults-ua_UA.js" />
+    <Content Include="Scripts\i18n\defaults-ua_UA.min.js" />
+    <Content Include="Scripts\i18n\defaults-vi_VN.js" />
+    <Content Include="Scripts\i18n\defaults-vi_VN.min.js" />
+    <Content Include="Scripts\i18n\defaults-zh_CN.js" />
+    <Content Include="Scripts\i18n\defaults-zh_CN.min.js" />
+    <Content Include="Scripts\i18n\defaults-zh_TW.js" />
+    <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
@@ -266,6 +405,8 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -284,7 +425,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Mods.cshtml" />
+    <Content Include="Views\Mods\Unplanned.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -293,6 +434,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Mods\_SingleColumnMods.cshtml" />
+    <Content Include="Views\Mods\_ModImage.cshtml" />
+    <Content Include="Views\Mods\Planned.cshtml" />
+    <Content Include="Views\Mods\_Mod.cshtml" />
+    <Content Include="Views\Mods\_DoubleColumnMods.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

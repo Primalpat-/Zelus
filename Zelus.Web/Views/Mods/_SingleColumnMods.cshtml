@@ -1,0 +1,11 @@
+﻿@using Zelus.Web.Models.Views.Mods
+@model List<ModVM>
+
+@foreach (var modVM in Model)
+{
+    <div class="row">
+        <div class="col">
+            @Html.Partial("_Mod", modVM)
+        </div>
+    </div>
+}

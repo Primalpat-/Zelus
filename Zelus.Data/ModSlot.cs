@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // ModSlots
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class ModSlot
+    public partial class ModSlot
     {
         public int Id { get; set; } // Id (Primary key)
         public string Name { get; set; } // Name (length: 50)
@@ -32,7 +32,10 @@ namespace Zelus.Data
         public ModSlot()
         {
             PlayerMods = new System.Collections.Generic.List<PlayerMod>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

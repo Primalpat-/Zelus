@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Guilds
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class Guild
+    public partial class Guild
     {
         public int Id { get; set; } // Id (Primary key)
         public int AllianceId { get; set; } // AllianceId
@@ -42,7 +42,10 @@ namespace Zelus.Data
         public Guild()
         {
             Players = new System.Collections.Generic.List<Player>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // ModStatUnits
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class ModStatUnit
+    public partial class ModStatUnit
     {
         public int Id { get; set; } // Id (Primary key)
         public string Name { get; set; } // Name (length: 50)
@@ -52,7 +52,10 @@ namespace Zelus.Data
             Secondary2Units = new System.Collections.Generic.List<PlayerMod>();
             Secondary3Units = new System.Collections.Generic.List<PlayerMod>();
             Secondary4Units = new System.Collections.Generic.List<PlayerMod>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

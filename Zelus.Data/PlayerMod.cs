@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // PlayerMods
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerMod
+    public partial class PlayerMod
     {
         public int Id { get; set; } // Id (Primary key)
         public int PlayerId { get; set; } // PlayerId
@@ -40,6 +40,33 @@ namespace Zelus.Data
         public int Secondary4TypeId { get; set; } // Secondary4TypeId
         public int Secondary4UnitsId { get; set; } // Secondary4UnitsId
         public decimal Secondary4Value { get; set; } // Secondary4Value
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[Mod1Id] point to this entity (FK_PlayerModSets_PlayerMods)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> Mod1 { get; set; } // PlayerModSets.FK_PlayerModSets_PlayerMods
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[Mod2Id] point to this entity (FK_PlayerModSets_PlayerMods1)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> Mod2 { get; set; } // PlayerModSets.FK_PlayerModSets_PlayerMods1
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[Mod3Id] point to this entity (FK_PlayerModSets_PlayerMods2)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> Mod3 { get; set; } // PlayerModSets.FK_PlayerModSets_PlayerMods2
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[Mod4Id] point to this entity (FK_PlayerModSets_PlayerMods3)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> Mod4 { get; set; } // PlayerModSets.FK_PlayerModSets_PlayerMods3
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[Mod5Id] point to this entity (FK_PlayerModSets_PlayerMods4)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> Mod5 { get; set; } // PlayerModSets.FK_PlayerModSets_PlayerMods4
+        /// <summary>
+        /// Child PlayerModSets where [PlayerModSets].[Mod6Id] point to this entity (FK_PlayerModSets_PlayerMods5)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<PlayerModSet> Mod6 { get; set; } // PlayerModSets.FK_PlayerModSets_PlayerMods5
 
         // Foreign keys
 
@@ -112,6 +139,19 @@ namespace Zelus.Data
         /// Parent PlayerCharacter pointed by [PlayerMods].([PlayerCharacterId]) (FK_PlayerMods_PlayerCharacters)
         /// </summary>
         public virtual PlayerCharacter PlayerCharacter { get; set; } // FK_PlayerMods_PlayerCharacters
+
+        public PlayerMod()
+        {
+            Mod1 = new System.Collections.Generic.List<PlayerModSet>();
+            Mod2 = new System.Collections.Generic.List<PlayerModSet>();
+            Mod3 = new System.Collections.Generic.List<PlayerModSet>();
+            Mod4 = new System.Collections.Generic.List<PlayerModSet>();
+            Mod5 = new System.Collections.Generic.List<PlayerModSet>();
+            Mod6 = new System.Collections.Generic.List<PlayerModSet>();
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
 }

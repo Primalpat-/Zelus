@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Guilds
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class GuildConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Guild>
+    public partial class GuildConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Guild>
     {
         public GuildConfiguration()
             : this("dbo")
@@ -37,7 +37,9 @@ namespace Zelus.Data
 
             // Foreign keys
             HasRequired(a => a.Alliance).WithMany(b => b.Guilds).HasForeignKey(c => c.AllianceId).WillCascadeOnDelete(false); // FK_Guilds_Alliances
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

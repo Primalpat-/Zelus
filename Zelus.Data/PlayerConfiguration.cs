@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Players
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Player>
+    public partial class PlayerConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Player>
     {
         public PlayerConfiguration()
             : this("dbo")
@@ -39,7 +39,9 @@ namespace Zelus.Data
 
             // Foreign keys
             HasRequired(a => a.Guild).WithMany(b => b.Players).HasForeignKey(c => c.GuildId); // FK_Players_Guilds
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
 }

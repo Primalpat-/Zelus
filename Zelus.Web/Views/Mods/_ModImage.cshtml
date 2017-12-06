@@ -1,0 +1,219 @@
+﻿
+@using Zelus.Data
+
+@model Zelus.Web.Models.Views.Mods.ModVM
+    
+@switch (Model.Set)
+{
+    case ModSets.Health:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Offense:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/offense-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Defense:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/defense-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Speed:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/speed-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Crit_Chance:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cc-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Crit_Damage:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/cd-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Potency:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/potency-square.png")" />
+                break;
+        }
+        break;
+    case ModSets.Tenacity:
+        switch (Model.Slot)
+        {
+            case ModSlots.Square:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-square.png")" />
+                break;
+            case ModSlots.Arrow:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-arrow.png")" />
+                break;
+            case ModSlots.Diamond:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-diamond.png")" />
+                break;
+            case ModSlots.Triangle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-triangle.png")" />
+                break;
+            case ModSlots.Circle:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-circle.png")" />
+                break;
+            case ModSlots.Cross:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-cross.png")" />
+                break;
+            default:
+                <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/tenacity-square.png")" />
+                break;
+        }
+        break;
+    default:
+        <img class="statmod-img" src="@Url.Content("~/Content/Images/Mods/health-square.png")" />
+        break;
+}

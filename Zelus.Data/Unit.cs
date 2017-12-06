@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // Units
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class Unit
+    public partial class Unit
     {
         public int Id { get; set; } // Id (Primary key)
         public string Name { get; set; } // Name (length: 500)
@@ -38,7 +38,10 @@ namespace Zelus.Data
         public Unit()
         {
             PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
 }

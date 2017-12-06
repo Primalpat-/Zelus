@@ -17,7 +17,7 @@ namespace Zelus.Data
 
     // PlayerShips
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public class PlayerShip
+    public partial class PlayerShip
     {
         public int Id { get; set; } // Id (Primary key)
         public int PlayerId { get; set; } // PlayerId
@@ -25,6 +25,13 @@ namespace Zelus.Data
         public int Level { get; set; } // Level
         public int Stars { get; set; } // Stars
         public long Power { get; set; } // Power
+
+        public PlayerShip()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
 }

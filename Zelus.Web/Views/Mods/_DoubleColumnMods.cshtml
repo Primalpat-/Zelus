@@ -1,0 +1,60 @@
+﻿@using Zelus.Web.Models.Views.Mods
+@model List<ModSetVM>
+
+@foreach (var setVM in Model)
+{
+    <div class="row">
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col">
+                    @Html.Partial("_Mod", setVM.Square)  
+                </div>
+                <div class="col">
+                    @Html.Partial("_Mod", setVM.Arrow)    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    @Html.Partial("_Mod", setVM.Diamond)
+                </div>
+                <div class="col">
+                    @Html.Partial("_Mod", setVM.Triangle)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    @Html.Partial("_Mod", setVM.Circle)
+                </div>
+                <div class="col">
+                    @Html.Partial("_Mod", setVM.Cross)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h4>Combined Stats</h4>
+            <div class="row">
+                <div class="col combined-stats">
+                    <p class="primary-stat">@setVM.TotalSpeed</p>
+                    <p class="secondary-stat">@setVM.TotalCritChance</p>
+                    <p class="secondary-stat">@setVM.TotalCritDamage</p>
+                    <p class="secondary-stat">@setVM.TotalFlatOffense</p>
+                    <p class="secondary-stat">@setVM.TotalPercentageOffense</p>
+                    <p class="secondary-stat">@setVM.TotalPotency</p>
+                    <p class="secondary-stat">@setVM.TotalAccuracy</p>
+                </div>
+                <div class="col combined-stats">
+                    <p class="primary-stat">&nbsp;</p>
+                    <p class="secondary-stat">@setVM.TotalFlatProtection</p>
+                    <p class="secondary-stat">@setVM.TotalPercentageProtection</p>
+                    <p class="secondary-stat">@setVM.TotalFlatHealth</p>
+                    <p class="secondary-stat">@setVM.TotalPercentageHealth</p>
+                    <p class="secondary-stat">@setVM.TotalTenactiy</p>
+                    <p class="secondary-stat">@setVM.TotalCritAvoid</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" data-id="@setVM.Id" onclick="playerModSets_OnDelete(this)">Delete Modset</button>
+        </div>
+    </div>
+}

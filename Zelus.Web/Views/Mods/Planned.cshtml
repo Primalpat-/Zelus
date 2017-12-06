@@ -1,0 +1,144 @@
+﻿
+@model int
+
+<style type="text/css">
+    .set-filter {
+    }
+
+    .set-img {
+        height: 35px;
+        margin: 0 10px;
+    }
+
+    .primary-filter {
+        width: 100%;
+    }
+
+    .square-container {
+        align-content: center;
+    }
+
+    .selected-mod {
+        background-color: lightskyblue;
+    }
+</style>
+
+<link href="~/Content/mods.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Mod Sets</h2>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h4>Filters:</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+            Sets:
+        </div>
+        <div class="col">
+            <div id="set-filters" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                    <input id="Health" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/health.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Speed" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/speed.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Crit_Damage" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/critical_damage.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Crit_Chance" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/crit_chance.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Tenacity" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/tenacity.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Potency" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/potency.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Offense" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/offense.png" />
+                </label>
+                <label class="btn btn-secondary">
+                    <input id="Defense" class="set-filter" type="checkbox" autocomplete="off">
+                    <img class="set-img" src="~/Content/Images/defense.png" />
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 15px;"></div>
+
+    <div class="row">
+        <div id="sets-container" class="col"></div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        var playerId = @Model;
+
+        $(function() {
+            loadAll();
+
+            $("#set-filters input[type=checkbox]").change(loadAll);
+        });
+
+        function loadAll() {
+            setTimeout(function () {
+                loadSets();
+            }, 200);
+        }
+
+        function getFilters() {
+            //get set filter
+            var sets = [];
+            $("#set-filters .active").each(function() {
+                var set = $(this).find(".set-filter").attr("id");
+                sets.push(set);
+            });
+
+            return {
+                "playerId": playerId,
+                "sets": sets
+            };
+        }
+
+        function loadSets() {
+            $("#sets-container").html("");
+            $("#sets-container").load("@Url.Action("PlannedMods", "Mods")",
+                getFilters(),
+                function() {
+
+                });
+        }
+
+        function playerModSets_OnDelete(element) {
+            var setId = $(element).data("id");
+
+            $.post("@Url.Action("DeleteModSet", "Mods")", { "setId": setId }, function(result) {
+                console.log(result);
+                if (!result.Success)
+                    toastr.error(result.Messages[0], "Error deleting modset:");
+                else {
+                    toastr.success("Modset successfully deleted.");
+                    loadSets();
+                }
+            });
+        }
+    </script>
+}

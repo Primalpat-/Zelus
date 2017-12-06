@@ -1,0 +1,157 @@
+﻿.statmod-summary {
+    position: relative;
+    cursor: default;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.statmod-pips {
+    display: block;
+    background-color: #181615;
+    margin: 0 auto 4px;
+    width: 68px;
+    height: 12px;
+    padding: 3px;
+    line-height: 0;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px #aaa;
+}
+
+.statmod-pip:first-child {
+    margin-left: 1px;
+}
+
+.statmod-pip {
+    float: left;
+    width: 6px;
+    height: 6px;
+    background-color: #fefce7;
+    border-radius: 50%;
+    margin-right: 3px;
+}
+
+.statmod-char-portrait {
+    position: absolute;
+    display: inline-block;
+    right: -2px;
+    bottom: -5px;
+}
+
+.statmod-img {
+    width: 87px;
+    height: 80px;
+    vertical-align: middle;
+}
+
+.mod-container {
+    overflow: auto;
+    padding: 10px 0;
+}
+
+.mod-image, .mod-stats {
+    float: left;
+}
+
+.statmod-stats > p {
+    margin: 0;
+    width: 105px;
+}
+.statmod-stats > .primary-stat {
+    font-size: 13px;
+    font-weight: bold;
+}
+.statmod-stats > .secondary-stat {
+    font-size: 10px;
+    font-weight: bold;
+    color: #888;
+}
+
+.combined-stats > p {
+    margin: 3px 0;
+}
+.combined-stats > .primary-stat {
+    font-size: 16px;
+    font-weight: bold;
+}
+.combined-stats > .secondary-stat {
+    font-size: 13px;
+    font-weight: bold;
+    color: #888;
+}
+
+.statmod-check {
+    position: absolute;
+    left: 4px;
+    bottom: 0;
+    padding: 4px 3px 3px;
+    font-size: 14px;
+    min-width: 24px;
+    background-color: #111;
+    border-radius: 1px;
+    text-align: center;
+    line-height: 11px;
+    box-shadow: 0 0 0 1px #555;
+    cursor: pointer;
+}
+
+    .statmod-check > input {
+        cursor: pointer;
+    }
+
+/* Mod Character Portrait */
+.collection-mod,
+.statmod-char-portrait {
+    position: absolute;
+    display: inline-block;
+    right: -2px;
+    bottom: -5px;
+}
+
+.char-portrait {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.char-portrait-image {
+    position: relative;
+    overflow: hidden;
+    width: 80px;
+    height: 80px;
+    -ms-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: 3px solid #333;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.8) inset;
+}
+
+.char-portrait-img {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #111;
+}
+
+.char-portrait-dark-side .char-portrait-image {
+    border-color: #b03233;
+    box-shadow: 0 0 3px 2px rgba(176, 50, 51, 0.8) inset;
+}
+
+.char-portrait-xsmall .char-portrait-image {
+    width: 40px;
+    height: 40px;
+}
+
+.char-portrait-xsmall .char-portrait-img {
+    width: 40px;
+    height: 40px;
+}
+
+.char-portrait-xsmall {
+    border-width: 2px;
+}

@@ -22,7 +22,7 @@
     ConfigFilenameSearchOrder = new[] { "app.config", "web.config" }; // Add more here if required. The config files are searched for in the local project first, then the whole solution second.
     GenerateSeparateFiles = true;
     MakeClassesInternal = false;
-    MakeClassesPartial = false;
+    MakeClassesPartial = true;
     MakeDbContextInterfacePartial = false;
     UseMappingTables = true; // If true, mapping will be used and no mapping tables will be generated. If false, all tables will be generated.
     UsePascalCase = true;    // This will rename the generated C# tables & properties to use PascalCase. If false table & property names will be left alone.

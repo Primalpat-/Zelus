@@ -1,6 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using Ether.Outcomes;
+using LinqKit;
+using Z.Core.Extensions;
 using Zelus.Data;
+using Zelus.Web.Helpers.Extensions;
 
 namespace Zelus.Web.Controllers
 {
@@ -9,16 +15,6 @@ namespace Zelus.Web.Controllers
         public ActionResult Index()
         {
             return Content("Home.");
-        }
-
-        public ActionResult Mods()
-        {
-            //var db = new ZelusDbContext();
-
-            //var mode = db.PlayerMods
-            //             .Where(m => m.SetId == (int)ModSets.Crit_Chance || m.SetId == (int)ModSets.Crit_Damage)
-
-            return View();
         }
     }
 }
