@@ -60,6 +60,19 @@ namespace Zelus.Web.Models.Views.Mods
             return result;
         }
 
+        public static List<ModVM> GetModVMs(List<PlayerModsWithStat> statMods, bool showCheckbox = false)
+        {
+            var result = new List<ModVM>();
+
+            var db = new ZelusDbContext();
+            var mods = statMods.Select(sm => db.PlayerMods.Single(pm => pm.Id == sm.Id)).ToList();
+
+            foreach (var mod in mods)
+                result.Add(GetModVM(mod, showCheckbox));
+
+            return result;
+        }
+
         private static ModVM GetModVM(PlayerMod mod, bool showCheckbox)
         {
             var model = new ModVM();
@@ -74,19 +87,19 @@ namespace Zelus.Web.Models.Views.Mods
             model.CharacterUrl = GetCharacterUrl(mod);
             model.CharacterImg = mod.PlayerCharacter?.Unit?.Image ?? "";
 
-            if (mod.PrimaryType.IsNotNull())
+            if (mod.PrimaryType != null)
                 model.Primary = $"+{GetModStatValue(mod.PrimaryValue, (ModStatUnits)mod.PrimaryUnitsId)} {GetPrimaryModStatTypeName(mod.PrimaryType)}";
 
-            if (mod.Secondary1Type.IsNotNull())
+            if (mod.Secondary1Type != null)
                 model.Secondary1 = $"+{GetModStatValue(mod.Secondary1Value, (ModStatUnits)mod.Secondary1UnitsId)} {GetModStatTypeName(mod.Secondary1Type)}";
 
-            if (mod.Secondary2Type.IsNotNull())
+            if (mod.Secondary2Type != null)
                 model.Secondary2 = $"+{GetModStatValue(mod.Secondary2Value, (ModStatUnits)mod.Secondary2UnitsId)} {GetModStatTypeName(mod.Secondary2Type)}";
 
-            if (mod.Secondary3Type.IsNotNull())
+            if (mod.Secondary3Type != null)
                 model.Secondary3 = $"+{GetModStatValue(mod.Secondary3Value, (ModStatUnits)mod.Secondary3UnitsId)} {GetModStatTypeName(mod.Secondary3Type)}";
 
-            if (mod.Secondary4Type.IsNotNull())
+            if (mod.Secondary4Type != null)
                 model.Secondary4 = $"+{GetModStatValue(mod.Secondary4Value, (ModStatUnits)mod.Secondary4UnitsId)} {GetModStatTypeName(mod.Secondary4Type)}";
 
             return model;
@@ -99,7 +112,7 @@ namespace Zelus.Web.Models.Views.Mods
 
             var unitUrl = mod.PlayerCharacter.Unit.Url;
             var urlParts = unitUrl.Split('/');
-            var unitUrlName = urlParts.Last();
+            var unitUrlName = Enumerable.Reverse(urlParts).Skip(1).Take(1);
 
             return $"{mod.Player.SwgohGgUrl}collection/{unitUrlName}/";
         }
@@ -107,7 +120,7 @@ namespace Zelus.Web.Models.Views.Mods
         private static string GetModStatValue(decimal value, ModStatUnits units)
         {
             if (units == ModStatUnits.Flat)
-                return $"{value.ToInt32()}";
+                return $"{decimal.ToInt32(value)}";
 
             var percentage = Math.Round(value, 1);
             return $"{percentage}%";

@@ -30,6 +30,7 @@ namespace Zelus.Data
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
         public System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; } // PlayerMods
         public System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; } // PlayerModSets
+        public System.Data.Entity.DbSet<PlayerModsWithStat> PlayerModsWithStats { get; set; } // PlayerModsWithStats
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
         public System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 
@@ -96,6 +97,7 @@ namespace Zelus.Data
             modelBuilder.Configurations.Add(new PlayerCharacterConfiguration());
             modelBuilder.Configurations.Add(new PlayerModConfiguration());
             modelBuilder.Configurations.Add(new PlayerModSetConfiguration());
+            modelBuilder.Configurations.Add(new PlayerModsWithStatConfiguration());
             modelBuilder.Configurations.Add(new PlayerShipConfiguration());
             modelBuilder.Configurations.Add(new UnitConfiguration());
 
@@ -114,6 +116,7 @@ namespace Zelus.Data
             modelBuilder.Configurations.Add(new PlayerCharacterConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerModConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerModSetConfiguration(schema));
+            modelBuilder.Configurations.Add(new PlayerModsWithStatConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerShipConfiguration(schema));
             modelBuilder.Configurations.Add(new UnitConfiguration(schema));
             return modelBuilder;

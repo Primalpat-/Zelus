@@ -1,5 +1,5 @@
 ﻿
-@model int
+@model Zelus.Web.Models.Views.Mods.ModPlannerVM
 
 <style type="text/css">
     .set-filter {
@@ -29,6 +29,7 @@
     <div class="row">
         <div class="col">
             <h2>Mod Sets</h2>
+            <small class="text-muted">Last swgoh.gg sync was <abbr title="@Model.LastSyncDateTime.ToString("r")">@Model.LastSyncHumanized</abbr></small>
             <hr />
         </div>
     </div>
@@ -90,7 +91,7 @@
 
 @section scripts {
     <script type="text/javascript">
-        var playerId = @Model;
+        var playerId = @Model.PlayerId;
 
         $(function() {
             loadAll();
@@ -114,7 +115,7 @@
 
             return {
                 "playerId": playerId,
-                "sets": sets
+                "setNames": sets
             };
         }
 

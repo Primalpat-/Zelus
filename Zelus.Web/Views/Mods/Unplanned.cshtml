@@ -1,5 +1,5 @@
 ﻿
-@model int
+@model Zelus.Web.Models.Views.Mods.ModPlannerVM
 
 <style type="text/css">
     .set-filter {}
@@ -24,6 +24,7 @@
     <div class="row">
         <div class="col">
             <h2>Unplanned Mods</h2>
+            <small class="text-muted">Last swgoh.gg sync was <abbr title="@Model.LastSyncDateTime.ToString("r")">@Model.LastSyncHumanized</abbr></small>
             <hr />
         </div>
     </div>
@@ -81,7 +82,8 @@
             Sort:
         </div>
         <div class="col">
-            ...Sort by control...
+            <div id="sort-container"></div>
+            <a href="#" onclick="addSort()">+ Add Sort</a>
         </div>
         <div class="col">
             <button class="btn btn-primary" type="button" onclick="playerModSets_OnClick()">Save As Modset</button>
@@ -171,7 +173,7 @@
 @section scripts{
     <script type="text/javascript">
 
-        var playerId = @Model;
+        var playerId = @Model.PlayerId;
 
         $(function() {
             loadAll();
@@ -206,6 +208,15 @@
                 sets.push(set);
             });
 
+            //get sorts
+            var sorts = [];
+            $(".sort-option").each(function() {
+                var sort = $(this).find("select").val();
+                sorts.push(sort);
+            });
+
+            console.log(sorts);
+
             //get primary filter for modSlot
             var primary = $("#" + modSlot + "-filter").val();
 
@@ -213,7 +224,8 @@
                 "playerId": playerId,
                 "sets": sets,
                 "modSlot": modSlot,
-                "primary": primary
+                "primary": primary,
+                "sorts": sorts
             };
         }
 
@@ -294,6 +306,49 @@
                     loadAll();
                 }
             });
+        }
+
+        function addSort() {
+            var currentSorts = $("#sort-container").children(".sort-option");
+            var newElement = "<div class='sort-option'>";
+
+            if (currentSorts.length > 0) {
+                newElement += "Then By ";
+            } else {
+                newElement += "Sort By ";
+            }
+
+            newElement += "<select onchange='sortChanged()'>" +
+                            "<option value='0'>select an option</option>" +
+                            "<option value='3'>speed</option>" +
+                            "<option value='5'>critical chance</option>" +
+                            "<option value='9'>critical damage</option>" +
+                            "<option value='101'>flat offense</option>" +
+                            "<option value='201'>percentage offense</option>" +
+                            "<option value='8'>potency</option>" +
+                            "<option value='10'>accuracy</option>" +
+                            "<option value='107'>flat protection</option>" +
+                            "<option value='207'>percentage protection</option>" +
+                            "<option value='106'>flat health</option>" +
+                            "<option value='206'>percentage health</option>" +
+                            "<option value='102'>flat defense</option>" +
+                            "<option value='202'>percentage defense</option>" +
+                            "<option value='4'>tenacity</option>" +
+                            "<option value='11'>critical avoidance</option>" +
+                        "</select> " +
+                        "<a href='#' onclick='removeSort(this)'><span class='badge badge-danger'>X</span></a>" +
+                    "</div>";
+
+            $("#sort-container").append(newElement);
+        }
+
+        function removeSort(element) {
+            $(element).closest(".sort-option").remove();
+            loadAll();
+        }
+
+        function sortChanged() {
+            loadAll();
         }
     </script>
 }

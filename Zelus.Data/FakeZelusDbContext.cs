@@ -30,6 +30,7 @@ namespace Zelus.Data
         public System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; }
         public System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; }
         public System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; }
+        public System.Data.Entity.DbSet<PlayerModsWithStat> PlayerModsWithStats { get; set; }
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; }
         public System.Data.Entity.DbSet<Unit> Units { get; set; }
 
@@ -45,6 +46,7 @@ namespace Zelus.Data
             PlayerCharacters = new FakeDbSet<PlayerCharacter>("Id");
             PlayerMods = new FakeDbSet<PlayerMod>("Id");
             PlayerModSets = new FakeDbSet<PlayerModSet>("Id");
+            PlayerModsWithStats = new FakeDbSet<PlayerModsWithStat>("Id", "PlayerId", "Pips", "SlotId", "SetId", "PrimaryTypeId", "IsInPlayerSet");
             PlayerShips = new FakeDbSet<PlayerShip>("Id");
             Units = new FakeDbSet<Unit>("Id");
 

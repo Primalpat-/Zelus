@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ether.Outcomes;
+using Humanizer;
 using LinqKit;
 using Z.Core.Extensions;
 using Zelus.Data;
+using Zelus.Web.Helpers.Extensions;
 using Zelus.Web.Models.Views.Mods;
 
 namespace Zelus.Web.Controllers
@@ -15,26 +17,49 @@ namespace Zelus.Web.Controllers
     {
         public ActionResult Unplanned(int id)
         {
-            return View(id);
+            var db = new ZelusDbContext();
+            var player = db.Players.FirstOrDefault(p => p.Id == id);
+
+            if (player.IsNull())
+                return View("Error");
+
+            var model = new ModPlannerVM();
+            model.PlayerId = player.Id;
+            model.LastSyncDateTime = player.LastModSync;
+            model.LastSyncHumanized = player.LastModSync.Humanize();
+
+            return View(model);
         }
 
         public ActionResult Planned(int id)
         {
-            return View(id);
+            var db = new ZelusDbContext();
+            var player = db.Players.FirstOrDefault(p => p.Id == id);
+
+            if (player.IsNull())
+                return View("Error");
+
+            var model = new ModPlannerVM();
+            model.PlayerId = player.Id;
+            model.LastSyncDateTime = player.LastModSync;
+            model.LastSyncHumanized = player.LastModSync.Humanize();
+
+            return View(model);
         }
 
-        public ActionResult UnplannedMods(int playerId, List<string> sets, string modSlot, int primary)
+        public ActionResult UnplannedMods(int playerId, List<string> sets, string modSlot, int primary, List<int> sorts)
         {
             var db = new ZelusDbContext();
 
-            var query = PlayerMod.BelongsToPlayer(playerId)
-                                 .And(PlayerMod.IsNotInPlayerSet())
-                                 .And(PlayerMod.IsOfSet(sets))
-                                 .And(PlayerMod.IsOfSlot(modSlot))
-                                 .And(PlayerMod.IsOfPrimary(primary));
+            var query = PlayerModsWithStat.BelongsToPlayer(playerId)
+                                 .And(PlayerModsWithStat.IsNotInPlayerSet())
+                                 .And(PlayerModsWithStat.IsOfSet(sets))
+                                 .And(PlayerModsWithStat.IsOfSlot(modSlot))
+                                 .And(PlayerModsWithStat.IsOfPrimary(primary));
 
-            var mods = db.PlayerMods
+            var mods = db.PlayerModsWithStats
                          .Where(query)
+                         .ApplySorts(sorts)
                          .Take(10)
                          .ToList();
 

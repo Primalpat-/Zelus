@@ -34,8 +34,10 @@ namespace Zelus.Data
             Property(x => x.InGameName).HasColumnName(@"InGameName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
             Property(x => x.SwgohGgName).HasColumnName(@"SwgohGgName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
             Property(x => x.SwgohGgUrl).HasColumnName(@"SwgohGgUrl").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.LastSync).HasColumnName(@"LastSync").HasColumnType("datetime").IsOptional();
+            Property(x => x.CollectionSyncEnabled).HasColumnName(@"CollectionSyncEnabled").HasColumnType("bit").IsRequired();
+            Property(x => x.LastCollectionSync).HasColumnName(@"LastCollectionSync").HasColumnType("datetime").IsRequired();
             Property(x => x.ModSyncEnabled).HasColumnName(@"ModSyncEnabled").HasColumnType("bit").IsRequired();
+            Property(x => x.LastModSync).HasColumnName(@"LastModSync").HasColumnType("datetime").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.Guild).WithMany(b => b.Players).HasForeignKey(c => c.GuildId); // FK_Players_Guilds

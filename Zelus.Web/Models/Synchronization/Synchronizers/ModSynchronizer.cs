@@ -6,14 +6,17 @@ using EntityFramework.BulkExtensions.Operations;
 using Ether.Outcomes;
 using Zelus.Data;
 using Zelus.Web.Models.Synchronization.Scrapers;
+using Z.Core.Extensions;
 
 namespace Zelus.Web.Models.Synchronization.Synchronizers
 {
     public class ModSynchronizer
     {
         private readonly ZelusDbContext _db;
+        private readonly List<Player> _players;
         private readonly List<PlayerMod> _mods;
 
+        private List<Player> _playersToSync = new List<Player>();
         private List<PlayerMod> _newMods = new List<PlayerMod>();
         private List<PlayerMod> _modsToUpdate = new List<PlayerMod>();
 
@@ -28,6 +31,9 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
 
                 if (_modsToUpdate.Count > 0)
                     _db.BulkUpdate(_modsToUpdate);
+
+                if (_playersToSync.Count > 0)
+                    _db.BulkUpdate(_playersToSync);
 
                 _db.SaveChanges();
 
@@ -45,6 +51,8 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
             var scraper = new ModScraper();
             var remoteMods = scraper.Execute(_db);
 
+            BuildPlayersToSync(remoteMods);
+
             foreach (var remoteMod in remoteMods)
             {
                 var savedMod = _mods.FirstOrDefault(m => m.PlayerId == remoteMod.PlayerId &&
@@ -56,6 +64,9 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
                                                          m.Secondary2Value == remoteMod.Secondary2Value &&
                                                          m.Secondary3Value == remoteMod.Secondary3Value &&
                                                          m.Secondary4Value == remoteMod.Secondary4Value);
+
+                //TODO - This updating of mods needs to be fixed.  We need to look at using some sort of external ID to match them on
+                //The bug happens when an unlevelled mod gets levelled and sync'd
 
                 if (savedMod == null)
                     _newMods.Add(remoteMod);
@@ -73,9 +84,26 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
             }
         }
 
+        private void BuildPlayersToSync(List<PlayerMod> remotePlayerMods)
+        {
+            var playerIds = remotePlayerMods.Select(pc => pc.PlayerId).Distinct().ToList();
+            foreach (var playerId in playerIds)
+            {
+                var player = _playersToSync.FirstOrDefault(p => p.Id == playerId);
+
+                if (player.IsNotNull())
+                    continue;
+
+                player = _players.Single(p => p.Id == playerId);
+                player.LastModSync = DateTime.UtcNow;
+                _playersToSync.Add(player);
+            }
+        }
+
         public ModSynchronizer()
         {
             _db = new ZelusDbContext();
+            _players = _db.Players.Where(p => p.ModSyncEnabled).ToList();
             _mods = _db.PlayerMods.ToList();
         }
     }

@@ -19,9 +19,9 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
             var units = db.Units.ToList();
             var players = db.Players
                             .Where(p => p.ModSyncEnabled &&
-                                        p.LastSync < timeFilter)
+                                        p.LastModSync < timeFilter)
                             .Include(p => p.PlayerCharacters)
-                            .OrderBy(p => p.LastSync)
+                            .OrderBy(p => p.LastModSync)
                             .ToList();
 
             foreach (var player in players)

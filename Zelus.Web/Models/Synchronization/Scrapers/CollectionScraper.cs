@@ -15,8 +15,9 @@ namespace Zelus.Web.Models.Synchronization.Scrapers
             var timeFilter = DateTime.UtcNow.AddHours(-18);
             var units = db.Units.ToList();
             var players = db.Players
-                            .Where(p => p.LastSync < timeFilter)
-                            .OrderBy(p => p.LastSync)
+                            .Where(p => p.CollectionSyncEnabled &&
+                                        p.LastCollectionSync < timeFilter)
+                            .OrderBy(p => p.LastCollectionSync)
                             .ToList();
 
             foreach (var player in players)

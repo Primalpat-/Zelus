@@ -142,6 +142,16 @@ namespace Zelus.Data
 
         public PlayerMod()
         {
+            PrimaryTypeId = 0;
+            PrimaryUnitsId = 0;
+            Secondary1TypeId = 0;
+            Secondary1UnitsId = 0;
+            Secondary2TypeId = 0;
+            Secondary2UnitsId = 0;
+            Secondary3TypeId = 0;
+            Secondary3UnitsId = 0;
+            Secondary4TypeId = 0;
+            Secondary4UnitsId = 0;
             Mod1 = new System.Collections.Generic.List<PlayerModSet>();
             Mod2 = new System.Collections.Generic.List<PlayerModSet>();
             Mod3 = new System.Collections.Generic.List<PlayerModSet>();

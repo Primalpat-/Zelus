@@ -141,6 +141,13 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="PlayerModSetQueries.cs" />
+    <Compile Include="PlayerModsWithStat.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerModsWithStatConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerModsWithStatsQueries.cs" />
     <Compile Include="PlayerShip.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>

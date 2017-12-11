@@ -31,7 +31,7 @@ namespace Zelus.Data
                 var requiredMods = setEnum.NumberRequiredForBonus();
 
                 if (requiredMods == 4)
-                    predicate = predicate.Or(s => (s.Mod3.SetId == (int)setEnum && s.Mod4.SetId == (int)setEnum && s.Mod5.SetId == (int)setEnum && s.Mod6.SetId == (int)setEnum) ||
+                    predicate = predicate.And(s => (s.Mod3.SetId == (int)setEnum && s.Mod4.SetId == (int)setEnum && s.Mod5.SetId == (int)setEnum && s.Mod6.SetId == (int)setEnum) ||
                                                   (s.Mod2.SetId == (int)setEnum && s.Mod4.SetId == (int)setEnum && s.Mod5.SetId == (int)setEnum && s.Mod6.SetId == (int)setEnum) ||
                                                   (s.Mod2.SetId == (int)setEnum && s.Mod3.SetId == (int)setEnum && s.Mod5.SetId == (int)setEnum && s.Mod6.SetId == (int)setEnum) ||
                                                   (s.Mod2.SetId == (int)setEnum && s.Mod3.SetId == (int)setEnum && s.Mod4.SetId == (int)setEnum && s.Mod6.SetId == (int)setEnum) ||
@@ -47,7 +47,7 @@ namespace Zelus.Data
                                                   (s.Mod1.SetId == (int)setEnum && s.Mod2.SetId == (int)setEnum && s.Mod3.SetId == (int)setEnum && s.Mod5.SetId == (int)setEnum) ||
                                                   (s.Mod1.SetId == (int)setEnum && s.Mod2.SetId == (int)setEnum && s.Mod3.SetId == (int)setEnum && s.Mod4.SetId == (int)setEnum));
                 else
-                    predicate = predicate.Or(s => (s.Mod1.SetId == (int)setEnum && s.Mod2.SetId == (int)setEnum) ||
+                    predicate = predicate.And(s => (s.Mod1.SetId == (int)setEnum && s.Mod2.SetId == (int)setEnum) ||
                                                   (s.Mod1.SetId == (int)setEnum && s.Mod3.SetId == (int)setEnum) ||
                                                   (s.Mod1.SetId == (int)setEnum && s.Mod4.SetId == (int)setEnum) ||
                                                   (s.Mod1.SetId == (int)setEnum && s.Mod5.SetId == (int)setEnum) ||

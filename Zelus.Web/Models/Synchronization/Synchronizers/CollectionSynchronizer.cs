@@ -73,7 +73,7 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
 
         private void BuildPlayersToSync(List<PlayerCharacter> remotePlayerCharacters)
         {
-            var playerIds = remotePlayerCharacters.Select(pc => pc.PlayerId).ToList();
+            var playerIds = remotePlayerCharacters.Select(pc => pc.PlayerId).Distinct().ToList();
             foreach (var playerId in playerIds)
             {
                 var player = _playersToSync.FirstOrDefault(p => p.Id == playerId);
@@ -82,7 +82,7 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
                     continue;
 
                 player = _players.Single(p => p.Id == playerId);
-                player.LastSync = DateTime.UtcNow;
+                player.LastCollectionSync = DateTime.UtcNow;
                 _playersToSync.Add(player);
             }
         }
@@ -90,7 +90,7 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
         public CollectionSynchronizer()
         {
             _db = new ZelusDbContext();
-            _players = _db.Players.ToList();
+            _players = _db.Players.Where(p => p.CollectionSyncEnabled).ToList();
             _characters = _db.PlayerCharacters.ToList();
         }
     }

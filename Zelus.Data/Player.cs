@@ -24,8 +24,10 @@ namespace Zelus.Data
         public string InGameName { get; set; } // InGameName (length: 50)
         public string SwgohGgName { get; set; } // SwgohGgName (length: 50)
         public string SwgohGgUrl { get; set; } // SwgohGgUrl (length: 100)
-        public System.DateTime? LastSync { get; set; } // LastSync
+        public bool CollectionSyncEnabled { get; set; } // CollectionSyncEnabled
+        public System.DateTime LastCollectionSync { get; set; } // LastCollectionSync
         public bool ModSyncEnabled { get; set; } // ModSyncEnabled
+        public System.DateTime LastModSync { get; set; } // LastModSync
 
         // Reverse navigation
 
@@ -51,7 +53,10 @@ namespace Zelus.Data
 
         public Player()
         {
+            CollectionSyncEnabled = true;
+            LastCollectionSync = System.DateTime.UtcNow;
             ModSyncEnabled = false;
+            LastModSync = System.DateTime.UtcNow;
             PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
             PlayerMods = new System.Collections.Generic.List<PlayerMod>();
             PlayerModSets = new System.Collections.Generic.List<PlayerModSet>();

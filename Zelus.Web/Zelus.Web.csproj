@@ -66,6 +66,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.6.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.6.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="LinqKit, Version=1.1.9.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqKit.1.1.9.0\lib\net45\LinqKit.dll</HintPath>
     </Reference>
@@ -183,8 +186,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Extensions\ModSorter.cs" />
     <Compile Include="Helpers\Extensions\PlayerModExtensions.cs" />
-    <Compile Include="Helpers\Extensions\PlayerModQueryableExtensions.cs" />
     <Compile Include="Helpers\Extensions\PlayerModSetExtensions.cs" />
     <Compile Include="Helpers\GuildHome\PlayerRowExtensions.cs" />
     <Compile Include="Helpers\PlayerMods\ModContainerExtensions.cs" />
@@ -204,6 +207,7 @@
     <Compile Include="Models\Synchronization\Synchronizers\ModSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\PlayerSynchronizer.cs" />
     <Compile Include="Models\Synchronization\Synchronizers\UnitSynchronizer.cs" />
+    <Compile Include="Models\Views\Mods\ModPlannerVM.cs" />
     <Compile Include="Models\Views\Mods\ModSetVM.cs" />
     <Compile Include="Models\Views\Mods\ModVM.cs" />
     <Compile Include="Models\Views\Mods\ModVMFactory.cs" />

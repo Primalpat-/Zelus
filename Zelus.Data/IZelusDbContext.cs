@@ -27,6 +27,7 @@ namespace Zelus.Data
         System.Data.Entity.DbSet<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters
         System.Data.Entity.DbSet<PlayerMod> PlayerMods { get; set; } // PlayerMods
         System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; } // PlayerModSets
+        System.Data.Entity.DbSet<PlayerModsWithStat> PlayerModsWithStats { get; set; } // PlayerModsWithStats
         System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
         System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 

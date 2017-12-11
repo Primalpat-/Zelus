@@ -16,7 +16,7 @@ namespace Zelus.Web.Models.DataSimplification
                 player.InGameName,
                 player.SwgohGgName,
                 player.SwgohGgUrl,
-                player.LastSync
+                player.LastCollectionSync
             };
         }
 
@@ -28,7 +28,7 @@ namespace Zelus.Web.Models.DataSimplification
                 player.InGameName,
                 player.SwgohGgName,
                 player.SwgohGgUrl,
-                player.LastSync,
+                player.LastCollectionSync,
                 Collection = player.PlayerCharacters
                                    .Select(PlayerCharacterSimplifier.SimplePlayerCharacter)
                                    .ToList()
