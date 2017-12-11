@@ -14,6 +14,7 @@ namespace Zelus.Web.Helpers.PlayerMods
         {
             var mod = new PlayerMod();
 
+            mod.SwgohGgId = container.ParseId();
             mod.PlayerId = player.Id;
             mod.PlayerCharacterId = container.ParsePlayerCharacter(player, units);
             mod.Pips = container.ParsePips();
@@ -21,6 +22,12 @@ namespace Zelus.Web.Helpers.PlayerMods
             mod.SetId = container.ParseSet();
 
             return container.ParseStats(mod);
+        }
+
+        private static string ParseId(this HtmlNode container)
+        {
+            var id = container.Attributes["data-id"].Value;
+            return id;
         }
 
         private static int ParsePlayerCharacter(this HtmlNode container, Player player, List<Unit> units)

@@ -85,7 +85,7 @@ namespace Zelus.Web.Models.Views.Mods
 
             model.CharacterName = mod.PlayerCharacter?.Unit?.Name ?? "Unassigned";
             model.CharacterUrl = GetCharacterUrl(mod);
-            model.CharacterImg = mod.PlayerCharacter?.Unit?.Image ?? "";
+            model.CharacterImg = mod.PlayerCharacter?.Unit?.Image ?? "/Content/Images/unassigned.jpg";
 
             if (mod.PrimaryType != null)
                 model.Primary = $"+{GetModStatValue(mod.PrimaryValue, (ModStatUnits)mod.PrimaryUnitsId)} {GetPrimaryModStatTypeName(mod.PrimaryType)}";

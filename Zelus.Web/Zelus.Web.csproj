@@ -278,6 +278,7 @@
     <Content Include="Content\Images\potency.png" />
     <Content Include="Content\Images\speed.png" />
     <Content Include="Content\Images\tenacity.png" />
+    <Content Include="Content\Images\unassigned.jpg" />
     <Content Include="Content\mods.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />

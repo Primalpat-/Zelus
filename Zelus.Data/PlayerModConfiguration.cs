@@ -32,6 +32,7 @@ namespace Zelus.Data
             Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.PlayerId).HasColumnName(@"PlayerId").HasColumnType("int").IsRequired();
             Property(x => x.PlayerCharacterId).HasColumnName(@"PlayerCharacterId").HasColumnType("int").IsOptional();
+            Property(x => x.SwgohGgId).HasColumnName(@"SwgohGgId").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(150);
             Property(x => x.Pips).HasColumnName(@"Pips").HasColumnType("int").IsRequired();
             Property(x => x.SlotId).HasColumnName(@"SlotId").HasColumnType("int").IsRequired();
             Property(x => x.SetId).HasColumnName(@"SetId").HasColumnType("int").IsRequired();

@@ -22,6 +22,7 @@ namespace Zelus.Data
         public int Id { get; set; } // Id (Primary key)
         public int PlayerId { get; set; } // PlayerId
         public int? PlayerCharacterId { get; set; } // PlayerCharacterId
+        public string SwgohGgId { get; set; } // SwgohGgId (length: 150)
         public int Pips { get; set; } // Pips
         public int SlotId { get; set; } // SlotId
         public int SetId { get; set; } // SetId

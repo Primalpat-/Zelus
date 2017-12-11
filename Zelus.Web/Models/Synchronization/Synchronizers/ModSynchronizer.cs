@@ -32,6 +32,12 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
                 if (_modsToUpdate.Count > 0)
                     _db.BulkUpdate(_modsToUpdate);
 
+                if (_mods.Count > 0)
+                {
+                    var pcRemovedMods = _mods.Select(m => { m.PlayerCharacter = null; m.PlayerCharacterId = null; return m; });
+                    _db.BulkUpdate(pcRemovedMods);
+                }
+
                 if (_playersToSync.Count > 0)
                     _db.BulkUpdate(_playersToSync);
 
@@ -55,23 +61,13 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
 
             foreach (var remoteMod in remoteMods)
             {
-                var savedMod = _mods.FirstOrDefault(m => m.PlayerId == remoteMod.PlayerId &&
-                                                         m.SlotId == remoteMod.SlotId &&
-                                                         m.SetId == remoteMod.SetId &&
-                                                         m.Pips == remoteMod.Pips &&
-                                                         m.PrimaryValue == remoteMod.PrimaryValue &&
-                                                         m.Secondary1Value == remoteMod.Secondary1Value &&
-                                                         m.Secondary2Value == remoteMod.Secondary2Value &&
-                                                         m.Secondary3Value == remoteMod.Secondary3Value &&
-                                                         m.Secondary4Value == remoteMod.Secondary4Value);
-
-                //TODO - This updating of mods needs to be fixed.  We need to look at using some sort of external ID to match them on
-                //The bug happens when an unlevelled mod gets levelled and sync'd
+                var savedMod = LookupSavedMod(remoteMod);
 
                 if (savedMod == null)
                     _newMods.Add(remoteMod);
                 else
                 {
+                    savedMod.SwgohGgId = remoteMod.SwgohGgId;
                     savedMod.PlayerCharacterId = remoteMod.PlayerCharacterId;
                     savedMod.PrimaryValue = remoteMod.PrimaryValue;
                     savedMod.Secondary1Value = remoteMod.Secondary1Value;
@@ -98,6 +94,27 @@ namespace Zelus.Web.Models.Synchronization.Synchronizers
                 player.LastModSync = DateTime.UtcNow;
                 _playersToSync.Add(player);
             }
+        }
+
+        private PlayerMod LookupSavedMod(PlayerMod remoteMod)
+        {
+            var savedMod = _mods.FirstOrDefault(m => m.SwgohGgId == remoteMod.SwgohGgId);
+
+            if (savedMod.IsNull())
+                savedMod = _mods.FirstOrDefault(m => m.PlayerId == remoteMod.PlayerId &&
+                                                     m.SlotId == remoteMod.SlotId &&
+                                                     m.SetId == remoteMod.SetId &&
+                                                     m.Pips == remoteMod.Pips &&
+                                                     m.PrimaryValue == remoteMod.PrimaryValue &&
+                                                     m.Secondary1Value == remoteMod.Secondary1Value &&
+                                                     m.Secondary2Value == remoteMod.Secondary2Value &&
+                                                     m.Secondary3Value == remoteMod.Secondary3Value &&
+                                                     m.Secondary4Value == remoteMod.Secondary4Value);
+
+            if (savedMod.IsNotNull())
+                _mods.Remove(savedMod);
+
+            return savedMod;
         }
 
         public ModSynchronizer()
