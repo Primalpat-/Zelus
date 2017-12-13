@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSF Alliance API</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+</head>
+<body>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    @Html.ActionLink("GSF Alliance API", "Index", "Default", new { area = "Api" }, new { @class = "navbar-brand" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                
+            </li>
+            <li class="nav-item">
+                
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarApiDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Api</a>
+                <div class="dropdown-menu" aria-labelledby="navbarApiDropdown">
+                    <a class="dropdown-item" href="@Url.Action("Index", "Alliance", new {Area="Api",id=0})">Alliance Service</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Guild", new {Area="Api",id=0})">Guild Service</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Player", new {Area="Api",id=0})">Player Service</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarModsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mods</a>
+                <div class="dropdown-menu" aria-labelledby="navbarModsDropdown">
+                    <a class="dropdown-item" href="@Url.Action("Index", "Alliance", new {Area="Api"})">Alliance Service</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Guild", new {Area="Api"})">Guild Service</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Player", new {Area="Api"})">Player Service</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+    <div style="height: 30px;"></div>
+@*<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("GSF Alliance API", "Index", "Default", new { area = "Api" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+
+            </ul>
+        </div>
+    </div>
+</div>*@
+<div class="body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - GSF Alliance API</p>
+    </footer>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/knockout.validation.min.js"></script>
+    <script src="~/Scripts/fontawesome-all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+@RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,108 @@
+﻿
+@using Newtonsoft.Json
+@model Zelus.Web.Models.Views.TerritoryWar.StrategyViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Territory War Strategy</h2>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form id="strategyForm" data-bind="submit: calculateStrategy">
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="strategyType">Strategy</label>
+                            <select class="form-control" id="strategyType" aria-describedby="strategyHelp" required
+                                    data-bind="options: availableStrategies, 
+                                               value: master.StrategyType, 
+                                               optionsValue: 'value', 
+                                               optionsText: 'strategyName' ,
+                                               optionsCaption: 'Select a Strategy'"></select>
+                            <small class="form-text text-muted" id="strategyHelp">If you are unsure about which strategy to select, ask an officer!</small>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="PlayerName">Username (for <a href="https://swgoh.gg">swgoh.gg</a>)</label>
+                            @Html.EditorFor(m => m.PlayerName, new { htmlAttributes = new { @data_bind = "value: master.PlayerName", @aria_describedby = "PlayerNameHelp", @placeholder = "Enter Username" }})
+                            <small class="form-text text-muted" id="PlayerNameHelp">After logging into <a href="https://swgoh.gg">swgoh.gg</a>, your username will appear after the "u" in the browser's URL bar.</small>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="d-none d-md-block" style="height: 32px;"></div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-globe"></i> Strategize</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="strategyContainer" @*data-bind="visible: master.Strategy.LastSyncHumanized.length > 0"*@>
+        <div class="row">
+            <div class="col">
+                <h3>The Plan for <span data-bind="text: master.PlayerName"></span></h3>
+                <small class="text-muted">
+                    The last time we sync'd your characters was
+                    <abbr data-bind="text: master.Strategy.LastSyncHumanized, attr: { title: master.Strategy.LastSyncDateTime }"></abbr>
+                </small>
+            </div>
+        </div>
+        <div style="height: 30px;">
+            Defensive Squads: <span data-bind="text: master.Strategy.NumberOfDefensiveSquads()"></span>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>
+                    Based on your roster compared with the rest of your guild, we recommend setting at least 
+                    <span data-bind="text: master.Strategy.NumberOfDefensiveSquads"></span> character squads.  
+                    Try to use as many characters from the below list as you can, while keeping synergies.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/Custom/strategyviewmodel.js"></script>
+    <script type="text/javascript">
+        var strategyViewModel = new StrategyViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(strategyViewModel);
+
+
+        var viewModel = function() {
+            var self = this;
+            self.master = ko.mapping.fromJSON('@Html.Raw(JsonConvert.SerializeObject(Model))');
+            self.availableStrategies = [
+                { strategyName: "Defensive", value: 1 },
+                { strategyName: "Balanced", value: 2 },
+                { strategyName: "Aggressive", value: 3 }
+            ];
+            self.calculateStrategy = function() {
+                $.ajax("@Url.Action("CalculateStrategyForPlayer", "TerritoryWar")",
+                {
+                    data: ko.toJSON({ strategyType: self.master.StrategyType, playerName: self.master.PlayerName }),
+                    type: "post",
+                    contentType: "application/json",
+                    fail: function() {
+                        toastr.error("Could not connect to the server...", "Error while strategizing:");
+                    },
+                    success: function(result) {
+                        if (!result.Success)
+                            toastr.error(result.Messages[0], "Error while strategizing:");
+                        else
+                            ko.mapping.fromJS(result.Value, {}, self.master.Strategy);
+
+                        console.log(self);
+                    }
+                });
+            };
+        };
+
+        $(function() {
+            ko.applyBindings(new viewModel());
+        });
+    </script>
+}

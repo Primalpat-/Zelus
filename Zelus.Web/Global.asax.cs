@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Zelus.Web.ViewEngine;
 
 namespace Zelus.Web
 {
@@ -12,6 +13,10 @@ namespace Zelus.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //Configure ViewEngine (for custom View paths)
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new FeatureOrientedRazorViewEngine());
         }
     }
 }

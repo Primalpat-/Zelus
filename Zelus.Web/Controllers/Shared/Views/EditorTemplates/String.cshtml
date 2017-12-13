@@ -1,0 +1,16 @@
+﻿
+@using Zelus.Web.Helpers.Html
+@model string
+
+@{
+    var defaultHtmlAttributesObject = new {type = "text", @class = "form-control"};
+    var htmlAttributesObject = ViewData["htmlAttributes"] ?? new {};
+    var htmlAttributes = Html.MergeHtmlAttributes(htmlAttributesObject, defaultHtmlAttributesObject);
+
+    if (ViewData.ModelMetadata.IsRequired)
+    {
+        htmlAttributes["required"] = "required";
+    }
+}
+
+@Html.TextBox("", ViewData.TemplateInfo.FormattedModelValue, htmlAttributes)

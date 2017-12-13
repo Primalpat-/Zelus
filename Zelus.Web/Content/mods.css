@@ -98,6 +98,22 @@
         cursor: pointer;
     }
 
+.statmod-inset {
+    position: absolute;
+    right: 4px;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    padding-top: 4px;
+    font-size: 18px;
+    color: gold;
+    background-color: #111;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 10px;
+    box-shadow: 0 0 0 1px #555;
+}
+
 /* Mod Character Portrait */
 .collection-mod,
 .statmod-char-portrait {
