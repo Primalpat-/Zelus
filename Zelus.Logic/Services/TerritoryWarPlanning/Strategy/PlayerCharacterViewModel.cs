@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Zelus.Web.Models.Views.TerritoryWar
+﻿namespace Zelus.Logic.Services.TerritoryWarPlanning.Strategy
 {
-    public class PlayerCharacterVM
+    public class PlayerCharacterViewModel
     {
         public int PlayerId { get; set; }
         public int Id { get; set; }

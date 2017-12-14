@@ -4,7 +4,7 @@ using Ether.Outcomes;
 using Z.Core.Extensions;
 using Zelus.Data;
 
-namespace Zelus.Web.Models.Views.Mods
+namespace Zelus.Web.Controllers.Mods.Models
 {
     public static class PlayerModSetManager
     {

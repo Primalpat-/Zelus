@@ -42,6 +42,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.6.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.6.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
@@ -80,6 +83,14 @@
     <Compile Include="Extensions\VariableManipulation\ReduceToDigitsExtension.cs" />
     <Compile Include="Extensions\VariableManipulation\RomanNumeralExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\AggressiveStrategy.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\BalancedStrategy.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\DefensiveStrategy.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\PlanningStrategyBase.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\PlayerCharacterViewModel.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\StrategyResultViewModel.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\Strategy\StrategyType.cs" />
+    <Compile Include="Services\TerritoryWarPlanning\TerritoryWarPlanningService.cs" />
     <Compile Include="Synchronization\API\SwgohGgApi.cs" />
     <Compile Include="Synchronization\Scrapers\CollectionScraper.cs" />
     <Compile Include="Synchronization\Scrapers\ModScraper.cs" />

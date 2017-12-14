@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Zelus.Web.Controllers
+namespace Zelus.Web.Controllers.Home
 {
     public class HomeController : Controller
     {

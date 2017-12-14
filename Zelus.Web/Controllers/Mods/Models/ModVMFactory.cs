@@ -5,7 +5,7 @@ using Zelus.Data;
 using Zelus.Logic.Extensions.Entities.PlayerMods;
 using Zelus.Logic.Extensions.Entities.PlayerModSets;
 
-namespace Zelus.Web.Models.Views.Mods
+namespace Zelus.Web.Controllers.Mods.Models
 {
     public static class ModVMFactory
     {

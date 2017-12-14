@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Ether.Outcomes;
 using Humanizer;
 using Zelus.Data;
 
-namespace Zelus.Web.Models.Views.TerritoryWar.Planning
+namespace Zelus.Logic.Services.TerritoryWarPlanning.Strategy
 {
     public class BalancedStrategy : PlanningStrategyBase
     {
         public override int NumberOfTopCharacters => 2000;
 
-        public override IOutcome<StrategyResultVM> Plan(Player player, List<PlayerCharacterVM> topGuildCharacters)
+        public override IOutcome<StrategyResultViewModel> Plan(Player player, List<PlayerCharacterViewModel> topGuildCharacters)
         {
             var playerTopCharacters = topGuildCharacters.Where(pc => pc.PlayerId == player.Id)
                                                         .OrderByDescending(pc => pc.Power)
@@ -21,15 +19,16 @@ namespace Zelus.Web.Models.Views.TerritoryWar.Planning
             var numOfTopCharacters = playerTopCharacters.Count();
             var numOfDefCharacters = numOfTopCharacters / 2;
 
-            var model = new StrategyResultVM();
+            var model = new StrategyResultViewModel();
 
+            model.IsVisible = true;
             model.LastSyncHumanized = player.LastCollectionSync.Humanize();
             model.LastSyncDateTime = player.LastCollectionSync.ToString("r");
             model.NumberOfDefensiveTeams = numOfDefCharacters / 5;
             model.TopCharacters = playerTopCharacters.Take(numOfDefCharacters)
                                                      .ToList();
 
-            return Outcomes.Success<StrategyResultVM>()
+            return Outcomes.Success<StrategyResultViewModel>()
                            .WithValue(model);
         }
     }

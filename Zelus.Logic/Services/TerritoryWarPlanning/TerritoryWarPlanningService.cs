@@ -2,19 +2,19 @@
 using System.Linq;
 using Ether.Outcomes;
 using Zelus.Data;
-using Zelus.Web.Models.Views.TerritoryWar.Planning;
+using Zelus.Logic.Services.TerritoryWarPlanning.Strategy;
 
-namespace Zelus.Web.Models.Views.TerritoryWar
+namespace Zelus.Logic.Services.TerritoryWarPlanning
 {
     public class PlanningService
     {
-        public IOutcome<StrategyResultVM> Execute(PlanningStrategyBase strategy, ZelusDbContext db, Player player)
+        public IOutcome<StrategyResultViewModel> Execute(PlanningStrategyBase strategy, ZelusDbContext db, Player player)
         {
             var topCharacters = GetTopCharacters(db, player.GuildId, strategy.NumberOfTopCharacters);
             return strategy.Plan(player, topCharacters);
         }
 
-        private List<PlayerCharacterVM> GetTopCharacters(ZelusDbContext db, int guildId, int numOfTopCharacters)
+        private List<PlayerCharacterViewModel> GetTopCharacters(ZelusDbContext db, int guildId, int numOfTopCharacters)
         {
             var topPlayerCharacters = db.Guilds
                                         .Where(g => g.Id == guildId)
@@ -28,9 +28,9 @@ namespace Zelus.Web.Models.Views.TerritoryWar
                                       .ToList();
         }
 
-        private PlayerCharacterVM GetModelForPlayerCharacter(PlayerCharacter pc)
+        private PlayerCharacterViewModel GetModelForPlayerCharacter(PlayerCharacter pc)
         {
-            var model = new PlayerCharacterVM();
+            var model = new PlayerCharacterViewModel();
 
             model.PlayerId = pc.PlayerId;
             model.Id = pc.Id;

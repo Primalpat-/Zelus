@@ -198,15 +198,7 @@
     <Compile Include="Controllers\Mods\Models\ModVM.cs" />
     <Compile Include="Controllers\Mods\Models\ModVMFactory.cs" />
     <Compile Include="Controllers\Mods\Models\PlayerModSetManager.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\PlanningService.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\Planning\AggressiveStrategy.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\Planning\BalancedStrategy.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\Planning\DefensiveStrategy.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\Planning\PlanningStrategyBase.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\Planning\StrategyResultVM.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\Planning\StrategyType.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\PlayerCharacterVM.cs" />
-    <Compile Include="Controllers\TerritoryWar\Models\StrategyVM.cs" />
+    <Compile Include="Controllers\TerritoryWar\Models\StrategyViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewEngine\FeatureOrientedRazorViewEngine.cs" />
   </ItemGroup>

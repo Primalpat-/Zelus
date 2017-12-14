@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Zelus.Logic.Synchronization;
 
-namespace Zelus.Web.Controllers
+namespace Zelus.Web.Controllers.Schedule
 {
     public class ScheduleController : Controller
     {

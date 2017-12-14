@@ -2,8 +2,9 @@
 using System.Web.Mvc;
 using Zelus.Data;
 using Zelus.Logic.API.DataSimplification;
+using Zelus.Web.Areas.Api.Controllers.Shared;
 
-namespace Zelus.Web.Areas.Api.Controllers
+namespace Zelus.Web.Areas.Api.Controllers.Guild
 {
     public class GuildController : ApiControllerBase
     {

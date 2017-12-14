@@ -6,10 +6,10 @@ using Humanizer;
 using LinqKit;
 using Z.Core.Extensions;
 using Zelus.Data;
-using Zelus.Web.Models.Views.Mods;
 using Zelus.Logic.Extensions.Entities.PlayerModsWithStats;
+using Zelus.Web.Controllers.Mods.Models;
 
-namespace Zelus.Web.Controllers
+namespace Zelus.Web.Controllers.Mods
 {
     public class ModsController : Controller
     {

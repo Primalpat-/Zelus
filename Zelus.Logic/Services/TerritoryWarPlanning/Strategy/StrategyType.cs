@@ -1,4 +1,4 @@
-﻿namespace Zelus.Web.Models.Views.TerritoryWar
+﻿namespace Zelus.Logic.Services.TerritoryWarPlanning.Strategy
 {
     public enum StrategyType
     {

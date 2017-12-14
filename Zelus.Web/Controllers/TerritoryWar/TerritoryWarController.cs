@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Ether.Outcomes;
 using Z.Core.Extensions;
 using Zelus.Data;
-using Zelus.Web.Models.Views.TerritoryWar;
-using Zelus.Web.Models.Views.TerritoryWar.Planning;
+using Zelus.Logic.Services.TerritoryWarPlanning;
+using Zelus.Logic.Services.TerritoryWarPlanning.Strategy;
+using Zelus.Web.Controllers.TerritoryWar.Models;
 
-namespace Zelus.Web.Controllers
+namespace Zelus.Web.Controllers.TerritoryWar
 {
     public class TerritoryWarController : Controller
     {
@@ -21,8 +20,6 @@ namespace Zelus.Web.Controllers
         public ActionResult Strategy()
         {
             var model = new StrategyViewModel();
-            model.PlayerName = "Primalpat";
-            model.StrategyType = 2;
             return View(model);
         }
 

@@ -1,6 +1,6 @@
 ﻿using Zelus.Data;
 
-namespace Zelus.Web.Models.Views.Mods
+namespace Zelus.Web.Controllers.Mods.Models
 {
     public class ModVM
     {

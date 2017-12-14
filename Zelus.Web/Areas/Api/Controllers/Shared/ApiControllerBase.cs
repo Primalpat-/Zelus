@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
-namespace Zelus.Web.Areas.Api.Controllers
+namespace Zelus.Web.Areas.Api.Controllers.Shared
 {
     public class ApiControllerBase : Controller
     {
