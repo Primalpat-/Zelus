@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using Ether.Outcomes;
 using Zelus.Data;
@@ -23,13 +24,13 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 CategorizePlayers();
 
                 if (_newPlayers.Count > 0)
-                    _db.BulkInsert(_newPlayers);
+                    _db.Players.AddRange(_newPlayers);
 
-                if (_playersToUpdate.Count > 0)
-                    _db.BulkUpdate(_playersToUpdate);
+                foreach (var playerToUpdate in _playersToUpdate)
+                    _db.Players.AddOrUpdate(playerToUpdate);
 
                 if (_playersToRemove.Count > 0)
-                    _db.BulkDelete(_playersToRemove);
+                    _db.Players.RemoveRange(_playersToRemove);
 
                 return Outcomes.Success();
             }

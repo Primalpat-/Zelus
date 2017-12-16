@@ -5,6 +5,7 @@ using Ether.Outcomes;
 using Z.Core.Extensions;
 using Zelus.Data;
 using Zelus.Logic.Synchronization.Scrapers;
+using System.Data.Entity.Migrations;
 
 namespace Zelus.Logic.Synchronization.Synchronizers
 {
@@ -25,13 +26,13 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 CategorizePlayerCharacters();
 
                 if (_newPlayerCharacters.Count > 0)
-                    _db.BulkInsert(_newPlayerCharacters);
+                    _db.PlayerCharacters.AddRange(_newPlayerCharacters);
 
-                if (_playerCharactersToUpdate.Count > 0)
-                    _db.BulkUpdate(_playerCharactersToUpdate);
+                foreach (var playerCharacterToUpdate in _playerCharactersToUpdate)
+                    _db.PlayerCharacters.AddOrUpdate(playerCharacterToUpdate);
 
-                if (_playersToSync.Count > 0)
-                    _db.BulkUpdate(_playersToSync);
+                foreach (var playerToSync in _playersToSync)
+                    _db.Players.AddOrUpdate(playerToSync);
 
                 return Outcomes.Success();
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using Ether.Outcomes;
 using RestSharp;
@@ -26,10 +27,10 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 CategorizeUnits();
 
                 if (_newUnits.Count > 0)
-                    _db.BulkInsert(_newUnits);
+                    _db.Units.AddRange(_newUnits);
 
-                if (_unitsToUpdate.Count > 0)
-                    _db.BulkUpdate(_unitsToUpdate);
+                foreach(var unitToUpdate in _unitsToUpdate)
+                    _db.Units.AddOrUpdate(unitToUpdate);
 
                 return Outcomes.Success();
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using Ether.Outcomes;
 using Z.Core.Extensions;
@@ -23,21 +24,21 @@ namespace Zelus.Logic.Synchronization.Synchronizers
             try
             {
                 CategorizeMods();
+                
+                var pcRemovedMods = _mods.Select(m => { m.PlayerCharacter = null; m.PlayerCharacterId = null; return m; });
+                foreach(var removedMod in pcRemovedMods)
+                    _db.PlayerMods.AddOrUpdate(removedMod);
 
                 if (_newMods.Count > 0)
-                    _db.BulkInsert(_newMods);
+                    _db.PlayerMods.AddRange(_newMods);
 
-                if (_modsToUpdate.Count > 0)
-                    _db.BulkUpdate(_modsToUpdate);
+                foreach (var modToUpdate in _modsToUpdate)
+                    _db.PlayerMods.AddOrUpdate(modToUpdate);
 
-                if (_mods.Count > 0)
-                {
-                    var pcRemovedMods = _mods.Select(m => { m.PlayerCharacter = null; m.PlayerCharacterId = null; return m; });
-                    _db.BulkUpdate(pcRemovedMods);
-                }
+                foreach (var player in _playersToSync)
+                    _db.Players.AddOrUpdate(player);
 
-                if (_playersToSync.Count > 0)
-                    _db.BulkUpdate(_playersToSync);
+                _db.SaveChanges();
 
                 return Outcomes.Success();
             }
