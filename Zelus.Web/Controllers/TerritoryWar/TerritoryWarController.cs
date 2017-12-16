@@ -31,7 +31,7 @@ namespace Zelus.Web.Controllers.TerritoryWar
             var db = new ZelusDbContext();
             var player = db.Players.FirstOrDefault(p => string.Compare(p.SwgohGgName, playerName, StringComparison.OrdinalIgnoreCase) == 0);
             if (player.IsNull())
-                return Json(Outcomes.Failure().WithMessage("We cannot find an expenda-Err ..ahem, loyal soldier with that name."), JsonRequestBehavior.AllowGet);
+                return Json(Outcomes.Failure().WithMessage("We cannot find a pawn-Err ..ahem, loyal soldier with that name."), JsonRequestBehavior.AllowGet);
 
             var type = (StrategyType)strategyType;
             var strategy = GetStrategyFromType(type);

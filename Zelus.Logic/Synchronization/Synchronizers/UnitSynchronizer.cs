@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ether.Outcomes;
@@ -31,8 +30,6 @@ namespace Zelus.Logic.Synchronization.Synchronizers
 
                 if (_unitsToUpdate.Count > 0)
                     _db.BulkUpdate(_unitsToUpdate);
-
-                _db.SaveChanges();
 
                 return Outcomes.Success();
             }

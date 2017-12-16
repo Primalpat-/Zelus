@@ -62,8 +62,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Z.EntityFramework.Extensions.EF5, Version=3.14.0.0, Culture=neutral, PublicKeyToken=d31b8ef807ad148e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Z.EntityFramework.Extensions.EF5.3.14.0\lib\net45\Z.EntityFramework.Extensions.EF5.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.14.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.3.14.1\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Z.ExtensionMethods.WithNamespace, Version=2.0.13.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.ExtensionMethods.WithNamespace.2.0.13\lib\net45\Z.ExtensionMethods.WithNamespace.dll</HintPath>

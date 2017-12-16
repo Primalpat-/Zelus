@@ -39,8 +39,6 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 if (_playersToSync.Count > 0)
                     _db.BulkUpdate(_playersToSync);
 
-                _db.BulkSaveChanges();
-
                 return Outcomes.Success();
             }
             catch (Exception ex)

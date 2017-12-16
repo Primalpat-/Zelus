@@ -31,8 +31,6 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 if (_playersToRemove.Count > 0)
                     _db.BulkDelete(_playersToRemove);
 
-                _db.BulkSaveChanges();
-
                 return Outcomes.Success();
             }
             catch (Exception ex)
