@@ -9,17 +9,12 @@ namespace Zelus.Logic.Synchronization.Scrapers
 {
     public class CollectionScraper
     {
-        public List<PlayerCharacter> Execute(ZelusDbContext db)
+        public List<PlayerCharacter> Execute(ZelusDbContext db, List<Player> playersToScrapeFor)
         {
             var results = new List<PlayerCharacter>();
-            var timeFilter = DateTime.UtcNow.AddHours(-18);
             var units = db.Units.ToList();
-            var players = db.Players.Where(p => p.CollectionSyncEnabled &&
-                                        p.LastCollectionSync < timeFilter)
-                            .OrderBy(p => p.LastCollectionSync)
-                            .ToList();
 
-            foreach (var player in players)
+            foreach (var player in playersToScrapeFor)
             {
                 var characterContainers = GetCharacterNodes(player);
 

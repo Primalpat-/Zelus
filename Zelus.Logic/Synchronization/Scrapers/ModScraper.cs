@@ -12,18 +12,12 @@ namespace Zelus.Logic.Synchronization.Scrapers
 {
     public class ModScraper
     {
-        public List<PlayerMod> Execute(ZelusDbContext db)
+        public List<PlayerMod> Execute(ZelusDbContext db, List<Player> playerToScrapeFor)
         {
             var results = new List<PlayerMod>();
-            var timeFilter = DateTime.UtcNow.AddHours(-18);
             var units = db.Units.ToList();
-            var players = db.Players.Where(p => p.ModSyncEnabled &&
-                                        p.LastModSync < timeFilter)
-                            .Include(p => p.PlayerCharacters)
-                            .OrderBy(p => p.LastModSync)
-                            .ToList();
 
-            foreach (var player in players)
+            foreach (var player in playerToScrapeFor)
             {
                 var modContainers = GetModContainers(player);
 

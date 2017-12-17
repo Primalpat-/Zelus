@@ -32,6 +32,8 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 foreach(var unitToUpdate in _unitsToUpdate)
                     _db.Units.AddOrUpdate(unitToUpdate);
 
+                _db.SaveChanges();
+
                 return Outcomes.Success();
             }
             catch (Exception ex)

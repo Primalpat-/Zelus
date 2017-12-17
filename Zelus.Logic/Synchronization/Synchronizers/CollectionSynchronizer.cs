@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ether.Outcomes;
-using Z.Core.Extensions;
 using Zelus.Data;
 using Zelus.Logic.Synchronization.Scrapers;
 using System.Data.Entity.Migrations;
@@ -15,7 +14,6 @@ namespace Zelus.Logic.Synchronization.Synchronizers
         private readonly List<Player> _players;
         private readonly List<PlayerCharacter> _characters;
 
-        private List<Player> _playersToSync = new List<Player>();
         private List<PlayerCharacter> _newPlayerCharacters = new List<PlayerCharacter>();
         private List<PlayerCharacter> _playerCharactersToUpdate = new List<PlayerCharacter>();
 
@@ -31,8 +29,13 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 foreach (var playerCharacterToUpdate in _playerCharactersToUpdate)
                     _db.PlayerCharacters.AddOrUpdate(playerCharacterToUpdate);
 
-                foreach (var playerToSync in _playersToSync)
+                foreach (var playerToSync in _players)
+                {
+                    playerToSync.LastCollectionSync = DateTime.UtcNow;
                     _db.Players.AddOrUpdate(playerToSync);
+                } 
+
+                _db.SaveChanges();
 
                 return Outcomes.Success();
             }
@@ -46,9 +49,7 @@ namespace Zelus.Logic.Synchronization.Synchronizers
         private void CategorizePlayerCharacters()
         {
             var scraper = new CollectionScraper();
-            var remotePlayerCharacters = scraper.Execute(_db);
-
-            BuildPlayersToSync(remotePlayerCharacters);
+            var remotePlayerCharacters = scraper.Execute(_db, _players);
 
             foreach (var remotePlayerCharacter in remotePlayerCharacters)
             {
@@ -69,27 +70,18 @@ namespace Zelus.Logic.Synchronization.Synchronizers
             }
         }
 
-        private void BuildPlayersToSync(List<PlayerCharacter> remotePlayerCharacters)
-        {
-            var playerIds = remotePlayerCharacters.Select(pc => pc.PlayerId).Distinct().ToList();
-            foreach (var playerId in playerIds)
-            {
-                var player = _playersToSync.FirstOrDefault(p => p.Id == playerId);
-
-                if (player.IsNotNull())
-                    continue;
-
-                player = _players.Single(p => p.Id == playerId);
-                player.LastCollectionSync = DateTime.UtcNow;
-                _playersToSync.Add(player);
-            }
-        }
-
         public CollectionSynchronizer()
         {
             _db = new ZelusDbContext();
-            _players = _db.Players.Where(p => p.CollectionSyncEnabled).ToList();
-            _characters = _db.PlayerCharacters.ToList();
+
+            var timeFilter = DateTime.UtcNow.AddHours(-18);
+            _players = _db.Players.Where(p => p.CollectionSyncEnabled &&
+                                                p.LastCollectionSync < timeFilter)
+                                  .OrderBy(p => p.LastCollectionSync)
+                                  .ToList();
+
+            _characters = _players.SelectMany(p => p.PlayerCharacters)
+                                  .ToList();
         }
     }
 }

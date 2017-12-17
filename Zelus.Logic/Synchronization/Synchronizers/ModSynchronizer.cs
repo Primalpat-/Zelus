@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using Ether.Outcomes;
@@ -14,8 +15,7 @@ namespace Zelus.Logic.Synchronization.Synchronizers
         private readonly ZelusDbContext _db;
         private readonly List<Player> _players;
         private readonly List<PlayerMod> _mods;
-
-        private List<Player> _playersToSync = new List<Player>();
+        
         private List<PlayerMod> _newMods = new List<PlayerMod>();
         private List<PlayerMod> _modsToUpdate = new List<PlayerMod>();
 
@@ -35,8 +35,11 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                 foreach (var modToUpdate in _modsToUpdate)
                     _db.PlayerMods.AddOrUpdate(modToUpdate);
 
-                foreach (var player in _playersToSync)
+                foreach (var player in _players)
+                {
+                    player.LastModSync = DateTime.UtcNow;
                     _db.Players.AddOrUpdate(player);
+                }
 
                 _db.SaveChanges();
 
@@ -45,16 +48,14 @@ namespace Zelus.Logic.Synchronization.Synchronizers
             catch (Exception ex)
             {
                 return Outcomes.Failure()
-                    .WithMessage(ex.ToString());
+                               .WithMessage(ex.ToString());
             }
         }
 
         public void CategorizeMods()
         {
             var scraper = new ModScraper();
-            var remoteMods = scraper.Execute(_db);
-
-            BuildPlayersToSync(remoteMods);
+            var remoteMods = scraper.Execute(_db, _players);
 
             foreach (var remoteMod in remoteMods)
             {
@@ -77,36 +78,9 @@ namespace Zelus.Logic.Synchronization.Synchronizers
             }
         }
 
-        private void BuildPlayersToSync(List<PlayerMod> remotePlayerMods)
-        {
-            var playerIds = remotePlayerMods.Select(pc => pc.PlayerId).Distinct().ToList();
-            foreach (var playerId in playerIds)
-            {
-                var player = _playersToSync.FirstOrDefault(p => p.Id == playerId);
-
-                if (player.IsNotNull())
-                    continue;
-
-                player = _players.Single(p => p.Id == playerId);
-                player.LastModSync = DateTime.UtcNow;
-                _playersToSync.Add(player);
-            }
-        }
-
         private PlayerMod LookupSavedMod(PlayerMod remoteMod)
         {
             var savedMod = _mods.FirstOrDefault(m => m.SwgohGgId == remoteMod.SwgohGgId);
-
-            if (savedMod.IsNull())
-                savedMod = _mods.FirstOrDefault(m => m.PlayerId == remoteMod.PlayerId &&
-                                                     m.SlotId == remoteMod.SlotId &&
-                                                     m.SetId == remoteMod.SetId &&
-                                                     m.Pips == remoteMod.Pips &&
-                                                     m.PrimaryValue == remoteMod.PrimaryValue &&
-                                                     m.Secondary1Value == remoteMod.Secondary1Value &&
-                                                     m.Secondary2Value == remoteMod.Secondary2Value &&
-                                                     m.Secondary3Value == remoteMod.Secondary3Value &&
-                                                     m.Secondary4Value == remoteMod.Secondary4Value);
 
             if (savedMod.IsNotNull())
                 _mods.Remove(savedMod);
@@ -117,8 +91,17 @@ namespace Zelus.Logic.Synchronization.Synchronizers
         public ModSynchronizer()
         {
             _db = new ZelusDbContext();
-            _players = _db.Players.Where(p => p.ModSyncEnabled).ToList();
-            _mods = _db.PlayerMods.ToList();
+
+            var timeFilter = DateTime.UtcNow.AddHours(-18);
+            _players = _db.Players.Where(p => p.ModSyncEnabled &&
+                                              p.LastModSync < timeFilter)
+                                  .Include(p => p.PlayerCharacters)
+                                  .OrderBy(p => p.LastModSync)
+                                  .Take(2)
+                                  .ToList();
+
+            _mods = _players.SelectMany(p => p.PlayerMods)
+                            .ToList();
         }
     }
 }
