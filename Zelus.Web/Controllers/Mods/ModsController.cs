@@ -113,7 +113,7 @@ namespace Zelus.Web.Controllers.Mods
             db.PlayerModSets.Add(set);
             db.SaveChanges();
 
-            return Json(Outcomes.Success());
+            return Json(Outcomes.Success(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteModSet(int setId)
@@ -126,7 +126,42 @@ namespace Zelus.Web.Controllers.Mods
             db.PlayerModSets.Remove(set);
             db.SaveChanges();
 
-            return Json(Outcomes.Success());
+            return Json(Outcomes.Success(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteAllMods(int id)
+        {
+            var db = new ZelusDbContext();
+
+            var sets = db.PlayerModSets
+                .Where(m => m.PlayerId == id)
+                .ToList();
+
+            db.PlayerModSets.RemoveRange(sets);
+            db.SaveChanges();
+
+            var mods = db.PlayerMods
+                         .Where(m => m.PlayerId == id)
+                         .ToList();
+
+            db.PlayerMods.RemoveRange(mods);
+            db.SaveChanges();
+
+            return Json(Outcomes.Success(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DeleteAllModSets(int id)
+        {
+            var db = new ZelusDbContext();
+
+            var sets = db.PlayerModSets
+                         .Where(m => m.PlayerId == id)
+                         .ToList();
+
+            db.PlayerModSets.RemoveRange(sets);
+            db.SaveChanges();
+
+            return Json(Outcomes.Success(), JsonRequestBehavior.AllowGet);
         }
     }
 }

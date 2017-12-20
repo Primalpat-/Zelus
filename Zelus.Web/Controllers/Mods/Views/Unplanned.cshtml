@@ -24,8 +24,41 @@
     <div class="row">
         <div class="col">
             <h2>Unplanned Mods</h2>
-            <small class="text-muted">Last swgoh.gg sync was <abbr title="@Model.LastSyncDateTime.ToString("r")">@Model.LastSyncHumanized</abbr></small>
-            <hr />
+            <small class="text-muted">Last swgoh.gg sync was <abbr title="@Model.LastSyncDateTime.ToString("r")">@Model.LastSyncHumanized</abbr></small> 
+        </div>
+        <div class="col text-right">
+            <a href="@Url.Action("Planned", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-primary">
+                <i class="fas fa-arrow-to-right"></i> 
+                Planned Modsets
+            </a>
+        </div>
+        <hr />
+    </div>
+    
+    <div class="row" style="padding-top: 10px;">
+        <div class="col">
+            <h4>Actions:</h4>
+        </div>
+    </div>
+    
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-sm-2">
+            <a href="@Url.Action("DeleteAllMods", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
+                <i class="fas fa-minus-octagon"></i>
+                Clear Mods
+            </a>
+        </div>
+        <div class="col-sm-2">
+            <a href="@Url.Action("DeleteAllModSets", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
+                <i class="fas fa-minus-circle"></i>
+                Clear Modsets
+            </a>
+        </div>
+        <div class="col-sm-2">
+            <a class="btn btn-outline-primary" href="#" onclick="playerModSets_OnClick()">
+                <i class="fas fa-save"></i>
+                Save As Modset
+            </a>
         </div>
     </div>
 
@@ -36,9 +69,6 @@
     </div>
 
     <div class="row">
-        <div class="col-md-1">
-            Sets:
-        </div>
         <div class="col">
             <div id="set-filters" class="btn-group" data-toggle="buttons">
                 <label class="btn btn-secondary">
@@ -86,15 +116,12 @@
     </div>
 
     <div class="row">
-        <div class="col-md-1">
-            Sort:
-        </div>
         <div class="col">
             <div id="sort-container"></div>
             <a href="#" onclick="addSort()">+ Add Sort</a>
         </div>
         <div class="col">
-            <button class="btn btn-primary" type="button" onclick="playerModSets_OnClick()">Save As Modset</button>
+            
         </div>
     </div>
 

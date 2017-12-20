@@ -30,8 +30,36 @@
         <div class="col">
             <h2>Mod Sets</h2>
             <small class="text-muted">Last swgoh.gg sync was <abbr title="@Model.LastSyncDateTime.ToString("r")">@Model.LastSyncHumanized</abbr></small>
-            <hr />
         </div>
+        <div class="col text-right">
+            <a href="@Url.Action("Unplanned", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-primary">
+                <i class="fas fa-arrow-to-left"></i> 
+                Back to Unplanned
+            </a>
+        </div>
+        <hr />
+    </div>
+    
+    <div class="row" style="padding-top: 10px;">
+        <div class="col">
+            <h4>Actions:</h4>
+        </div>
+    </div>
+    
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-sm-2">
+            <a href="@Url.Action("DeleteAllMods", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
+                <i class="fas fa-minus-octagon"></i>
+                Clear Mods
+            </a>
+        </div>
+        <div class="col-sm-2">
+            <a href="@Url.Action("DeleteAllModSets", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
+                <i class="fas fa-minus-circle"></i>
+                Clear Modsets
+            </a>
+        </div>
+        <div class="col"></div>
     </div>
 
     <div class="row">
