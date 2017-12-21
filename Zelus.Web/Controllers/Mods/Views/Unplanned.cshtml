@@ -1,20 +1,32 @@
 ﻿
+@using Newtonsoft.Json
 @model Zelus.Web.Controllers.Mods.Models.ModPlannerVM
 
 <style type="text/css">
-    .set-filter {}
+    .set-filter {
+    }
+
     .set-img {
         height: 35px;
         margin: 0 10px;
     }
+
     .primary-filter {
         width: 100%;
     }
+
     .square-container {
         align-content: center;
     }
+
     .selected-mod {
         background-color: lightskyblue;
+    }
+    .btn-remove {
+        padding: 1px 10px;
+    }
+    .invisible {
+        display: none;
     }
 </style>
 
@@ -24,24 +36,24 @@
     <div class="row">
         <div class="col">
             <h2>Unplanned Mods</h2>
-            <small class="text-muted">Last swgoh.gg sync was <abbr title="@Model.LastSyncDateTime.ToString("r")">@Model.LastSyncHumanized</abbr></small> 
+            <small class="text-muted">Last swgoh.gg sync was <abbr data-bind="text: LastSyncHumanized(), attr: { title: LastSyncDateTime() }"></abbr></small>
         </div>
         <div class="col text-right">
             <a href="@Url.Action("Planned", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-primary">
-                <i class="fas fa-arrow-to-right"></i> 
+                <i class="fas fa-arrow-to-right"></i>
                 Planned Modsets
             </a>
         </div>
         <hr />
     </div>
-    
+
     <div class="row" style="padding-top: 10px;">
         <div class="col">
             <h4>Actions:</h4>
         </div>
     </div>
-    
-    <div class="row" style="padding-bottom: 15px;">
+
+    <div class="row">
         <div class="col-sm-2">
             <a href="@Url.Action("DeleteAllMods", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
                 <i class="fas fa-minus-octagon"></i>
@@ -62,7 +74,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="padding-top: 10px;">
         <div class="col">
             <h4>Filters:</h4>
         </div>
@@ -70,145 +82,136 @@
 
     <div class="row">
         <div class="col">
-            <div id="set-filters" class="btn-group" data-toggle="buttons">
-                <label class="btn btn-secondary">
-                    <input id="Health" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/health.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Speed" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/speed.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Crit_Damage" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/critical_damage.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Crit_Chance" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/crit_chance.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Tenacity" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/tenacity.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Potency" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/potency.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Offense" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/offense.png" />
-                </label>
-                <label class="btn btn-secondary">
-                    <input id="Defense" class="set-filter" type="checkbox" autocomplete="off">
-                    <img class="set-img" src="~/Content/Images/defense.png" />
+            <div class="btn-group" data-bind="foreach: sets">
+                <label class="btn btn-secondary" data-bind="css: { active: $parent.selectedSets.indexOf(id) > -1 }">
+                    <input type="checkbox" style="display: none;" value="" autocomplete="off" data-bind="attr: { value: id }, checked: $parent.selectedSets">
+                    <img class="set-img" data-bind="attr: { src: imgUrl, alt: name }" />
                 </label>
             </div>
         </div>
         <div class="col">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" id="includeModsetMods" type="checkbox" value="">
-                    Include "planned" mods
+                    <input class="form-check-input" type="checkbox" value="" data-bind="checked: includeModsets">
+                    Include all "planned" mods
                 </label>
             </div>
         </div>
     </div>
 
+    <div class="row" style="padding-top: 10px;">
+        <div class="col">
+            <h4>Sorts:</h4>
+        </div>
+    </div>
+    
+    <div data-bind="foreach: selectedSorts">
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col">
+                <div class="input-group">
+                    <select data-bind="options: $root.sorts, optionsText: 'name', value: sort"></select>&nbsp;
+                    <button class="btn btn-sm btn-dark btn-remove" data-bind="click: $root.removeSort"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>    
+    </div>
     <div class="row">
         <div class="col">
-            <div id="sort-container"></div>
-            <a href="#" onclick="addSort()">+ Add Sort</a>
-        </div>
-        <div class="col">
-            
+            <button class="btn btn-sm btn-dark" data-bind="click: addSort"><i class="fas fa-plus"></i> Add Sort</button>
         </div>
     </div>
 
-    <div style="height: 15px;"></div>
-
-    <div class="row">
+    <div class="row" style="padding-top: 15px;">
         <div class="col-md">
-            <select id="Square-filter" class="primary-filter">
-                <option value="1">Offense</option>
-                <option value="0">Any</option>
+            <select class="primary-filter" multiple size="3"
+                    data-bind="options: squareFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedSquareFilters">
             </select>
         </div>
         <div class="col-md">
-            <select id="Arrow-filter" class="primary-filter">
-                <option value="3">Speed</option>
-                <option value="0">Any</option>
-                <option value="10">Accuracy</option>
-                <option value="11">Crit Avoidance</option>
-                <option value="7">Protection</option>
-                <option value="6">Health</option>
-                <option value="1">Offense</option>
-                <option value="2">Defense</option>
+            <select class="primary-filter" multiple size="3"
+                    data-bind="options: arrowFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedArrowFilters">
             </select>
         </div>
         <div class="col-md">
-            <select id="Diamond-filter" class="primary-filter">
-                <option value="2">Defense</option>
-                <option value="0">Any</option>
+            <select class="primary-filter" multiple size="3"
+                    data-bind="options: diamondFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedDiamondFilters">
             </select>
         </div>
         <div class="col-md">
-            <select id="Triangle-filter" class="primary-filter">
-                <option value="0">Any</option>
-                <option value="9">Crit Damage</option>
-                <option value="5">Crit Chance</option>
-                <option value="7">Protection</option>
-                <option value="6">Health</option>
-                <option value="1">Offense</option>
-                <option value="2">Defense</option>
+            <select class="primary-filter" multiple size="3"
+                    data-bind="options: triangleFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedTriangleFilters">
             </select>
         </div>
         <div class="col-md">
-            <select id="Circle-filter" class="primary-filter">
-                <option value="0">Any</option>
-                <option value="7">Protection</option>
-                <option value="6">Health</option>
+            <select class="primary-filter" multiple size="3"
+                    data-bind="options: circleFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedCircleFilters">
             </select>
         </div>
         <div class="col-md">
-            <select id="Cross-filter" class="primary-filter">
-                <option value="0">Any</option>
-                <option value="8">Potency</option>
-                <option value="4">Tenacity</option>
-                <option value="7">Protection</option>
-                <option value="6">Health</option>
-                <option value="1">Offense</option>
-                <option value="2">Defense</option>
+            <select class="primary-filter" multiple size="3"
+                    data-bind="options: crossFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedCrossFilters">
             </select>
         </div>
     </div>
 
     <div class="row">
-        <div id="square-container" class="col-md">
-
-        </div>
-        <div id="arrow-container" class="col-md">
-
-        </div>
-        <div id="diamond-container" class="col-md">
-
-        </div>
-        <div id="triangle-container" class="col-md">
-
-        </div>
-        <div id="circle-container" class="col-md">
-
-        </div>
-        <div id="cross-container" class="col-md">
-
-        </div>
+        <div class="col-md" data-bind="template: { name: 'mod-template', foreach: squareMods }"></div>
+        <div class="col-md" data-bind="template: { name: 'mod-template', foreach: arrowMods }"></div>
+        <div class="col-md" data-bind="template: { name: 'mod-template', foreach: diamondMods }"></div>
+        <div class="col-md" data-bind="template: { name: 'mod-template', foreach: triangleMods }"></div>
+        <div class="col-md" data-bind="template: { name: 'mod-template', foreach: circleMods }"></div>
+        <div class="col-md" data-bind="template: { name: 'mod-template', foreach: crossMods }"></div>
     </div>
 </div>
 
 @section scripts{
+    <script src="~/Controllers/Mods/Scripts/modplannerviewmodel.js"></script>
+    <script type="text/html" id="mod-template">
+        <div class="mod-container">
+            <div class="mod-image statmod-summary">
+                <div class="statmod-preview">
+                    <span class="statmod-pips" data-bind="foreach: new Array(Pips())">
+                        <span class="statmod-pip"></span>
+                    </span>
+                    <div class="statmod-inset"
+                         data-toggle="tooltip"
+                         data-container="body"
+                         title="Belongs to a planned modset"
+                         data-bind="css: { invisible: !IsInModSet() }">
+                        *
+                    </div>
+                    <div class="statmod-check" data-bind="css: { invisible: !ShowCheckbox() }">
+                        <input type="checkbox" onchange="mods_OnChange(this)" />
+                    </div>
+                    <a class="statmod-char-portrait" data-bind="attr: { href: CharacterUrl }">
+                        <div class="char-portrait char-portrait-dark-side char-portrait-xsmall"
+                             data-toggle="tooltip" data-container="body"
+                             data-bind="attr: { title: CharacterName }">
+                            <div class="char-portrait-image">
+                                <img class="char-portrait-img" data-bind="attr: { src: CharacterImg, alt: CharacterName }" />
+                            </div>
+                        </div>
+                    </a>
+                    <img class="statmod-img" data-bind="attr: { src: ModImg }" />
+                </div>
+            </div>
+            <div class="mod-stats statmod-stats">
+                <p class="primary-stat" data-bind="text: Primary"></p>
+                <p class="secondary-stat" data-bind="text: Secondary1"></p>
+                <p class="secondary-stat" data-bind="text: Secondary2"></p>
+                <p class="secondary-stat" data-bind="text: Secondary3"></p>
+                <p class="secondary-stat" data-bind="text: Secondary4"></p>
+            </div>
+        </div>
+    </script>
     <script type="text/javascript">
+        var modPlannerViewModel = new ModPlannerViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
+        ko.applyBindings(modPlannerViewModel);
 
-        var playerId = @Model.PlayerId;
+
+
+
+        @*var playerId = @Model.PlayerId;
 
         $(function() {
             loadAll();
@@ -368,25 +371,25 @@
             }
 
             newElement += "<select onchange='sortChanged()'>" +
-                            "<option value='0'>select an option</option>" +
-                            "<option value='3'>speed</option>" +
-                            "<option value='5'>critical chance</option>" +
-                            "<option value='9'>critical damage</option>" +
-                            "<option value='101'>flat offense</option>" +
-                            "<option value='201'>percentage offense</option>" +
-                            "<option value='8'>potency</option>" +
-                            "<option value='10'>accuracy</option>" +
-                            "<option value='107'>flat protection</option>" +
-                            "<option value='207'>percentage protection</option>" +
-                            "<option value='106'>flat health</option>" +
-                            "<option value='206'>percentage health</option>" +
-                            "<option value='102'>flat defense</option>" +
-                            "<option value='202'>percentage defense</option>" +
-                            "<option value='4'>tenacity</option>" +
-                            "<option value='11'>critical avoidance</option>" +
-                        "</select> " +
-                        "<a href='#' onclick='removeSort(this)'><span class='badge badge-danger'>X</span></a>" +
-                    "</div>";
+                "<option value='0'>select an option</option>" +
+                "<option value='3'>speed</option>" +
+                "<option value='5'>critical chance</option>" +
+                "<option value='9'>critical damage</option>" +
+                "<option value='101'>flat offense</option>" +
+                "<option value='201'>percentage offense</option>" +
+                "<option value='8'>potency</option>" +
+                "<option value='10'>accuracy</option>" +
+                "<option value='107'>flat protection</option>" +
+                "<option value='207'>percentage protection</option>" +
+                "<option value='106'>flat health</option>" +
+                "<option value='206'>percentage health</option>" +
+                "<option value='102'>flat defense</option>" +
+                "<option value='202'>percentage defense</option>" +
+                "<option value='4'>tenacity</option>" +
+                "<option value='11'>critical avoidance</option>" +
+                "</select> " +
+                "<a href='#' onclick='removeSort(this)'><span class='badge badge-danger'>X</span></a>" +
+                "</div>";
 
             $("#sort-container").append(newElement);
         }
@@ -398,6 +401,6 @@
 
         function sortChanged() {
             loadAll();
-        }
+        }*@
     </script>
 }

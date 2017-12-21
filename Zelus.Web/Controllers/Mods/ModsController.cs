@@ -22,10 +22,21 @@ namespace Zelus.Web.Controllers.Mods
             if (player.IsNull())
                 return View("Error");
 
-            var model = new ModPlannerVM();
-            model.PlayerId = player.Id;
-            model.LastSyncDateTime = player.LastModSync;
-            model.LastSyncHumanized = player.LastModSync.Humanize();
+            var mods = db.PlayerModsWithStats
+                         .Where(PlayerModsWithStat.BelongsToPlayer(player.Id))
+                         .ToList()
+                         .Where(pms => pms.SlotId == 2 || pms.SlotId == 4)
+                         .ToList();
+
+            var modVMs = ModVMFactory.GetModVMs(mods, true);
+
+            var model = new ModPlannerVM
+            {
+                PlayerId = player.Id,
+                LastSyncDateTime = player.LastModSync,
+                LastSyncHumanized = player.LastModSync.Humanize(),
+                Mods = modVMs
+            };
 
             return View(model);
         }

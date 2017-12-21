@@ -271,6 +271,7 @@
     <Content Include="Content\mods.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Controllers\Mods\Scripts\modplannerviewmodel.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -465,7 +466,6 @@
     <Folder Include="Areas\Api\Controllers\Shared\Views\" />
     <Folder Include="Controllers\Home\Models\" />
     <Folder Include="Controllers\Home\Scripts\" />
-    <Folder Include="Controllers\Mods\Scripts\" />
     <Folder Include="Controllers\Schedule\Models\" />
     <Folder Include="Controllers\Schedule\Scripts\" />
     <Folder Include="Controllers\Schedule\Views\" />

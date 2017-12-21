@@ -81,12 +81,16 @@ namespace Zelus.Web.Controllers.Mods.Models
             model.ShowCheckbox = showCheckbox;
             model.Id = mod.Id;
             model.Pips = mod.Pips;
+
             model.Set = (ModSets)mod.SetId;
             model.Slot = (ModSlots)mod.SlotId;
+            model.ModImg = GetModImg(mod);
 
             model.CharacterName = mod.PlayerCharacter?.Unit?.Name ?? "Unassigned";
             model.CharacterUrl = GetCharacterUrl(mod);
             model.CharacterImg = mod.PlayerCharacter?.Unit?.Image ?? "/Content/Images/unassigned.jpg";
+
+            model.PrimaryType = mod.PrimaryTypeId;
 
             if (mod.PrimaryType != null)
                 model.Primary = $"+{GetModStatValue(mod.PrimaryValue, (ModStatUnits)mod.PrimaryUnitsId)} {GetPrimaryModStatTypeName(mod.PrimaryType)}";
@@ -102,6 +106,23 @@ namespace Zelus.Web.Controllers.Mods.Models
 
             if (mod.Secondary4Type != null)
                 model.Secondary4 = $"+{GetModStatValue(mod.Secondary4Value, (ModStatUnits)mod.Secondary4UnitsId)} {GetModStatTypeName(mod.Secondary4Type)}";
+
+            model.Speed = mod.Speed();
+            model.CritChance = mod.CritChance();
+            model.CritDamage = mod.CritDamage();
+            model.FlatOffense = mod.FlatOffense();
+            model.PercentageOffense = mod.PercentageOffense();
+            model.Potency = mod.Potency();
+            model.Accuracy = mod.Accuracy();
+
+            model.FlatProtection = mod.FlatProtection();
+            model.PercentageProtection = mod.PercentageProtection();
+            model.FlatHealth = mod.FlatHealth();
+            model.PercentageHealth = mod.PercentageHealth();
+            model.FlatDefense = mod.FlatDefense();
+            model.PercentageDefense = mod.PercentageDefense();
+            model.Tenacity = mod.Tenacity();
+            model.CritAvoidance = mod.CritAvoid();
 
             return model;
         }
@@ -156,6 +177,162 @@ namespace Zelus.Web.Controllers.Mods.Models
                 return $"Prot";
 
             return type.Name;
+        }
+
+        private static string GetModImg(PlayerMod mod)
+        {
+            var set = (ModSets) mod.SetId;
+            var slot = (ModSlots) mod.SlotId;
+
+            switch(set)
+            {
+                case ModSets.Health:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/health-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/health-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/health-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/health-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/health-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/health-cross.png";
+                        default:
+                            return "/Content/Images/Mods/health-square.png";
+                    }
+                case ModSets.Offense:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/offense-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/offense-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/offense-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/offense-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/offense-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/offense-cross.png";
+                        default:
+                            return "/Content/Images/Mods/offense-square.png";
+                    }
+                case ModSets.Defense:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/defense-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/defense-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/defense-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/defense-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/defense-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/defense-cross.png";
+                        default:
+                            return "/Content/Images/Mods/defense-square.png";
+                    }
+                case ModSets.Speed:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/speed-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/speed-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/speed-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/speed-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/speed-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/speed-cross.png";
+                        default:
+                            return "/Content/Images/Mods/speed-square.png";
+                    }
+                case ModSets.Crit_Chance:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/cc-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/cc-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/cc-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/cc-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/cc-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/cc-cross.png";
+                        default:
+                            return "/Content/Images/Mods/cc-square.png";
+                    }
+                case ModSets.Crit_Damage:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/cd-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/cd-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/cd-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/cd-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/cd-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/cd-cross.png";
+                        default:
+                            return "/Content/Images/Mods/cd-square.png";
+                    }
+                case ModSets.Potency:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/potency-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/potency-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/potency-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/potency-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/potency-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/potency-cross.png";
+                        default:
+                            return "/Content/Images/Mods/potency-square.png";
+                    }
+                case ModSets.Tenacity:
+                    switch (slot)
+                    {
+                        case ModSlots.Square:
+                            return "/Content/Images/Mods/tenacity-square.png";
+                        case ModSlots.Arrow:
+                            return "/Content/Images/Mods/tenacity-arrow.png";
+                        case ModSlots.Diamond:
+                            return "/Content/Images/Mods/tenacity-diamond.png";
+                        case ModSlots.Triangle:
+                            return "/Content/Images/Mods/tenacity-triangle.png";
+                        case ModSlots.Circle:
+                            return "/Content/Images/Mods/tenacity-circle.png";
+                        case ModSlots.Cross:
+                            return "/Content/Images/Mods/tenacity-cross.png";
+                        default:
+                            return "/Content/Images/Mods/tenacity-square.png";
+                    }
+                default:
+                    return "/Content/Images/Mods/health-square.png";
+            }
         }
     }
 }
