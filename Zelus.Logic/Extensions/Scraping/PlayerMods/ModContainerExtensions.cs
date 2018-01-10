@@ -30,7 +30,7 @@ namespace Zelus.Logic.Extensions.Scraping.PlayerMods
             return id;
         }
 
-        private static int ParsePlayerCharacter(this HtmlNode container, Player player, List<Unit> units)
+        private static int? ParsePlayerCharacter(this HtmlNode container, Player player, List<Unit> units)
         {
             var unitImage = container.Descendants("img")
                                      .First(d => d.Attributes["class"].IsNotNull() &&
@@ -38,9 +38,9 @@ namespace Zelus.Logic.Extensions.Scraping.PlayerMods
 
             var unitName = HttpUtility.HtmlDecode(unitImage.Attributes["alt"].Value);
             var unit = units.Single(u => string.Compare(u.Name, unitName, StringComparison.OrdinalIgnoreCase) == 0);
-            var playerCharacter = player.PlayerCharacters.Single(pc => pc.UnitId == unit.Id);
+            var playerCharacter = player.PlayerCharacters.FirstOrDefault(pc => pc.UnitId == unit.Id);
 
-            return playerCharacter.Id;
+            return playerCharacter?.Id;
         }
 
         private static int ParsePips(this HtmlNode container)
