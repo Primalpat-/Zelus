@@ -6,6 +6,7 @@ namespace Zelus.Web.Controllers.Mods.Models
     {
         public bool IsInModSet { get; set; }
         public bool ShowCheckbox { get; set; }
+        public bool IsChecked { get; set; }
         public int Id { get; set; }
         public int Pips { get; set; }
 

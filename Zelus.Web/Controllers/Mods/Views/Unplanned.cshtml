@@ -67,7 +67,7 @@
             </a>
         </div>
         <div class="col-sm-2">
-            <a class="btn btn-outline-primary" href="#" onclick="playerModSets_OnClick()">
+            <a class="btn btn-outline-primary" href="#" data-bind="click: saveModset">
                 <i class="fas fa-save"></i>
                 Save As Modset
             </a>
@@ -82,7 +82,7 @@
 
     <div class="row">
         <div class="col">
-            <div class="btn-group" data-bind="foreach: sets">
+            <div class="btn-group" data-bind="foreach: availableSets">
                 <label class="btn btn-secondary" data-bind="css: { active: $parent.selectedSets.indexOf(id) > -1 }">
                     <input type="checkbox" style="display: none;" value="" autocomplete="off" data-bind="attr: { value: id }, checked: $parent.selectedSets">
                     <img class="set-img" data-bind="attr: { src: imgUrl, alt: name }" />
@@ -109,7 +109,7 @@
         <div class="row" style="padding-bottom: 10px;">
             <div class="col">
                 <div class="input-group">
-                    <select data-bind="options: $root.sorts, optionsText: 'name', value: sort"></select>&nbsp;
+                    <select data-bind="options: $root.availableSorts, optionsText: 'name', value: stat"></select>&nbsp;
                     <button class="btn btn-sm btn-dark btn-remove" data-bind="click: $root.removeSort"><i class="fas fa-times"></i></button>
                 </div>
             </div>
@@ -124,32 +124,32 @@
     <div class="row" style="padding-top: 15px;">
         <div class="col-md">
             <select class="primary-filter" multiple size="3"
-                    data-bind="options: squareFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedSquareFilters">
+                    data-bind="options: availableSquareFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedSquareFilters">
             </select>
         </div>
         <div class="col-md">
             <select class="primary-filter" multiple size="3"
-                    data-bind="options: arrowFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedArrowFilters">
+                    data-bind="options: availableArrowFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedArrowFilters">
             </select>
         </div>
         <div class="col-md">
             <select class="primary-filter" multiple size="3"
-                    data-bind="options: diamondFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedDiamondFilters">
+                    data-bind="options: availableDiamondFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedDiamondFilters">
             </select>
         </div>
         <div class="col-md">
             <select class="primary-filter" multiple size="3"
-                    data-bind="options: triangleFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedTriangleFilters">
+                    data-bind="options: availableTriangleFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedTriangleFilters">
             </select>
         </div>
         <div class="col-md">
             <select class="primary-filter" multiple size="3"
-                    data-bind="options: circleFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedCircleFilters">
+                    data-bind="options: availableCircleFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedCircleFilters">
             </select>
         </div>
         <div class="col-md">
             <select class="primary-filter" multiple size="3"
-                    data-bind="options: crossFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedCrossFilters">
+                    data-bind="options: availableCrossFilters, optionsText: 'name', optionsValue: 'id', selectedOptions: selectedCrossFilters">
             </select>
         </div>
     </div>
@@ -164,10 +164,10 @@
     </div>
 </div>
 
-@section scripts{
+@section scripts {
     <script src="~/Controllers/Mods/Scripts/modplannerviewmodel.js"></script>
     <script type="text/html" id="mod-template">
-        <div class="mod-container">
+        <div class="mod-container" data-bind="css: { 'selected-mod': IsChecked() }">
             <div class="mod-image statmod-summary">
                 <div class="statmod-preview">
                     <span class="statmod-pips" data-bind="foreach: new Array(Pips())">
@@ -181,7 +181,7 @@
                         *
                     </div>
                     <div class="statmod-check" data-bind="css: { invisible: !ShowCheckbox() }">
-                        <input type="checkbox" onchange="mods_OnChange(this)" />
+                        <input type="checkbox" data-bind="checked: IsChecked" />
                     </div>
                     <a class="statmod-char-portrait" data-bind="attr: { href: CharacterUrl }">
                         <div class="char-portrait char-portrait-dark-side char-portrait-xsmall"
@@ -205,6 +205,7 @@
         </div>
     </script>
     <script type="text/javascript">
+        var saveModsetUrl = '@Url.Action("SaveModSet", "Mods")';
         var modPlannerViewModel = new ModPlannerViewModel(@Html.Raw(JsonConvert.SerializeObject(Model)));
         ko.applyBindings(modPlannerViewModel);
 

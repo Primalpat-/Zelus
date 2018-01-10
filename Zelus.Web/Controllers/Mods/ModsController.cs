@@ -24,8 +24,6 @@ namespace Zelus.Web.Controllers.Mods
 
             var mods = db.PlayerModsWithStats
                          .Where(PlayerModsWithStat.BelongsToPlayer(player.Id))
-                         .ToList()
-                         .Where(pms => pms.SlotId == 2 || pms.SlotId == 4)
                          .ToList();
 
             var modVMs = ModVMFactory.GetModVMs(mods, true);
