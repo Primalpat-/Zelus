@@ -30,7 +30,7 @@ namespace Zelus.Data
             HasKey(x => x.Id);
 
             Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
-            Property(x => x.PlayerId).HasColumnName(@"PlayerId").HasColumnType("int").IsRequired();
+            Property(x => x.PlayerId).HasColumnName(@"PlayerId").HasColumnType("int").IsOptional();
             Property(x => x.PlayerCharacterId).HasColumnName(@"PlayerCharacterId").HasColumnType("int").IsOptional();
             Property(x => x.SwgohGgId).HasColumnName(@"SwgohGgId").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(150);
             Property(x => x.Pips).HasColumnName(@"Pips").HasColumnType("int").IsRequired();
@@ -53,10 +53,10 @@ namespace Zelus.Data
             Property(x => x.Secondary4Value).HasColumnName(@"Secondary4Value").HasColumnType("decimal").IsRequired().HasPrecision(6,2);
 
             // Foreign keys
+            HasOptional(a => a.Player).WithMany(b => b.PlayerMods).HasForeignKey(c => c.PlayerId); // FK_PlayerMods_Players
             HasOptional(a => a.PlayerCharacter).WithMany(b => b.PlayerMods).HasForeignKey(c => c.PlayerCharacterId).WillCascadeOnDelete(false); // FK_PlayerMods_PlayerCharacters
             HasRequired(a => a.ModSet).WithMany(b => b.PlayerMods).HasForeignKey(c => c.SetId).WillCascadeOnDelete(false); // FK_PlayerMods_ModSets
             HasRequired(a => a.ModSlot).WithMany(b => b.PlayerMods).HasForeignKey(c => c.SlotId).WillCascadeOnDelete(false); // FK_PlayerMods_ModSlots
-            HasRequired(a => a.Player).WithMany(b => b.PlayerMods).HasForeignKey(c => c.PlayerId).WillCascadeOnDelete(false); // FK_PlayerMods_Players
             HasRequired(a => a.PrimaryType).WithMany(b => b.PrimaryType).HasForeignKey(c => c.PrimaryTypeId).WillCascadeOnDelete(false); // FK_PlayerMods_ModStatTypes
             HasRequired(a => a.PrimaryUnits).WithMany(b => b.PrimaryUnits).HasForeignKey(c => c.PrimaryUnitsId).WillCascadeOnDelete(false); // FK_PlayerMods_ModStatUnits
             HasRequired(a => a.Secondary1Type).WithMany(b => b.Secondary1Type).HasForeignKey(c => c.Secondary1TypeId).WillCascadeOnDelete(false); // FK_PlayerMods_ModStatTypes1

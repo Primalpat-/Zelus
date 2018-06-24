@@ -21,6 +21,7 @@ namespace Zelus.Data
     public partial class FakeZelusDbContext : IZelusDbContext
     {
         public System.Data.Entity.DbSet<Alliance> Alliances { get; set; }
+        public System.Data.Entity.DbSet<CharacterSynergy> CharacterSynergies { get; set; }
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; }
         public System.Data.Entity.DbSet<ModSet> ModSets { get; set; }
         public System.Data.Entity.DbSet<ModSlot> ModSlots { get; set; }
@@ -32,11 +33,14 @@ namespace Zelus.Data
         public System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; }
         public System.Data.Entity.DbSet<PlayerModsWithStat> PlayerModsWithStats { get; set; }
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; }
+        public System.Data.Entity.DbSet<SynergyType> SynergyTypes { get; set; }
+        public System.Data.Entity.DbSet<TempUnits636488655844339304> TempUnits636488655844339304 { get; set; }
         public System.Data.Entity.DbSet<Unit> Units { get; set; }
 
         public FakeZelusDbContext()
         {
             Alliances = new FakeDbSet<Alliance>("Id");
+            CharacterSynergies = new FakeDbSet<CharacterSynergy>("Id");
             Guilds = new FakeDbSet<Guild>("Id");
             ModSets = new FakeDbSet<ModSet>("Id");
             ModSlots = new FakeDbSet<ModSlot>("Id");
@@ -48,6 +52,8 @@ namespace Zelus.Data
             PlayerModSets = new FakeDbSet<PlayerModSet>("Id");
             PlayerModsWithStats = new FakeDbSet<PlayerModsWithStat>("Id", "PlayerId", "Pips", "SlotId", "SetId", "PrimaryTypeId", "IsInPlayerSet");
             PlayerShips = new FakeDbSet<PlayerShip>("Id");
+            SynergyTypes = new FakeDbSet<SynergyType>("Id");
+            TempUnits636488655844339304 = new FakeDbSet<TempUnits636488655844339304>("Id");
             Units = new FakeDbSet<Unit>("Id");
 
             InitializePartial();

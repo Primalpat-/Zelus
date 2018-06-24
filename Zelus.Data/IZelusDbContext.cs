@@ -18,6 +18,7 @@ namespace Zelus.Data
     public interface IZelusDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<Alliance> Alliances { get; set; } // Alliances
+        System.Data.Entity.DbSet<CharacterSynergy> CharacterSynergies { get; set; } // CharacterSynergies
         System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
         System.Data.Entity.DbSet<ModSet> ModSets { get; set; } // ModSets
         System.Data.Entity.DbSet<ModSlot> ModSlots { get; set; } // ModSlots
@@ -29,6 +30,8 @@ namespace Zelus.Data
         System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; } // PlayerModSets
         System.Data.Entity.DbSet<PlayerModsWithStat> PlayerModsWithStats { get; set; } // PlayerModsWithStats
         System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
+        System.Data.Entity.DbSet<SynergyType> SynergyTypes { get; set; } // SynergyTypes
+        System.Data.Entity.DbSet<TempUnits636488655844339304> TempUnits636488655844339304 { get; set; } // temp_Units_636488655844339304
         System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 
         int SaveChanges();

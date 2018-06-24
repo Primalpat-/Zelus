@@ -15,27 +15,13 @@
 namespace Zelus.Data
 {
 
-    // PlayerModSets
+    // temp_Units_636488655844339304
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public partial class PlayerModSet
+    public partial class TempUnits636488655844339304
     {
         public int Id { get; set; } // Id (Primary key)
-        public int PlayerId { get; set; } // PlayerId
-        public int Mod1Id { get; set; } // Mod1Id
-        public int Mod2Id { get; set; } // Mod2Id
-        public int Mod3Id { get; set; } // Mod3Id
-        public int Mod4Id { get; set; } // Mod4Id
-        public int Mod5Id { get; set; } // Mod5Id
-        public int Mod6Id { get; set; } // Mod6Id
 
-        // Foreign keys
-
-        /// <summary>
-        /// Parent Player pointed by [PlayerModSets].([PlayerId]) (FK_PlayerModSets_Players)
-        /// </summary>
-        public virtual Player Player { get; set; } // FK_PlayerModSets_Players
-
-        public PlayerModSet()
+        public TempUnits636488655844339304()
         {
             InitializePartial();
         }

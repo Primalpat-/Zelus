@@ -21,6 +21,7 @@ namespace Zelus.Data
     public partial class ZelusDbContext : System.Data.Entity.DbContext, IZelusDbContext
     {
         public System.Data.Entity.DbSet<Alliance> Alliances { get; set; } // Alliances
+        public System.Data.Entity.DbSet<CharacterSynergy> CharacterSynergies { get; set; } // CharacterSynergies
         public System.Data.Entity.DbSet<Guild> Guilds { get; set; } // Guilds
         public System.Data.Entity.DbSet<ModSet> ModSets { get; set; } // ModSets
         public System.Data.Entity.DbSet<ModSlot> ModSlots { get; set; } // ModSlots
@@ -32,6 +33,8 @@ namespace Zelus.Data
         public System.Data.Entity.DbSet<PlayerModSet> PlayerModSets { get; set; } // PlayerModSets
         public System.Data.Entity.DbSet<PlayerModsWithStat> PlayerModsWithStats { get; set; } // PlayerModsWithStats
         public System.Data.Entity.DbSet<PlayerShip> PlayerShips { get; set; } // PlayerShips
+        public System.Data.Entity.DbSet<SynergyType> SynergyTypes { get; set; } // SynergyTypes
+        public System.Data.Entity.DbSet<TempUnits636488655844339304> TempUnits636488655844339304 { get; set; } // temp_Units_636488655844339304
         public System.Data.Entity.DbSet<Unit> Units { get; set; } // Units
 
         static ZelusDbContext()
@@ -88,6 +91,7 @@ namespace Zelus.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new AllianceConfiguration());
+            modelBuilder.Configurations.Add(new CharacterSynergyConfiguration());
             modelBuilder.Configurations.Add(new GuildConfiguration());
             modelBuilder.Configurations.Add(new ModSetConfiguration());
             modelBuilder.Configurations.Add(new ModSlotConfiguration());
@@ -99,6 +103,8 @@ namespace Zelus.Data
             modelBuilder.Configurations.Add(new PlayerModSetConfiguration());
             modelBuilder.Configurations.Add(new PlayerModsWithStatConfiguration());
             modelBuilder.Configurations.Add(new PlayerShipConfiguration());
+            modelBuilder.Configurations.Add(new SynergyTypeConfiguration());
+            modelBuilder.Configurations.Add(new TempUnits636488655844339304Configuration());
             modelBuilder.Configurations.Add(new UnitConfiguration());
 
             OnModelCreatingPartial(modelBuilder);
@@ -107,6 +113,7 @@ namespace Zelus.Data
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
         {
             modelBuilder.Configurations.Add(new AllianceConfiguration(schema));
+            modelBuilder.Configurations.Add(new CharacterSynergyConfiguration(schema));
             modelBuilder.Configurations.Add(new GuildConfiguration(schema));
             modelBuilder.Configurations.Add(new ModSetConfiguration(schema));
             modelBuilder.Configurations.Add(new ModSlotConfiguration(schema));
@@ -118,6 +125,8 @@ namespace Zelus.Data
             modelBuilder.Configurations.Add(new PlayerModSetConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerModsWithStatConfiguration(schema));
             modelBuilder.Configurations.Add(new PlayerShipConfiguration(schema));
+            modelBuilder.Configurations.Add(new SynergyTypeConfiguration(schema));
+            modelBuilder.Configurations.Add(new TempUnits636488655844339304Configuration(schema));
             modelBuilder.Configurations.Add(new UnitConfiguration(schema));
             return modelBuilder;
         }

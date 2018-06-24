@@ -15,28 +15,23 @@
 namespace Zelus.Data
 {
 
-    // PlayerModSets
+    // SynergyTypes
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public partial class PlayerModSet
+    public partial class SynergyType
     {
         public int Id { get; set; } // Id (Primary key)
-        public int PlayerId { get; set; } // PlayerId
-        public int Mod1Id { get; set; } // Mod1Id
-        public int Mod2Id { get; set; } // Mod2Id
-        public int Mod3Id { get; set; } // Mod3Id
-        public int Mod4Id { get; set; } // Mod4Id
-        public int Mod5Id { get; set; } // Mod5Id
-        public int Mod6Id { get; set; } // Mod6Id
+        public string Name { get; set; } // Name (length: 50)
 
-        // Foreign keys
+        // Reverse navigation
 
         /// <summary>
-        /// Parent Player pointed by [PlayerModSets].([PlayerId]) (FK_PlayerModSets_Players)
+        /// Child CharacterSynergies where [CharacterSynergies].[SynergyTypeId] point to this entity (FK_CharacterSynergies_SynergyTypes)
         /// </summary>
-        public virtual Player Player { get; set; } // FK_PlayerModSets_Players
+        public virtual System.Collections.Generic.ICollection<CharacterSynergy> CharacterSynergies { get; set; } // CharacterSynergies.FK_CharacterSynergies_SynergyTypes
 
-        public PlayerModSet()
+        public SynergyType()
         {
+            CharacterSynergies = new System.Collections.Generic.List<CharacterSynergy>();
             InitializePartial();
         }
 

@@ -15,31 +15,24 @@
 namespace Zelus.Data
 {
 
-    // PlayerModSets
+    // SynergyTypes
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.33.0.0")]
-    public partial class PlayerModSet
+    public partial class SynergyTypeConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<SynergyType>
     {
-        public int Id { get; set; } // Id (Primary key)
-        public int PlayerId { get; set; } // PlayerId
-        public int Mod1Id { get; set; } // Mod1Id
-        public int Mod2Id { get; set; } // Mod2Id
-        public int Mod3Id { get; set; } // Mod3Id
-        public int Mod4Id { get; set; } // Mod4Id
-        public int Mod5Id { get; set; } // Mod5Id
-        public int Mod6Id { get; set; } // Mod6Id
-
-        // Foreign keys
-
-        /// <summary>
-        /// Parent Player pointed by [PlayerModSets].([PlayerId]) (FK_PlayerModSets_Players)
-        /// </summary>
-        public virtual Player Player { get; set; } // FK_PlayerModSets_Players
-
-        public PlayerModSet()
+        public SynergyTypeConfiguration()
+            : this("dbo")
         {
-            InitializePartial();
         }
 
+        public SynergyTypeConfiguration(string schema)
+        {
+            ToTable("SynergyTypes", schema);
+            HasKey(x => x.Id);
+
+            Property(x => x.Id).HasColumnName(@"Id").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            Property(x => x.Name).HasColumnName(@"Name").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
+            InitializePartial();
+        }
         partial void InitializePartial();
     }
 

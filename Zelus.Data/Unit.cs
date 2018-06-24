@@ -31,12 +31,22 @@ namespace Zelus.Data
         // Reverse navigation
 
         /// <summary>
+        /// Child CharacterSynergies where [CharacterSynergies].[PrimaryCharacterId] point to this entity (FK_CharacterSynergies_Units)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<CharacterSynergy> PrimaryCharacter { get; set; } // CharacterSynergies.FK_CharacterSynergies_Units
+        /// <summary>
+        /// Child CharacterSynergies where [CharacterSynergies].[SynergyCharacterId] point to this entity (FK_CharacterSynergies_Units1)
+        /// </summary>
+        public virtual System.Collections.Generic.ICollection<CharacterSynergy> SynergyCharacter { get; set; } // CharacterSynergies.FK_CharacterSynergies_Units1
+        /// <summary>
         /// Child PlayerCharacters where [PlayerCharacters].[UnitId] point to this entity (FK_PlayerCharacters_Units)
         /// </summary>
         public virtual System.Collections.Generic.ICollection<PlayerCharacter> PlayerCharacters { get; set; } // PlayerCharacters.FK_PlayerCharacters_Units
 
         public Unit()
         {
+            PrimaryCharacter = new System.Collections.Generic.List<CharacterSynergy>();
+            SynergyCharacter = new System.Collections.Generic.List<CharacterSynergy>();
             PlayerCharacters = new System.Collections.Generic.List<PlayerCharacter>();
             InitializePartial();
         }

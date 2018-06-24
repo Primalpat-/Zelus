@@ -39,13 +39,7 @@ namespace Zelus.Data
             Property(x => x.Mod6Id).HasColumnName(@"Mod6Id").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.Mod1).WithMany(b => b.Mod1).HasForeignKey(c => c.Mod1Id).WillCascadeOnDelete(false); // FK_PlayerModSets_PlayerMods
-            HasRequired(a => a.Mod2).WithMany(b => b.Mod2).HasForeignKey(c => c.Mod2Id).WillCascadeOnDelete(false); // FK_PlayerModSets_PlayerMods1
-            HasRequired(a => a.Mod3).WithMany(b => b.Mod3).HasForeignKey(c => c.Mod3Id).WillCascadeOnDelete(false); // FK_PlayerModSets_PlayerMods2
-            HasRequired(a => a.Mod4).WithMany(b => b.Mod4).HasForeignKey(c => c.Mod4Id).WillCascadeOnDelete(false); // FK_PlayerModSets_PlayerMods3
-            HasRequired(a => a.Mod5).WithMany(b => b.Mod5).HasForeignKey(c => c.Mod5Id).WillCascadeOnDelete(false); // FK_PlayerModSets_PlayerMods4
-            HasRequired(a => a.Mod6).WithMany(b => b.Mod6).HasForeignKey(c => c.Mod6Id).WillCascadeOnDelete(false); // FK_PlayerModSets_PlayerMods5
-            HasRequired(a => a.Player).WithMany(b => b.PlayerModSets).HasForeignKey(c => c.PlayerId).WillCascadeOnDelete(false); // FK_PlayerModSets_Players
+            HasRequired(a => a.Player).WithMany(b => b.PlayerModSets).HasForeignKey(c => c.PlayerId); // FK_PlayerModSets_Players
             InitializePartial();
         }
         partial void InitializePartial();
