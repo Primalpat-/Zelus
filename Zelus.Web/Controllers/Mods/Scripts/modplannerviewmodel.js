@@ -32,11 +32,11 @@ ModPlannerViewModel = function (data) {
     ];
     self.selectedSets = ko.observableArray();
 
-    //Player Character filter
-
-
     //Include Modsets filter
     self.includeModsets = ko.observable(false);
+
+    //Character filter
+    self.selectedCharacter = ko.observable(0);
 
     //Primary filters
     self.availableSquareFilters = [
@@ -76,7 +76,7 @@ ModPlannerViewModel = function (data) {
         new Primary("1", "Offense"),
         new Primary("7", "Protection"),
         new Primary("6", "Health"),
-        new Primary("4", "Tencaity"),
+        new Primary("4", "Tenacity"),
         new Primary("2", "Defense")
     ];
     self.selectedCrossFilters = ko.observableArray();
@@ -111,11 +111,22 @@ ModPlannerViewModel = function (data) {
     //Mods
     self.filterAndSort = function (slot, primaryFilters, sorts) {
         var setFilters = self.selectedSets();
+        var charFilter = self.selectedCharacter();
 
         //Slot Filter
         var results = ko.utils.arrayFilter(self.Mods(), function (mod) {
             return mod.Slot() === slot;
         });
+
+        //Character Filter
+        if (charFilter !== 0) {
+            console.log("filtering mods based on character...");
+            results = ko.utils.arrayFilter(results, function (mod) {
+                console.log("Does " + mod.CharacterId + " equal " + charFilter + "?");
+                return mod.CharacterId() === charFilter ||
+                       mod.IsChecked();
+            });
+        }
 
         //Set Filter
         ko.utils.arrayForEach(setFilters, function () {

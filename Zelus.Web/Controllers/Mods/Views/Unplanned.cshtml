@@ -54,12 +54,12 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-2">
+        @*<div class="col-sm-2">
             <a href="@Url.Action("DeleteAllMods", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
                 <i class="fas fa-minus-octagon"></i>
                 Clear Mods
             </a>
-        </div>
+        </div>*@
         <div class="col-sm-2">
             <a href="@Url.Action("DeleteAllModSets", "Mods", new {Area = "", id = Model.PlayerId})" class="btn btn-outline-danger">
                 <i class="fas fa-minus-circle"></i>
@@ -88,6 +88,13 @@
                     <img class="set-img" data-bind="attr: { src: imgUrl, alt: name }" />
                 </label>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <select class="primary-filter"
+                    data-bind="options: $root.Characters(), optionsText: 'Name', optionsValue: 'Id', value: self.selectedCharacter">
+            </select>
         </div>
         <div class="col">
             <div class="form-check">

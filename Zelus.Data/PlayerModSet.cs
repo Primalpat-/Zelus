@@ -35,6 +35,36 @@ namespace Zelus.Data
         /// </summary>
         public virtual Player Player { get; set; } // FK_PlayerModSets_Players
 
+        /// <summary>
+        /// Parent PlayerMod pointed by [PlayerModSets].([Mod1Id]) (FK_PlayerModSets_PlayerMods1)
+        /// </summary>
+        public virtual PlayerMod Mod1 { get; set; } // FK_PlayerModSets_PlayerMods1
+
+        /// <summary>
+        /// Parent PlayerMod pointed by [PlayerModSets].([Mod2Id]) (FK_PlayerModSets_PlayerMods2)
+        /// </summary>
+        public virtual PlayerMod Mod2 { get; set; } // FK_PlayerModSets_PlayerMods2
+
+        /// <summary>
+        /// Parent PlayerMod pointed by [PlayerModSets].([Mod3Id]) (FK_PlayerModSets_PlayerMods3)
+        /// </summary>
+        public virtual PlayerMod Mod3 { get; set; } // FK_PlayerModSets_PlayerMods3
+
+        /// <summary>
+        /// Parent PlayerMod pointed by [PlayerModSets].([Mod4Id]) (FK_PlayerModSets_PlayerMods4)
+        /// </summary>
+        public virtual PlayerMod Mod4 { get; set; } // FK_PlayerModSets_PlayerMods4
+
+        /// <summary>
+        /// Parent PlayerMod pointed by [PlayerModSets].([Mod5Id]) (FK_PlayerModSets_PlayerMods5)
+        /// </summary>
+        public virtual PlayerMod Mod5 { get; set; } // FK_PlayerModSets_PlayerMods5
+
+        /// <summary>
+        /// Parent PlayerMod pointed by [PlayerModSets].([Mod6Id]) (FK_PlayerModSets_PlayerMods6)
+        /// </summary>
+        public virtual PlayerMod Mod6 { get; set; } // FK_PlayerModSets_PlayerMods6
+
         public PlayerModSet()
         {
             InitializePartial();

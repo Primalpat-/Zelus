@@ -50,6 +50,18 @@ namespace Zelus.Web.Controllers.Mods.Models
             return result;
         }
 
+        public static List<CharacterVM> GetCharacterVMs(ZelusDbContext db)
+        {
+            var result = db.Units
+                           .OrderBy(u => u.Name)
+                           .Select(u => new CharacterVM { Id = u.Id, Name = u.Name })
+                           .ToList();
+
+            result.Insert(0, new CharacterVM { Id = 0, Name = "Select a character..." });
+
+            return result;
+        }
+
         public static List<ModVM> GetModVMs(List<PlayerMod> mods, bool showCheckbox = false)
         {
             var result = new List<ModVM>();
@@ -86,6 +98,7 @@ namespace Zelus.Web.Controllers.Mods.Models
             model.Slot = (ModSlots)mod.SlotId;
             model.ModImg = GetModImg(mod);
 
+            model.CharacterId = mod.PlayerCharacter?.Unit?.Id ?? 0;
             model.CharacterName = mod.PlayerCharacter?.Unit?.Name ?? "Unassigned";
             model.CharacterUrl = GetCharacterUrl(mod);
             model.CharacterImg = mod.PlayerCharacter?.Unit?.Image ?? "/Content/Images/unassigned.jpg";

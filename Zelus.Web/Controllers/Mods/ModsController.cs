@@ -27,13 +27,15 @@ namespace Zelus.Web.Controllers.Mods
                          .ToList();
 
             var modVMs = ModVMFactory.GetModVMs(mods, true);
+            var charVMs = ModVMFactory.GetCharacterVMs(db);
 
             var model = new ModPlannerVM
             {
                 PlayerId = player.Id,
                 LastSyncDateTime = player.LastModSync,
                 LastSyncHumanized = player.LastModSync.Humanize(),
-                Mods = modVMs
+                Mods = modVMs,
+                Characters = charVMs
             };
 
             return View(model);
@@ -55,29 +57,6 @@ namespace Zelus.Web.Controllers.Mods
             return View(model);
         }
 
-        public ActionResult UnplannedMods(int playerId, List<string> sets, string modSlot, int primary, List<int> sorts, bool includeModsInSet = false)
-        {
-            var db = new ZelusDbContext();
-
-            var query = PlayerModsWithStat.BelongsToPlayer(playerId)
-                                 .And(PlayerModsWithStat.IsOfSet(sets))
-                                 .And(PlayerModsWithStat.IsOfSlot(modSlot))
-                                 .And(PlayerModsWithStat.IsOfPrimary(primary));
-
-            if (!includeModsInSet)
-                query = query.And(PlayerModsWithStat.IsNotInPlayerSet());
-
-            var mods = db.PlayerModsWithStats
-                         .Where(query)
-                         .ApplySorts(sorts)
-                         .Take(10)
-                         .ToList();
-
-            var models = ModVMFactory.GetModVMs(mods, true);
-
-            return PartialView("_SingleColumnMods", models);
-        }
-
         public ActionResult PlannedMods(int playerId, List<string> setNames)
         {
             var db = new ZelusDbContext();
@@ -87,7 +66,6 @@ namespace Zelus.Web.Controllers.Mods
 
             var sets = db.PlayerModSets
                          .Where(query)
-                         .Take(10)
                          .ToList();
 
             var models = ModVMFactory.GetSetVMs(sets);

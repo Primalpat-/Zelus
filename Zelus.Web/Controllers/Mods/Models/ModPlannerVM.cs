@@ -14,5 +14,6 @@ namespace Zelus.Web.Controllers.Mods.Models
         public string LastSyncHumanized { get; set; }
         public DateTime LastSyncDateTime { get; set; }
         public List<ModVM> Mods { get; set; }
+        public List<CharacterVM> Characters { get; set; }
     }
 }

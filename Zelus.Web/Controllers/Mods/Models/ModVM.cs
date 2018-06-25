@@ -14,6 +14,7 @@ namespace Zelus.Web.Controllers.Mods.Models
         public ModSlots Slot { get; set; }
         public string ModImg { get; set; }
 
+        public int CharacterId { get; set; }
         public string CharacterName { get; set; }
         public string CharacterUrl { get; set; }
         public string CharacterImg { get; set; }

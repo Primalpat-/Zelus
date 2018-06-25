@@ -186,6 +186,7 @@
     <Compile Include="Areas\Api\Controllers\Guild\GuildController.cs" />
     <Compile Include="Areas\Api\Controllers\Player\PlayerController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
+    <Compile Include="Controllers\Mods\Models\CharacterVM.cs" />
     <Compile Include="Controllers\Mods\ModsController.cs" />
     <Compile Include="Controllers\Schedule\ScheduleController.cs" />
     <Compile Include="Controllers\TerritoryWar\TerritoryWarController.cs" />
@@ -508,7 +509,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>65499</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
