@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Security.Policy;
 using Ether.Outcomes;
 using RestSharp;
+using Z.Collections.Extensions;
+using Z.Core.Extensions;
 using Zelus.Data;
 using Zelus.Logic.Synchronization.API;
 
@@ -60,6 +66,11 @@ namespace Zelus.Logic.Synchronization.Synchronizers
                     savedUnit.Name = remoteUnit.Name;
                     savedUnit.Power = remoteUnit.Power;
                     savedUnit.Url = remoteUnit.Url;
+
+                    //Logic to update the localimage
+                    if (savedUnit.LocalImage.IsNullOrEmpty())
+                        using (var client = new WebClient())
+                            savedUnit.LocalImage = client.DownloadData(new Uri($"https:{savedUnit.Image}"));
 
                     _unitsToUpdate.Add(savedUnit);
                 }

@@ -24,6 +24,7 @@ namespace Zelus.Data
         public string BaseId { get; set; } // BaseId (length: 500)
         public string Url { get; set; } // Url (length: 500)
         public string Image { get; set; } // Image (length: 500)
+        public byte[] LocalImage { get; set; } // LocalImage
         public long? Power { get; set; } // Power
         public string Description { get; set; } // Description
         public int? CombatType { get; set; } // CombatType

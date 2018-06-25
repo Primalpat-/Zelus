@@ -72,6 +72,7 @@
     <Compile Include="API\DataSimplification\PlayerCharacterSimplifier.cs" />
     <Compile Include="API\DataSimplification\PlayerSimplifier.cs" />
     <Compile Include="Extensions\Entities\PlayerModSets\PlayerModSetExtensions.cs" />
+    <Compile Include="Extensions\Entities\PlayerModsWithStats\PlayerModsWithStatExtensions.cs" />
     <Compile Include="Extensions\Entities\PlayerModsWithStats\QueryableExtensions.cs" />
     <Compile Include="Extensions\Entities\PlayerMods\PlayerModExtensions.cs" />
     <Compile Include="Extensions\Scraping\GuildHome\PlayerRowExtensions.cs" />

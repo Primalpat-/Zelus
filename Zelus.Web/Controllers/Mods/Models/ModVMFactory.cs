@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Z.Collections.Extensions;
+using Z.Core.Extensions;
 using Zelus.Data;
 using Zelus.Logic.Extensions.Entities.PlayerMods;
+using Zelus.Logic.Extensions.Entities.PlayerModsWithStats;
 using Zelus.Logic.Extensions.Entities.PlayerModSets;
 
 namespace Zelus.Web.Controllers.Mods.Models
@@ -72,17 +75,86 @@ namespace Zelus.Web.Controllers.Mods.Models
             return result;
         }
 
-        public static List<ModVM> GetModVMs(List<PlayerModsWithStat> statMods, bool showCheckbox = false)
+        public static List<ModVM> GetModVMs(List<PlayerModsWithStat> statMods, int playerId, bool showCheckbox = false)
         {
             var result = new List<ModVM>();
 
             var db = new ZelusDbContext();
-            var mods = statMods.Select(sm => db.PlayerMods.Single(pm => pm.Id == sm.Id)).ToList();
+            var playerCharacters = db.PlayerCharacters.Where(pc => pc.PlayerId == playerId).ToList();
+                
 
-            foreach (var mod in mods)
-                result.Add(GetModVM(mod, showCheckbox));
+            foreach (var mod in statMods)
+                result.Add(GetModVM(mod, playerCharacters, showCheckbox));
 
             return result;
+        }
+
+        private static ModVM GetModVM(PlayerModsWithStat mod, List<PlayerCharacter> playerCharacters, bool showCheckbox)
+        {
+            var model = new ModVM();
+
+            model.IsInModSet = mod.IsInPlayerSet == 1;
+            model.ShowCheckbox = showCheckbox;
+            model.Id = mod.Id;
+            model.Pips = mod.Pips;
+
+            model.Set = (ModSets)mod.SetId;
+            model.Slot = (ModSlots)mod.SlotId;
+            model.ModImg = GetModImg(model.Set, model.Slot);
+
+            var playerCharacter = playerCharacters.FirstOrDefault(pc => pc.Id == mod.PlayerCharacterId);
+            model.CharacterId = playerCharacter?.Unit?.Id ?? 0;
+            model.CharacterName = playerCharacter?.Unit?.Name ?? "Unassigned";
+            model.CharacterUrl = "";
+            model.CharacterImg = "/Content/Images/unassigned.jpg";
+
+            if (playerCharacter.IsNotNull())
+            {
+                model.CharacterImg = playerCharacter.Unit?.Image;
+
+                if (playerCharacter.Unit.LocalImage.IsNotNullOrEmpty())
+                {
+                    var base64String = Convert.ToBase64String(playerCharacter.Unit.LocalImage, 0, playerCharacter.Unit.LocalImage.Length);
+                    var imageSource = "data:image/jpg;base64," + base64String;
+                    model.CharacterImg = imageSource;
+                }
+            }
+
+            model.PrimaryType = mod.PrimaryTypeId;
+            model.Primary = mod.PrimaryText();
+
+            var secondaries = mod.GetSecondaries();
+
+            if (secondaries.Count > 0)
+                model.Secondary1 = secondaries[0];
+
+            if (secondaries.Count > 1)
+                model.Secondary2 = secondaries[1];
+
+            if (secondaries.Count > 2)
+                model.Secondary3 = secondaries[2];
+
+            if (secondaries.Count > 3)
+                model.Secondary4 = secondaries[3];
+
+            model.Speed = (decimal) mod.Speed;
+            model.CritChance = (decimal)mod.CritChance;
+            model.CritDamage = (decimal)mod.CritDamage;
+            model.FlatOffense = (decimal)mod.FlatOffense;
+            model.PercentageOffense = (decimal)mod.PercentageOffense;
+            model.Potency = (decimal)mod.Potency;
+            model.Accuracy = (decimal)mod.Accuracy;
+
+            model.FlatProtection = (decimal)mod.FlatProtection;
+            model.PercentageProtection = (decimal)mod.PercentageProtection;
+            model.FlatHealth = (decimal)mod.FlatHealth;
+            model.PercentageHealth = (decimal)mod.PercentageHealth;
+            model.FlatDefense = (decimal)mod.FlatDefense;
+            model.PercentageDefense = (decimal)mod.PercentageDefense;
+            model.Tenacity = (decimal)mod.Tenacity;
+            model.CritAvoidance = (decimal)mod.CritAvoidance;
+
+            return model;
         }
 
         private static ModVM GetModVM(PlayerMod mod, bool showCheckbox)
@@ -96,7 +168,7 @@ namespace Zelus.Web.Controllers.Mods.Models
 
             model.Set = (ModSets)mod.SetId;
             model.Slot = (ModSlots)mod.SlotId;
-            model.ModImg = GetModImg(mod);
+            model.ModImg = GetModImg(model.Set, model.Slot);
 
             model.CharacterId = mod.PlayerCharacter?.Unit?.Id ?? 0;
             model.CharacterName = mod.PlayerCharacter?.Unit?.Name ?? "Unassigned";
@@ -192,11 +264,8 @@ namespace Zelus.Web.Controllers.Mods.Models
             return type.Name;
         }
 
-        private static string GetModImg(PlayerMod mod)
-        {
-            var set = (ModSets) mod.SetId;
-            var slot = (ModSlots) mod.SlotId;
-
+        private static string GetModImg(ModSets set, ModSlots slot)
+        { 
             switch(set)
             {
                 case ModSets.Health:

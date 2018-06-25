@@ -34,6 +34,7 @@ namespace Zelus.Data
             Property(x => x.BaseId).HasColumnName(@"BaseId").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.Url).HasColumnName(@"Url").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.Image).HasColumnName(@"Image").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.LocalImage).HasColumnName(@"LocalImage").HasColumnType("varbinary(max)").IsOptional();
             Property(x => x.Power).HasColumnName(@"Power").HasColumnType("bigint").IsOptional();
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar(max)").IsOptional().IsUnicode(false);
             Property(x => x.CombatType).HasColumnName(@"CombatType").HasColumnType("int").IsOptional();

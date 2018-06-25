@@ -467,6 +467,7 @@
     <Folder Include="Areas\Api\Controllers\Shared\Models\" />
     <Folder Include="Areas\Api\Controllers\Shared\Scripts\" />
     <Folder Include="Areas\Api\Controllers\Shared\Views\" />
+    <Folder Include="Content\Images\Units\" />
     <Folder Include="Controllers\Home\Models\" />
     <Folder Include="Controllers\Home\Scripts\" />
     <Folder Include="Controllers\Schedule\Models\" />

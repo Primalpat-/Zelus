@@ -119,6 +119,7 @@ ModPlannerViewModel = function (data) {
         });
 
         //Character Filter
+        console.log(charFilter);
         if (charFilter !== 0) {
             console.log("filtering mods based on character...");
             results = ko.utils.arrayFilter(results, function (mod) {

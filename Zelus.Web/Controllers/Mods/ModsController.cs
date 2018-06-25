@@ -26,7 +26,7 @@ namespace Zelus.Web.Controllers.Mods
                          .Where(PlayerModsWithStat.BelongsToPlayer(player.Id))
                          .ToList();
 
-            var modVMs = ModVMFactory.GetModVMs(mods, true);
+            var modVMs = ModVMFactory.GetModVMs(mods, player.Id, true);
             var charVMs = ModVMFactory.GetCharacterVMs(db);
 
             var model = new ModPlannerVM
